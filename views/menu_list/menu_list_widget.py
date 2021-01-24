@@ -1,10 +1,9 @@
 from PyQt5.QtWidgets import QListWidget, QListWidgetItem, QAbstractItemView
 
 from managers.layout_manager import LayoutManager
+from utils import configuration as cfg
 from views.menu_list.menu_widget import MenuWidget
 from views.pages.base_page import BasePage
-
-from utils import configuration as cfg
 
 
 class MenuListWidget(QListWidget):

@@ -2,7 +2,7 @@
 pref_json_file_path = './res/pref.json'
 
 # the font-family for the interface
-font_family = 'Consolas'
+font_family = 'Microsoft YaHei UI'
 
 # the size of main-window
 main_window_size = (1200, 800)
