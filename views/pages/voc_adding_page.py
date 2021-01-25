@@ -1,6 +1,7 @@
-from enums.strs import Strs
+from PyQt5.QtCore import QSize
+
 from views.pages.base_page import BasePage
-from views.styled import StyledHBox, StyledLabel, StyledLineEdit
+from views.voc_adding.single_voc_form import SingleVocForm
 
 
 class VocAddingPage(BasePage):
@@ -12,13 +13,16 @@ class VocAddingPage(BasePage):
         self._init_events()
 
     def _init_views(self):
-        # the h-box for the word
-        self.__hbox_word = StyledHBox()
-        self.__lbl_word = StyledLabel(Strs.Voc_Adding_Page_Word)
-        self.__le_word = StyledLineEdit(Strs.Voc_Adding_Page_Word_Placeholder)
-        self.__hbox_word.addWidget(self.__lbl_word, 0)
-        self.__hbox_word.addWidget(self.__le_word, 1)
-        self._add_layout(self.__hbox_word)
+        # the form for adding a single vocabulary
+        self.__single_voc_form = SingleVocForm()
+        self.addWidget(self.__single_voc_form)
 
     def _init_events(self):
         return NotImplemented
+
+    def set_focus(self):
+        self.__single_voc_form.setFocus()
+
+    def sizeHint(self) -> QSize:
+        # return QSize(500, sum(map(lambda x: x.sizeHint().height(), self._item_list)))
+        return QSize(500, sum(map(lambda x: x.sizeHint().height(), self._item_list)))

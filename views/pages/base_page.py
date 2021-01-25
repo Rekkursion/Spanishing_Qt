@@ -21,6 +21,10 @@ class BasePage(QLayout):
     def _init_events(self):
         raise NotImplementedError
 
+    @abc.abstractmethod
+    def set_focus(self):
+        raise NotImplementedError
+
     # wrap this page (a layout) as a frame (a widget)
     def wrap_as_frame(self):
         frame = QFrame()

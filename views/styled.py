@@ -1,6 +1,6 @@
 from PyQt5.QtGui import QFont
 from PyQt5.QtWidgets import QLabel, QPushButton, QLineEdit, QAction, QMainWindow, QDialog, QMenu, QHBoxLayout, \
-    QVBoxLayout
+    QVBoxLayout, QGridLayout, QTextEdit, QLayout, QWidget
 
 from enums.fixed_size import FixedSizes
 from enums.pref_key import PrefKey
@@ -28,8 +28,8 @@ class BaseStyled:
         # q-label, q-push-button, q-action -> set its text
         if isinstance(self, (QLabel, QPushButton, QAction)):
             self.setText(literal_str)
-        # q-line-edit -> set its placeholder
-        elif isinstance(self, QLineEdit):
+        # q-line-edit, q-text-edit -> set its placeholder
+        elif isinstance(self, (QLineEdit, QTextEdit)):
             self.setPlaceholderText(literal_str)
         # q-main-window, q-dialog -> set its window-title
         elif isinstance(self, (QMainWindow, QDialog)):
@@ -64,6 +64,19 @@ class StyledLineEdit(QLineEdit, BaseStyled):
         self.register_str_enum(placeholder)
         # set the fixed-size
         self.setFont(QFont(cfg.font_family, fixed_size))
+        # set the padding-left
+        self.setStyleSheet('padding-left: 2px;')
+
+
+class StyledTextEdit(QTextEdit, BaseStyled):
+    def __init__(self, placeholder='', fixed_size=FixedSizes.MEDIUM):
+        super(StyledTextEdit, self).__init__()
+        # set the placeholder
+        self.register_str_enum(placeholder)
+        # set the fixed-size
+        self.setFont(QFont(cfg.font_family, fixed_size))
+        # set the padding-left
+        self.setStyleSheet('padding-left: 2px; padding-top: 2px;')
 
 
 class StyledMainWindow(QMainWindow, BaseStyled):
@@ -75,13 +88,38 @@ class StyledMainWindow(QMainWindow, BaseStyled):
         self.setFont(QFont(cfg.font_family, fixed_size))
 
 
+class StyledDialog(QDialog, BaseStyled):
+    def __init__(self, dialog_title, fixed_size=FixedSizes.MEDIUM):
+        super(StyledDialog, self).__init__()
+        # set the window-title
+        self.register_str_enum(dialog_title)
+        # set the fixed-size
+        self.setFont(QFont(cfg.font_family, fixed_size))
+
+
 class StyledHBox(QHBoxLayout):
-    def __init__(self, spacing=cfg.general_spacing):
+    def __init__(self, *sub_views, spacing=cfg.general_spacing):
         super(StyledHBox, self).__init__()
         self.setSpacing(spacing)
+        for (sub_view, stretch) in sub_views:
+            if isinstance(sub_view, QLayout):
+                self.addLayout(sub_view, stretch=stretch)
+            elif isinstance(sub_view, QWidget):
+                self.addWidget(sub_view, stretch=stretch)
 
 
 class StyledVBox(QVBoxLayout):
-    def __init__(self, spacing=cfg.general_spacing):
+    def __init__(self, *sub_views, spacing=cfg.general_spacing):
         super(StyledVBox, self).__init__()
+        self.setSpacing(spacing)
+        for (sub_view, stretch) in sub_views:
+            if isinstance(sub_view, QLayout):
+                self.addLayout(sub_view, stretch=stretch)
+            elif isinstance(sub_view, QWidget):
+                self.addWidget(sub_view, stretch=stretch)
+
+
+class StyledGridLayout(QGridLayout):
+    def __init__(self, spacing=cfg.general_spacing):
+        super(StyledGridLayout, self).__init__()
         self.setSpacing(spacing)

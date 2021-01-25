@@ -6,8 +6,6 @@ from enums.part_of_speech import PartOfSpeech
 
 @dataclass
 class Meaning:
-    # the form of this meaning
-    form: str
     # the part-of-speech
     pos: PartOfSpeech
     # the dictionary of translations (multiple languages supported)

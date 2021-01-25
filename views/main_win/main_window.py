@@ -41,7 +41,10 @@ class MainWindow(StyledMainWindow):
         self.__frame_all = QFrame()
         self.__frame_all.setLayout(self.__hbox_all)
         self.setCentralWidget(self.__frame_all)
+        # initially set to the first page
+        self.set_page_by_index(0)
 
     # set the page
     def set_page_by_index(self, index: int):
         self.__page_layout.setCurrentIndex(index)
+        self.__page_layout.currentWidget().layout().set_focus()
