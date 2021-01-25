@@ -27,19 +27,33 @@ class BasePage(QLayout):
         frame.setLayout(self)
         return frame
 
+    # wrap a certain layout as a frame and add it
+    def _add_layout(self, l: QLayout):
+        f = QFrame()
+        f.setLayout(l)
+        self.addWidget(f)
+
     def addItem(self, a0: QLayoutItem) -> None:
         self._item_list.append(a0)
 
     def setGeometry(self, a0: QRect) -> None:
         parent_size = self.parentWidget().size()
-        w, h = self.sizeHint().width(), self.sizeHint().height()
-        x, y = 0, 0
+        w, h = parent_size.width(), self.sizeHint().height()
+        y = 0
         for item in self._item_list:
-            item.setGeometry(QRect(x, y, w, h))
-            x += w
-            if x + w > parent_size.width():
-                x = 0
-                y += h
+            item.setGeometry(QRect(0, y, w, h))
+            y += h
+
+    # def setGeometry(self, a0: QRect) -> None:
+    #     parent_size = self.parentWidget().size()
+    #     w, h = self.sizeHint().width(), self.sizeHint().height()
+    #     x, y = 0, 0
+    #     for item in self._item_list:
+    #         item.setGeometry(QRect(x, y, w, h))
+    #         x += w
+    #         if x + w > parent_size.width():
+    #             x = 0
+    #             y += h
 
     def count(self) -> int:
         return len(self._item_list)

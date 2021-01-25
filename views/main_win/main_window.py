@@ -1,11 +1,11 @@
-from PyQt5.QtWidgets import QHBoxLayout, QFrame, QStackedLayout
+from PyQt5.QtWidgets import QFrame, QStackedLayout
 
 from enums.strs import Strs
 from utils import configuration as cfg
 from views.menu_list.menu_list_widget import MenuListWidget
 from views.pages.preferences_page import PreferencesPage
 from views.pages.voc_adding_page import VocAddingPage
-from views.styled import StyledMainWindow
+from views.styled import StyledMainWindow, StyledHBox
 
 
 class MainWindow(StyledMainWindow):
@@ -18,7 +18,7 @@ class MainWindow(StyledMainWindow):
 
     def __init_views(self):
         # the base h-box
-        self.__hbox_all = QHBoxLayout()
+        self.__hbox_all = StyledHBox(spacing=10)
         # the menu list
         # self.__lis_menu = MenuListWidget(
         #     Strs.Menu_List_Item_Voc_List,

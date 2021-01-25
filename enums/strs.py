@@ -12,5 +12,9 @@ class Strs(Enum):
     Menu_List_Item_Practices = ('練習挑戰', '练习挑战', 'Practices')
     Menu_List_Item_Preferences = ('個人設定', '个人设置', 'Preferences')
 
+    # something pertains to the voc-adding-page
+    Voc_Adding_Page_Word = ('單字', '单词', 'Word')
+    Voc_Adding_Page_Word_Placeholder = ('欲新增的單字', '欲添加的单词', 'Type the word here')
+
     # something pertains to the preferences-page
     Preferences_Page_Lang = ('介面語言', '语言界面', 'Interface Language')

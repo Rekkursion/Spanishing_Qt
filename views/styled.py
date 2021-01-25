@@ -1,5 +1,6 @@
 from PyQt5.QtGui import QFont
-from PyQt5.QtWidgets import QLabel, QPushButton, QLineEdit, QAction, QMainWindow, QDialog, QMenu
+from PyQt5.QtWidgets import QLabel, QPushButton, QLineEdit, QAction, QMainWindow, QDialog, QMenu, QHBoxLayout, \
+    QVBoxLayout
 
 from enums.fixed_size import FixedSizes
 from enums.pref_key import PrefKey
@@ -72,3 +73,15 @@ class StyledMainWindow(QMainWindow, BaseStyled):
         self.register_str_enum(win_title)
         # set the fixed-size
         self.setFont(QFont(cfg.font_family, fixed_size))
+
+
+class StyledHBox(QHBoxLayout):
+    def __init__(self, spacing=cfg.general_spacing):
+        super(StyledHBox, self).__init__()
+        self.setSpacing(spacing)
+
+
+class StyledVBox(QVBoxLayout):
+    def __init__(self, spacing=cfg.general_spacing):
+        super(StyledVBox, self).__init__()
+        self.setSpacing(spacing)
