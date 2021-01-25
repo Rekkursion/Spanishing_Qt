@@ -2,6 +2,9 @@ from enums.strs import Strs
 
 
 class LangManager:
+    # the supported languages
+    supported_languages = ('繁體中文', '简体中文', 'English')
+
     # the dictionary to contain all registered nodes (components)
     __registered_dict = dict()
 
@@ -9,7 +12,7 @@ class LangManager:
     @staticmethod
     def register(node, str_enum_or_literal_str):
         LangManager.__registered_dict[node] = str_enum_or_literal_str
-        LangManager.__notify_registered(node)
+        LangManager.notify_registered(node)
 
     # register multiple nodes
     @staticmethod
@@ -30,7 +33,7 @@ class LangManager:
 
     # notify a node to be updated
     @staticmethod
-    def __notify_registered(node):
+    def notify_registered(node):
         LangManager.__update_registered(node)
 
     # update a registered node w/ text-changing

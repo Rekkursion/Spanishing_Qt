@@ -1,5 +1,9 @@
+import abc
+
 from PyQt5.QtCore import QSize, QRect
 from PyQt5.QtWidgets import QLayout, QLayoutItem, QFrame
+
+from utils import configuration as cfg
 
 
 class BasePage(QLayout):
@@ -8,6 +12,14 @@ class BasePage(QLayout):
         # the name of this page
         self.page_name = page_name
         self._item_list = []
+
+    @abc.abstractmethod
+    def _init_views(self):
+        raise NotImplementedError
+
+    @abc.abstractmethod
+    def _init_events(self):
+        raise NotImplementedError
 
     # wrap this page (a layout) as a frame (a widget)
     def wrap_as_frame(self):
@@ -36,4 +48,4 @@ class BasePage(QLayout):
         return self._item_list[index] if 0 <= index < self.count() else None
 
     def sizeHint(self) -> QSize:
-        return QSize(200, 50)
+        return QSize(500, cfg.general_widget_height)
