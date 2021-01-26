@@ -8,8 +8,8 @@ from views.styled import StyledLabel, StyledLineEdit, StyledButton, StyledHBox
 class ExampleTranslationWidget(QWidget):
     def __init__(self, index: int, translation: str, attached):
         super(ExampleTranslationWidget, self).__init__()
-        # the page corresponding to this menu-widget
-        self.translation = translation
+        # the original translation
+        self.__original_translation = translation
         # the index of this widget
         self.__index = index
         # the list-widget that this widget attached on
@@ -19,11 +19,15 @@ class ExampleTranslationWidget(QWidget):
         # initialize all events
         self.__init_events()
 
+    @property
+    def translation(self):
+        return self.__le_translation.text()
+
     def __init_views(self):
         # the label for displaying the index
         self.__lbl_index = StyledLabel('{:02d}. '.format(self.__index + 1))
         # the line-edit for displaying the translation
-        self.__le_translation = StyledLineEdit(Strs.Voc_Adding_Page_Example_Sentence_New_Translation_Placeholder, text=self.translation)
+        self.__le_translation = StyledLineEdit(Strs.Voc_Adding_Page_Example_Sentence_New_Translation_Placeholder, text=self.__original_translation)
         # the button for deleting the translation
         self.__btn_delete_translation = StyledButton(Strs.Delete)
         # the base h-box

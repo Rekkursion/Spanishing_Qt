@@ -22,8 +22,12 @@ class ExampleTranslationListWidget(QListWidget):
         return widget
 
     # get all of the widgets in the list
-    def get_all_widgets(self):
-        return [self.itemWidget(self.item(i)) for i in range(0, self.count())]
+    # def get_all_widgets(self):
+    #     return [self.itemWidget(self.item(i)) for i in range(0, self.count())]
+
+    # get all the translations (str)
+    def get_all_translations(self):
+        return [self.itemWidget(self.item(i)).translation for i in range(0, self.count())]
 
     def takeItem(self, row: int) -> QListWidgetItem:
         ret = super(ExampleTranslationListWidget, self).takeItem(row)

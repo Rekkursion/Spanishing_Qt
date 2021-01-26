@@ -1,7 +1,7 @@
 from PyQt5.QtCore import Qt
 
 from enums.strs import Strs
-from utils import configuration as cfg
+from utils import dimension as dim
 from views.styled import StyledHBox, StyledLabel, StyledLineEdit, StyledVBox, StyledGridLayout, StyledButton, \
     StyledTextEdit, StyledDialog
 from views.voc_adding.example_form.example_form_dialog import ExampleFormDialog
@@ -19,7 +19,7 @@ class MeaningFormDialog(StyledDialog):
         # initialize all events
         self.__init_events()
         # resize to a proper one
-        self.resize(*cfg.meaning_form_dialog_size)
+        self.resize(*dim.meaning_form_dialog_size)
         # initially set the focus on the first line-edit
         self.__le_translation_chi.setFocus()
 
@@ -69,7 +69,12 @@ class MeaningFormDialog(StyledDialog):
     def __init_events(self):
         self.__btn_add_new_example.clicked.connect(self.__event_add_new_example)
 
+    # the event for adding a new example sentence
     def __event_add_new_example(self):
+        # prompt up a dialog for filling the info of new example sentence
         dialog = ExampleFormDialog(Strs.Example_Form_Dialog_Title, self.__vocabulary)
         dialog.show()
         dialog.exec()
+        # if the new example sentence is accepted
+        if dialog.result_example is not None:
+            print(dialog.result_example)

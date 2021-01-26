@@ -1,7 +1,7 @@
 from PyQt5.QtWidgets import QListWidget, QListWidgetItem, QAbstractItemView
 
 from managers.layout_manager import LayoutManager
-from utils import configuration as cfg
+from utils import dimension as dim
 from views.menu_list.menu_widget import MenuWidget
 from views.pages.base_page import BasePage
 
@@ -17,7 +17,7 @@ class MenuListWidget(QListWidget):
         for page in pages:
             self.push_back(page)
         # set the fixed width
-        self.setFixedWidth(cfg.menu_list_width)
+        self.setFixedWidth(dim.menu_list_width)
 
     # push an item into this list
     def push_back(self, page: BasePage):

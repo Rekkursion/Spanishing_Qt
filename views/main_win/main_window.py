@@ -1,7 +1,7 @@
 from PyQt5.QtWidgets import QFrame, QStackedLayout
 
 from enums.strs import Strs
-from utils import configuration as cfg
+from utils import dimension as dim
 from views.menu_list.menu_list_widget import MenuListWidget
 from views.pages.preferences_page import PreferencesPage
 from views.pages.voc_adding_page import VocAddingPage
@@ -14,7 +14,7 @@ class MainWindow(StyledMainWindow):
         # initialize all views
         self.__init_views()
         # resize to a proper one
-        self.resize(*cfg.main_window_size)
+        self.resize(*dim.main_window_size)
 
     def __init_views(self):
         # the base h-box

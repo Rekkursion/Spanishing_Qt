@@ -6,6 +6,14 @@ class Strs(Enum):
     Main_Window_Title = ('西班牙語學習', '西班牙语学习', 'Spanishing')
     Meaning_Form_Dialog_Title = ('新增/修改單字意義', '添加/修改单词意思', 'Add/Modify the meaning')
     Example_Form_Dialog_Title = ('新增/修改例句', '添加/修改例句', 'Add/Modify the example sentence')
+    Make_Sure_For_Cancelling_Sth_Dialog_Title = ('確定要取消此動作？', '是否确定要取消此操作？', 'Make sure before cancelling.')
+
+    # some contents of message-boxes
+    Make_Sure_For_Cancelling_Adding_New_Example_Sentence_Dialog_Content = (
+        '確定要取消新增例句嗎？請注意系統並不會保留您所鍵入的資料。',
+        '是否确定要取消添加例句？请注意系统并不会保留您所输入的数据。',
+        'YOU ARE GIVING UP THE EXAMPLE SENTENCE. Please aware that the system will not keep anything you typed and this action cannot be undone.'
+    )
 
     # items of the menu-list
     Menu_List_Item_Voc_List = ('單字列表', '单词列表', 'Vocabulary list')
@@ -32,7 +40,11 @@ class Strs(Enum):
     English = ('英文', '英文', 'English')
     Cancel = ('取消', '取消', 'Cancel')
     Submit = ('送出', '提交', 'Submit')
+    Confirm = ('確定', '确定', 'Confirm')
+    Yes = ('是', '是', 'Yes')
+    No = ('不', '不', 'No')
     Delete = ('刪除', '删除', 'Delete')
+    Not_Appears_Next_Time = ('下次不要再提醒我', '下次不再显示此对话框', 'Don\'t show this next time')
 
     # something pertains to the preferences-page
     Preferences_Page_Lang = ('介面語言', '语言界面', 'Interface language')

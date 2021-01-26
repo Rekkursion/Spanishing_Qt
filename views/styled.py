@@ -1,6 +1,6 @@
 from PyQt5.QtGui import QFont
 from PyQt5.QtWidgets import QLabel, QPushButton, QLineEdit, QAction, QMainWindow, QDialog, QMenu, QHBoxLayout, \
-    QVBoxLayout, QGridLayout, QTextEdit, QLayout, QWidget
+    QVBoxLayout, QGridLayout, QTextEdit, QLayout, QWidget, QCheckBox
 
 from enums.fixed_size import FixedSizes
 from enums.pref_key import PrefKey
@@ -8,6 +8,7 @@ from enums.strs import Strs
 from managers.lang_manager import LangManager
 from managers.pref_manager import PrefManager
 from utils import configuration as cfg
+from utils import dimension as dim
 
 
 # the base class of all styled views
@@ -25,8 +26,8 @@ class BaseStyled:
             literal_str = str_enum_or_literal_str.value[PrefManager.get_pref(PrefKey.LANG)]
         else:
             literal_str = str_enum_or_literal_str
-        # q-label, q-push-button, q-action -> set its text
-        if isinstance(self, (QLabel, QPushButton, QAction)):
+        # q-label, q-push-button, q-action, q-check-box -> set its text
+        if isinstance(self, (QLabel, QPushButton, QAction, QCheckBox)):
             self.setText(literal_str)
         # q-line-edit, q-text-edit -> set its placeholder
         elif isinstance(self, (QLineEdit, QTextEdit)):
@@ -82,6 +83,15 @@ class StyledTextEdit(QTextEdit, BaseStyled):
         self.setStyleSheet('padding-left: 2px; padding-top: 2px;')
 
 
+class StyledCheckBox(QCheckBox, BaseStyled):
+    def __init__(self, text='', fixed_size=FixedSizes.MEDIUM):
+        super(StyledCheckBox, self).__init__()
+        # set the text
+        self.register_str_enum(text)
+        # set the fixed-size
+        self.setFont(QFont(cfg.font_family, fixed_size))
+
+
 class StyledMainWindow(QMainWindow, BaseStyled):
     def __init__(self, win_title, fixed_size=FixedSizes.MEDIUM):
         super(StyledMainWindow, self).__init__()
@@ -101,7 +111,7 @@ class StyledDialog(QDialog, BaseStyled):
 
 
 class StyledHBox(QHBoxLayout):
-    def __init__(self, *sub_views, spacing=cfg.general_spacing):
+    def __init__(self, *sub_views, spacing=dim.general_spacing):
         super(StyledHBox, self).__init__()
         self.setSpacing(spacing)
         for (sub_view, stretch) in sub_views:
@@ -112,7 +122,7 @@ class StyledHBox(QHBoxLayout):
 
 
 class StyledVBox(QVBoxLayout):
-    def __init__(self, *sub_views, spacing=cfg.general_spacing):
+    def __init__(self, *sub_views, spacing=dim.general_spacing):
         super(StyledVBox, self).__init__()
         self.setSpacing(spacing)
         for (sub_view, stretch) in sub_views:
@@ -123,6 +133,6 @@ class StyledVBox(QVBoxLayout):
 
 
 class StyledGridLayout(QGridLayout):
-    def __init__(self, spacing=cfg.general_spacing):
+    def __init__(self, spacing=dim.general_spacing):
         super(StyledGridLayout, self).__init__()
         self.setSpacing(spacing)
