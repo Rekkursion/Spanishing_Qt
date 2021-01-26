@@ -58,10 +58,13 @@ class StyledButton(QPushButton, BaseStyled):
 
 
 class StyledLineEdit(QLineEdit, BaseStyled):
-    def __init__(self, placeholder='', fixed_size=FixedSizes.MEDIUM):
+    def __init__(self, placeholder='', text='', fixed_size=FixedSizes.MEDIUM):
         super(StyledLineEdit, self).__init__()
         # set the placeholder
         self.register_str_enum(placeholder)
+        # if the text is not empty, set it on
+        if text != '':
+            self.setText(text)
         # set the fixed-size
         self.setFont(QFont(cfg.font_family, fixed_size))
         # set the padding-left

@@ -22,8 +22,9 @@ class LangManager:
 
     # unregister a node
     @staticmethod
-    def unregister(node):
-        LangManager.__registered_dict.pop(node)
+    def unregister(*nodes):
+        for node in nodes:
+            LangManager.__registered_dict.pop(node)
 
     # notify all registered nodes to be updated
     @staticmethod

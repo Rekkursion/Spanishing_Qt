@@ -35,7 +35,7 @@ class SingleVocForm(QWidget):
         self.__btn_new_meaning.clicked.connect(self.__event_add_new_meaning)
 
     def __event_add_new_meaning(self):
-        dialog = MeaningFormDialog(Strs.Meaning_Form_Dialog_Title)
+        dialog = MeaningFormDialog(Strs.Meaning_Form_Dialog_Title, self.__le_word.text())
         dialog.show()
         dialog.exec()
 

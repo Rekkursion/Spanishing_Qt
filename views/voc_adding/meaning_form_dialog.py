@@ -4,13 +4,16 @@ from enums.strs import Strs
 from utils import configuration as cfg
 from views.styled import StyledHBox, StyledLabel, StyledLineEdit, StyledVBox, StyledGridLayout, StyledButton, \
     StyledTextEdit, StyledDialog
+from views.voc_adding.example_form.example_form_dialog import ExampleFormDialog
 
 
 class MeaningFormDialog(StyledDialog):
-    def __init__(self, dialog_title):
+    def __init__(self, dialog_title, vocabulary: str):
         super(MeaningFormDialog, self).__init__(dialog_title)
         # force this dialog being the top form
         self.setWindowModality(Qt.ApplicationModal)
+        # the vocabulary
+        self.__vocabulary = vocabulary
         # initialize all views
         self.__init_views()
         # initialize all events
@@ -26,11 +29,11 @@ class MeaningFormDialog(StyledDialog):
         # the grid-layout for containing translations & part-of-speech-selecting button
         self.__grid_translations_and_pos = StyledGridLayout()
         # the translation for chinese
-        self.__lbl_translation_chi = StyledLabel(Strs.Voc_Adding_Page_Translation_Chi)
+        self.__lbl_translation_chi = StyledLabel(Strs.Chinese)
         self.__le_translation_chi = StyledLineEdit(Strs.Voc_Adding_Page_Translation_Chi_Placeholder)
         self.__hbox_translation_chi = StyledHBox((self.__lbl_translation_chi, 0), (self.__le_translation_chi, 1))
         # the translation for english
-        self.__lbl_translation_eng = StyledLabel(Strs.Voc_Adding_Page_Translation_Eng)
+        self.__lbl_translation_eng = StyledLabel(Strs.English)
         self.__le_translation_eng = StyledLineEdit(Strs.Voc_Adding_Page_Translation_Eng_Placeholder)
         self.__hbox_translation_eng = StyledHBox((self.__lbl_translation_eng, 0), (self.__le_translation_eng, 1))
         # the button for selecting the part-of-speech
@@ -64,4 +67,9 @@ class MeaningFormDialog(StyledDialog):
         )
 
     def __init_events(self):
-        pass
+        self.__btn_add_new_example.clicked.connect(self.__event_add_new_example)
+
+    def __event_add_new_example(self):
+        dialog = ExampleFormDialog(Strs.Example_Form_Dialog_Title, self.__vocabulary)
+        dialog.show()
+        dialog.exec()

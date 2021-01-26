@@ -14,7 +14,10 @@ general_widget_height = 60
 main_window_size = (1200, 800)
 
 # the size of meaning-form-dialog
-meaning_form_dialog_size = (1000, 400)
+meaning_form_dialog_size = (1100, 400)
+
+# the size of meaning-form-dialog
+example_form_dialog_size = (1500, 320)
 
 # the width of menu-list
 menu_list_width = 250
