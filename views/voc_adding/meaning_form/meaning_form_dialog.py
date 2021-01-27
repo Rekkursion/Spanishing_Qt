@@ -2,7 +2,6 @@ from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QSizePolicy
 
 from enums.strs import Strs
-from models.example_sentence import ExampleSentence
 from utils import dimension as dim
 from views.styled_views.styled import StyledLabel, StyledLineEdit, StyledGridLayout, \
     StyledButton, \
@@ -64,10 +63,6 @@ class MeaningFormDialog(StyledDialog):
 
     def __init_events(self):
         self.__btn_add_new_example.clicked.connect(self.__event_add_new_example)
-
-    # modify a certain example sentence by its index and a new one
-    def modify_certain_example(self, index_in_list: int, new_example_sentence: ExampleSentence):
-        self.__lis_examples.modify_certain_example(index_in_list, new_example_sentence)
 
     # the event for adding a new example sentence
     def __event_add_new_example(self):

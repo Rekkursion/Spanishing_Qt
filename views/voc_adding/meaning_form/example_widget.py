@@ -16,12 +16,10 @@ from views.voc_adding.example_form.example_form_dialog import ExampleFormDialog
 
 
 class ExampleWidget(QWidget):
-    def __init__(self, index: int, example_sentence: ExampleSentence, attached):
+    def __init__(self, example_sentence: ExampleSentence, attached):
         super(ExampleWidget, self).__init__()
         # the example sentence for this widget
         self.__example_sentence = copy.deepcopy(example_sentence)
-        # the index of this widget
-        self.__index = index
         # the list-widget that this widget attached on
         self.__attached = attached
         # initialize all views
@@ -49,22 +47,25 @@ class ExampleWidget(QWidget):
         self.setLayout(self.__hbox_base)
 
     def __init_events(self):
-        self.__btn_actions.add_action(Strs.Modify, self.__event_view_example)
+        self.__btn_actions.add_action(Strs.Modify, self.__event_modify_example)
         self.__btn_actions.add_action(Strs.Move_Up, self.__event_move_example_up)
         self.__btn_actions.add_action(Strs.Move_Down, self.__event_move_example_down)
         self.__btn_actions.add_action(Strs.Remove, self.__event_remove_example)
 
-    def __event_view_example(self):
+    # the event for modifying this example
+    def __event_modify_example(self):
         # prompt up a dialog for modifying this example sentence
         dialog = ExampleFormDialog.from_instance(Strs.Example_Form_Dialog_Title_M, self.__example_sentence).show_and_exec()
         if dialog.result_example is not None:
-            self.__attached.modify_certain_example(self.__index, dialog.result_example)
+            self.__attached.modify_certain_example(self, dialog.result_example)
 
+    # the event for moving this example up
     def __event_move_example_up(self):
-        print('move-up')
+        self.__attached.move_certain_example(self, True)
 
+    # the event for moving this example down
     def __event_move_example_down(self):
-        print('move-down')
+        self.__attached.move_certain_example(self, False)
 
     # the event for removing this example
     def __event_remove_example(self):
@@ -73,7 +74,7 @@ class ExampleWidget(QWidget):
             # unregister the registered views
             LangManager.unregister(self.__lbl_sentence, *self.__btn_actions.get_all_actions())
             # remove the item in the list
-            self.__attached.takeItem(self.__index)
+            self.__attached.takeItem(self.__attached.indexAt(self.pos()).row())
 
         # if a message-box for warning the user is needed
         if PrefManager.get_pref(PrefKey.MSG_BOX_DELETING_ADDED_EXAMPLE):
