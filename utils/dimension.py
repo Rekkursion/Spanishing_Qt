@@ -16,5 +16,8 @@ meaning_form_dialog_size = (1200, 400)
 # the size of meaning-form-dialog
 example_form_dialog_size = (1300, 100)
 
+# the maximum height of example-translation-list-widget
+example_translation_list_widget_max_height = 300
+
 # the size of base-message-box
 base_message_box_size = (500, 100)

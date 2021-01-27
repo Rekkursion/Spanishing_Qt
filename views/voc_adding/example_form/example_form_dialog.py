@@ -24,6 +24,8 @@ class ExampleFormDialog(StyledDialog):
             instance.__lis_translations.push_back(translation)
         # set the dialog-mode to modification mode
         instance.__dialog_mode = AddModifyDialogMode.M
+        # set the focus-point on the example-line-edit
+        instance.__le_example.setFocus()
         # return the created instance
         return instance
 
@@ -114,3 +116,6 @@ class ExampleFormDialog(StyledDialog):
     # the event for disable/enable the submit-button according to
     def __event_example_line_edit_changed(self):
         self.__btn_submit.setEnabled(self.__le_example.text() != '')
+
+    def setFocus(self) -> None:
+        self.__le_example.setFocus()

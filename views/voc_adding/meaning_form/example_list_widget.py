@@ -27,7 +27,7 @@ class ExampleListWidget(QListWidget):
 
     # move a certain example sentence up/down
     def move_certain_example(self, item_widget: ExampleWidget, is_going_up: bool):
-        # get the row-index of the to-be-moved item-widget
+        # get the row of the to-be-moved item-widget
         row = self.indexAt(item_widget.pos()).row()
         # if the user wants the first item to go up, or the last one to go down, return directly
         if (row == 0 and is_going_up) or (row == self.count() - 1 and not is_going_up):
