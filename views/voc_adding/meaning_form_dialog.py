@@ -72,9 +72,6 @@ class MeaningFormDialog(StyledDialog):
     # the event for adding a new example sentence
     def __event_add_new_example(self):
         # prompt up a dialog for filling the info of new example sentence
-        dialog = ExampleFormDialog(Strs.Example_Form_Dialog_Title, self.__vocabulary)
-        dialog.show()
-        dialog.exec()
-        # if the new example sentence is accepted
+        dialog = ExampleFormDialog(Strs.Example_Form_Dialog_Title, self.__vocabulary).show_and_exec()
         if dialog.result_example is not None:
             print(dialog.result_example)

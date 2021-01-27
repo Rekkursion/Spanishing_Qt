@@ -109,6 +109,12 @@ class StyledDialog(QDialog, BaseStyled):
         # set the fixed-size
         self.setFont(QFont(cfg.font_family, fixed_size))
 
+    # show & execute the dialog, then return itself
+    def show_and_exec(self):
+        self.show()
+        self.exec()
+        return self
+
 
 class StyledHBox(QHBoxLayout):
     def __init__(self, *sub_views, spacing=dim.general_spacing):

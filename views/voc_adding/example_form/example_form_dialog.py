@@ -47,13 +47,14 @@ class ExampleFormDialog(StyledDialog):
         self.__grid_base.addWidget(self.__btn_add_new_translation, 0, 11, 1, 1)
         # the list for displaying added translations
         self.__lis_translations = ExampleTranslationListWidget()
-        self.__grid_base.addWidget(self.__lis_translations, 1, 0, 6, 12)
+        self.__lis_translations.setVisible(False)
+        self.__grid_base.addWidget(self.__lis_translations, 1, 0, 2, 12)
         # the buttons of cancelling & submitting
         self.__btn_cancel = StyledButton(Strs.Cancel)
         self.__btn_submit = StyledButton(Strs.Submit)
         self.__btn_submit.setEnabled(False)
-        self.__grid_base.addWidget(self.__btn_cancel, 7, 0, 1, 6)
-        self.__grid_base.addWidget(self.__btn_submit, 7, 6, 1, 6)
+        self.__grid_base.addWidget(self.__btn_cancel, 3, 0, 1, 6)
+        self.__grid_base.addWidget(self.__btn_submit, 3, 6, 1, 6)
         # set the base v-box as the layout of this widget
         self.setLayout(self.__grid_base)
 
@@ -66,19 +67,20 @@ class ExampleFormDialog(StyledDialog):
     # the event for adding a new translation
     def __event_add_new_translation(self):
         self.__lis_translations.push_back()
+        self.__lis_translations.setVisible(True)
 
     # the event for cancelling the action of adding a new example sentence
     def __event_cancel(self):
+        # if a message-box for warning the user is needed
         if PrefManager.get_pref(PrefKey.MSG_BOX_CANCELLING_NEW_EXAMPLE):
-            # create & show the dialog to make sure that the user really want to cancel the action
-            dialog = BaseMessageBox.Builder.\
-                init(Strs.Make_Sure_For_Cancelling_Sth_Dialog_Title).\
-                set_content(Strs.Make_Sure_For_Cancelling_Adding_New_Example_Sentence_Dialog_Content).create()
-            dialog.show()
-            dialog.exec()
-            # if the result is yes, means that the user really want to cancel it
-            if dialog.dialog_result == DialogResult.YES:
+            # create & show the dialog to make sure that the user really want to cancel the action for adding it
+            if BaseMessageBox.Builder.\
+                    init(Strs.Make_Sure_For_Cancelling_Sth_Dialog_Title).\
+                    set_content(Strs.Make_Sure_For_Cancelling_Adding_New_Example_Sentence_Dialog_Content).create().\
+                    show_and_exec().\
+                    dialog_result == DialogResult.YES:
                 self.close()
+        # otherwise, close the message-box directly
         else:
             self.close()
 

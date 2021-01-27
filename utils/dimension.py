@@ -14,7 +14,7 @@ main_window_size = (1200, 800)
 meaning_form_dialog_size = (1100, 400)
 
 # the size of meaning-form-dialog
-example_form_dialog_size = (1500, 300)
+example_form_dialog_size = (1500, 140)
 
 # the size of base-message-box
 base_message_box_size = (500, 140)
