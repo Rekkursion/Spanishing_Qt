@@ -17,8 +17,8 @@ class BaseMessageBox(StyledDialog):
 
         # initialize the instance
         @staticmethod
-        def init(dialog_title, size=dim.base_message_box_size):
-            BaseMessageBox.Builder.__instance = BaseMessageBox(dialog_title, size)
+        def init(dialog_title, pref_key: PrefKey, size=dim.base_message_box_size):
+            BaseMessageBox.Builder.__instance = BaseMessageBox(dialog_title, pref_key, size)
             return BaseMessageBox.Builder
 
         # set the content of the instance
@@ -34,10 +34,12 @@ class BaseMessageBox(StyledDialog):
 
     # ================================================================================ #
 
-    def __init__(self, dialog_title, size):
+    def __init__(self, dialog_title, pref_key: PrefKey, size):
         super(BaseMessageBox, self).__init__(dialog_title)
         # force this dialog being the top form
         self.setWindowModality(Qt.ApplicationModal)
+        # set the corresponding pref-key
+        self.__pref_key = pref_key
         # initialize base views
         self.__init_views()
         # initialize base events
@@ -89,6 +91,7 @@ class BaseMessageBox(StyledDialog):
 
     def close(self) -> bool:
         # if the not-appears-next-time check-box is checked
-        PrefManager.set_pref(PrefKey.MSG_BOX_CANCELLING_NEW_EXAMPLE, not self.__chk_not_appears_next_time.isChecked())
+        if self.__pref_key is not None:
+            PrefManager.set_pref(self.__pref_key, not self.__chk_not_appears_next_time.isChecked())
         # close this message-box
         return super(BaseMessageBox, self).close()

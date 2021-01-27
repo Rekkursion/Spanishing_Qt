@@ -12,6 +12,7 @@ class StyledActionButton(QPushButton):
         self.setMenu(QMenu())
         # set the style-sheet
         self.setStyleSheet("""
+            QPushButton:menu-indicator {width: 0px;}
             QPushButton {background-color: transparent;}
             QPushButton:pressed {background-color: rgb(226, 230, 234);}
             QPushButton:hover:!pressed {background-color: rgb(226, 230, 234);}
@@ -24,3 +25,7 @@ class StyledActionButton(QPushButton):
         action = StyledAction(action_name, self.__fixed_size)
         self.menu().addAction(action)
         action.triggered.connect(event)
+
+    # get all of the added actions
+    def get_all_actions(self):
+        return self.menu().actions()

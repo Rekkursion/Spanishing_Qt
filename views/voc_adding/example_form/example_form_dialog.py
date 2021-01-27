@@ -75,7 +75,7 @@ class ExampleFormDialog(StyledDialog):
         if PrefManager.get_pref(PrefKey.MSG_BOX_CANCELLING_NEW_EXAMPLE):
             # create & show the dialog to make sure that the user really want to cancel the action for adding it
             if BaseMessageBox.Builder.\
-                    init(Strs.Make_Sure_For_Cancelling_Sth_Dialog_Title).\
+                    init(Strs.Make_Sure_For_Cancelling_Sth_Dialog_Title, PrefKey.MSG_BOX_CANCELLING_NEW_EXAMPLE).\
                     set_content(Strs.Make_Sure_For_Cancelling_Adding_New_Example_Sentence_Dialog_Content).create().\
                     show_and_exec().\
                     dialog_result == DialogResult.YES:

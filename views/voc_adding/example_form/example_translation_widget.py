@@ -28,28 +28,28 @@ class ExampleTranslationWidget(QWidget):
         self.__lbl_index = StyledLabel('{:02d}. '.format(self.__index + 1))
         # the line-edit for displaying the translation
         self.__le_translation = StyledLineEdit(Strs.Voc_Adding_Page_Example_Sentence_New_Translation_Placeholder, text=self.__original_translation)
-        # the button for deleting the translation
-        self.__btn_delete_translation = StyledButton(Strs.Delete)
+        # the button for removing the translation
+        self.__btn_remove_translation = StyledButton(Strs.Remove)
         # the base h-box
         self.__hbox_base = StyledHBox(
-            (self.__lbl_index, 0), (self.__le_translation, 1), (self.__btn_delete_translation, 0),
+            (self.__lbl_index, 0), (self.__le_translation, 1), (self.__btn_remove_translation, 0),
             spacing=-6
         )
         # set the h-box as the layout of this widget
         self.setLayout(self.__hbox_base)
 
     def __init_events(self):
-        self.__btn_delete_translation.clicked.connect(self.__event_delete_translation)
+        self.__btn_remove_translation.clicked.connect(self.__event_remove_translation)
 
     # set the index
     def set_index(self, new_index):
         self.__index = new_index
         self.__lbl_index.setText('{:02d}. '.format(self.__index + 1))
 
-    # the event for deleting this translation
-    def __event_delete_translation(self):
+    # the event for removing this translation
+    def __event_remove_translation(self):
         # unregister the registered views
-        LangManager.unregister(self.__lbl_index, self.__le_translation, self.__btn_delete_translation)
+        LangManager.unregister(self.__lbl_index, self.__le_translation, self.__btn_remove_translation)
         # remove the item in the list
         self.__attached.takeItem(self.__index)
 

@@ -14,6 +14,11 @@ class Strs(Enum):
         '是否确定要取消添加例句？请注意系统并不会保留您所输入的数据。',
         'YOU ARE GIVING UP THE EXAMPLE SENTENCE. Please aware that the system will not keep anything you typed and this action cannot be undone.'
     )
+    Make_Sure_For_Removing_Added_Example_Sentence_Dialog_Content = (
+        '確定要刪除此例句嗎？此動作將無法還原。',
+        '是否确定要删除此例句？此操作将无法恢复。',
+        'YOU ARE DELETING THIS EXAMPLE SENTENCE. Please aware that this action cannot be undone.'
+    )
 
     # items of the menu-list
     Menu_List_Item_Voc_List = ('單字列表', '单词列表', 'Vocabulary list')
@@ -43,7 +48,10 @@ class Strs(Enum):
     Confirm = ('確定', '确定', 'Confirm')
     Yes = ('是', '是', 'Yes')
     No = ('不', '不', 'No')
-    Delete = ('刪除', '删除', 'Delete')
+    Remove = ('刪除', '删除', 'Remove')
+    View = ('查看', '查看', 'View')
+    Move_Up = ('上移', '上移', 'Move up')
+    Move_Down = ('下移', '下移', 'Move down')
     Not_Appears_Next_Time = ('下次不要再提醒我', '下次不再显示此对话框', 'Don\'t show this next time')
 
     # something pertains to the preferences-page
