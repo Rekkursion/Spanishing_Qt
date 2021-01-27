@@ -92,6 +92,15 @@ class StyledCheckBox(QCheckBox, BaseStyled):
         self.setFont(QFont(cfg.font_family, fixed_size))
 
 
+class StyledAction(QAction, BaseStyled):
+    def __init__(self, text='', fixed_size=FixedSizes.MEDIUM):
+        super(StyledAction, self).__init__()
+        # set the text
+        self.register_str_enum(text)
+        # set the fixed-size
+        self.setFont(QFont(cfg.font_family, fixed_size))
+
+
 class StyledMainWindow(QMainWindow, BaseStyled):
     def __init__(self, win_title, fixed_size=FixedSizes.MEDIUM):
         super(StyledMainWindow, self).__init__()

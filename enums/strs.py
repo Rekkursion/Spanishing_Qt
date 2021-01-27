@@ -25,13 +25,13 @@ class Strs(Enum):
     # something pertains to the voc-adding-page
     Voc_Adding_Page_Word = ('單字', '单词', 'Word')
     Voc_Adding_Page_Word_Placeholder = ('欲新增的單字', '欲添加的单词', 'The word goes here')
-    Voc_Adding_Page_New_Meaning_Button_Text = ('新增意義', '添加意思', 'Add a new meaning')
+    Voc_Adding_Page_New_Meaning_Button_Text = ('新增意義', '添加意思', 'New meaning')
     Voc_Adding_Page_Translation_Chi_Placeholder = ('在此鍵入中文意義', '在此输入中文意思', 'The meaning in Chinese goes here')
     Voc_Adding_Page_Translation_Eng_Placeholder = ('在此鍵入英文意義', '在此输入英文意思', 'The meaning in English goes here')
     Voc_Adding_Page_Select_Pos_Button_Text = ('選擇詞性', '选择词性', 'Select PoS')
-    Voc_Adding_Page_New_Example_Sentence_Button_Text = ('新增例句', '添加例句', 'Add a new example sentence')
+    Voc_Adding_Page_New_Example_Sentence_Button_Text = ('新增例句', '添加例句', 'New example')
     Voc_Adding_Page_Example_Sentence_Placeholder = ('在此鍵入欲新增的例句', '在此输入欲添加的例句', 'The example sentence goes here')
-    Voc_Adding_Page_Example_Sentence_New_Translation_Button_Text = ('新增翻譯', '添加翻译', 'Add a new translation')
+    Voc_Adding_Page_Example_Sentence_New_Translation_Button_Text = ('新增翻譯', '添加翻译', 'New translation')
     Voc_Adding_Page_Example_Sentence_New_Translation_Placeholder = ('在此鍵入翻譯內容', '在此输入翻译文句', 'The translation goes here')
     Voc_Adding_Page_Notes_Placeholder = ('補充說明', '补充说明', 'Notes')
 

@@ -7,7 +7,7 @@ from managers.pref_manager import PrefManager
 from models.example_sentence import ExampleSentence
 from utils import dimension as dim
 from views.message_boxes.base_message_box import BaseMessageBox
-from views.styled import StyledLineEdit, StyledGridLayout, StyledButton, StyledDialog, StyledLabel
+from views.styled_views.styled import StyledLineEdit, StyledGridLayout, StyledButton, StyledDialog, StyledLabel
 from views.voc_adding.example_form.example_translation_list_widget import ExampleTranslationListWidget
 
 

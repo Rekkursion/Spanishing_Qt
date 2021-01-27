@@ -6,7 +6,7 @@ from enums.pref_key import PrefKey
 from enums.strs import Strs
 from managers.pref_manager import PrefManager
 from utils import dimension as dim
-from views.styled import StyledGridLayout, StyledLabel, StyledDialog, StyledButton, StyledCheckBox
+from views.styled_views.styled import StyledGridLayout, StyledLabel, StyledDialog, StyledButton, StyledCheckBox
 
 
 class BaseMessageBox(StyledDialog):

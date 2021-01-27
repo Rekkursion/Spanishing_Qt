@@ -2,7 +2,7 @@ from PyQt5.QtWidgets import QWidget
 
 from enums.strs import Strs
 from managers.lang_manager import LangManager
-from views.styled import StyledLabel, StyledLineEdit, StyledButton, StyledHBox
+from views.styled_views.styled import StyledLabel, StyledLineEdit, StyledButton, StyledHBox
 
 
 class ExampleTranslationWidget(QWidget):

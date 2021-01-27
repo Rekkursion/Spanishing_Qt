@@ -5,7 +5,7 @@ from utils import dimension as dim
 from views.menu_list.menu_list_widget import MenuListWidget
 from views.pages.preferences_page import PreferencesPage
 from views.pages.voc_adding_page import VocAddingPage
-from views.styled import StyledMainWindow, StyledHBox
+from views.styled_views.styled import StyledMainWindow, StyledHBox
 
 
 class MainWindow(StyledMainWindow):

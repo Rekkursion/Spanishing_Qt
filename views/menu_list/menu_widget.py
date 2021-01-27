@@ -2,7 +2,7 @@ from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QWidget
 
 from views.pages.base_page import BasePage
-from views.styled import StyledLabel, StyledVBox
+from views.styled_views.styled import StyledLabel, StyledVBox
 
 
 class MenuWidget(QWidget):

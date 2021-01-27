@@ -5,7 +5,7 @@ from enums.strs import Strs
 from managers.lang_manager import LangManager
 from managers.pref_manager import PrefManager
 from views.pages.base_page import BasePage
-from views.styled import StyledLabel, StyledHBox
+from views.styled_views.styled import StyledLabel, StyledHBox
 
 
 class PreferencesPage(BasePage):
