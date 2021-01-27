@@ -5,8 +5,9 @@ class Strs(Enum):
     # titles of some windows/dialogs
     Main_Window_Title = ('西班牙語學習', '西班牙语学习', 'Spanishing')
     Meaning_Form_Dialog_Title = ('新增/修改單字意義', '添加/修改单词意思', 'Add/Modify the meaning')
-    Example_Form_Dialog_Title = ('新增/修改例句', '添加/修改例句', 'Add/Modify the example sentence')
-    Make_Sure_For_Cancelling_Sth_Dialog_Title = ('確定要取消此動作？', '是否确定要取消此操作？', 'Make sure before cancelling.')
+    Example_Form_Dialog_Title_A = ('新增例句', '添加例句', 'Add the example sentence')
+    Example_Form_Dialog_Title_M = ('修改例句', '修改例句', 'Modify the example sentence')
+    Make_Sure_For_Cancelling_Sth_Dialog_Title = ('確定要取消此動作？', '是否确定要取消此操作？', 'Please make sure before doing this.')
 
     # some contents of message-boxes
     Make_Sure_For_Cancelling_Adding_New_Example_Sentence_Dialog_Content = (
@@ -49,7 +50,7 @@ class Strs(Enum):
     Yes = ('是', '是', 'Yes')
     No = ('不', '不', 'No')
     Remove = ('刪除', '删除', 'Remove')
-    View = ('查看', '查看', 'View')
+    Modify = ('修改', '修改', 'Modify')
     Move_Up = ('上移', '上移', 'Move up')
     Move_Down = ('下移', '下移', 'Move down')
     Not_Appears_Next_Time = ('下次不要再提醒我', '下次不再显示此对话框', 'Don\'t show this next time')

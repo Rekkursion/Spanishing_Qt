@@ -12,6 +12,7 @@ from utils import configuration as cfg
 from views.message_boxes.base_message_box import BaseMessageBox
 from views.styled_views.styled import StyledLabel, StyledHBox
 from views.styled_views.styled_action_button import StyledActionButton
+from views.voc_adding.example_form.example_form_dialog import ExampleFormDialog
 
 
 class ExampleWidget(QWidget):
@@ -28,6 +29,15 @@ class ExampleWidget(QWidget):
         # initialize all events
         self.__init_events()
 
+    @property
+    def example_sentence(self):
+        return copy.deepcopy(self.__example_sentence)
+
+    @example_sentence.setter
+    def example_sentence(self, value):
+        self.__example_sentence = copy.deepcopy(value)
+        self.__lbl_sentence.set_string_by_str_enum_or_literal_str(self.__example_sentence.sentence)
+
     def __init_views(self):
         # the line-edit for displaying the translation
         self.__lbl_sentence = StyledLabel(self.__example_sentence.sentence)
@@ -39,13 +49,16 @@ class ExampleWidget(QWidget):
         self.setLayout(self.__hbox_base)
 
     def __init_events(self):
-        self.__btn_actions.add_action(Strs.View, self.__event_view_example)
+        self.__btn_actions.add_action(Strs.Modify, self.__event_view_example)
         self.__btn_actions.add_action(Strs.Move_Up, self.__event_move_example_up)
         self.__btn_actions.add_action(Strs.Move_Down, self.__event_move_example_down)
         self.__btn_actions.add_action(Strs.Remove, self.__event_remove_example)
 
     def __event_view_example(self):
-        print('view')
+        # prompt up a dialog for modifying this example sentence
+        dialog = ExampleFormDialog.from_instance(Strs.Example_Form_Dialog_Title_M, self.__example_sentence).show_and_exec()
+        if dialog.result_example is not None:
+            self.__attached.modify_certain_example(self.__index, dialog.result_example)
 
     def __event_move_example_up(self):
         print('move-up')

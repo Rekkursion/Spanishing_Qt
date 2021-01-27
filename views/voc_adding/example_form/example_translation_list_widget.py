@@ -8,8 +8,6 @@ class ExampleTranslationListWidget(QListWidget):
         super(ExampleTranslationListWidget, self).__init__()
         # single-selection for this list
         self.setSelectionMode(QAbstractItemView.SingleSelection)
-        # narrow the spacing among the items
-        self.setSpacing(-5)
 
     # push an item into this list
     def push_back(self, translation: str = ''):

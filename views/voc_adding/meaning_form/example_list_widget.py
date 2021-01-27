@@ -20,6 +20,11 @@ class ExampleListWidget(QListWidget):
         widget.setFocus()
         return widget
 
+    # modify a certain example sentence located by its index
+    def modify_certain_example(self, index: int, new_example_sentence: ExampleSentence):
+        widget = self.itemWidget(self.item(index))
+        widget.example_sentence = new_example_sentence
+
     # get all of the widgets in the list
     def get_all_widgets(self):
         return [self.itemWidget(self.item(i)) for i in range(0, self.count())]
