@@ -1,23 +1,11 @@
-from PyQt5.QtWidgets import QListWidget, QListWidgetItem, QAbstractItemView
-
 from models.example_sentence import ExampleSentence
-from views.voc_adding.meaning_form.example_widget import ExampleWidget
+from views.list_widgets.base_list_widget import BaseListWidget
+from views.list_widgets.example_list.example_widget import ExampleWidget
 
 
-class ExampleListWidget(QListWidget):
+class ExampleListWidget(BaseListWidget):
     def __init__(self):
-        super(ExampleListWidget, self).__init__()
-        # single-selection for this list
-        self.setSelectionMode(QAbstractItemView.SingleSelection)
-
-    # push an item into this list
-    def push_back(self, example_sentence: ExampleSentence):
-        widget = ExampleWidget(example_sentence, self)
-        item = QListWidgetItem(self)
-        item.setSizeHint(widget.sizeHint())
-        self.setItemWidget(item, widget)
-        self.addItem(item)
-        return widget
+        super(ExampleListWidget, self).__init__(ExampleWidget)
 
     # modify a certain example sentence
     def modify_certain_example(self, item_widget: ExampleWidget, new_example_sentence: ExampleSentence):
@@ -38,7 +26,3 @@ class ExampleListWidget(QListWidget):
         to_be_moved_example_sentence = item_widget.example_sentence
         item_widget.example_sentence = adjacent_widget.example_sentence
         adjacent_widget.example_sentence = to_be_moved_example_sentence
-
-    # get all of the widgets in the list
-    def get_all_widgets(self):
-        return [self.itemWidget(self.item(i)) for i in range(0, self.count())]

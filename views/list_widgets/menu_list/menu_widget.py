@@ -6,12 +6,12 @@ from views.styled_views.styled import StyledLabel, StyledVBox
 
 
 class MenuWidget(QWidget):
-    def __init__(self, page: BasePage, index: int, parent=None):
-        super(MenuWidget, self).__init__(parent)
+    def __init__(self, page: BasePage, attached):
+        super(MenuWidget, self).__init__()
         # the page corresponding to this menu-widget
         self.page = page
-        # the index of this widget
-        self.index = index
+        # the list-widget that this widget attached on
+        self.__attached = attached
         # initialize all views
         self.__init_views()
 

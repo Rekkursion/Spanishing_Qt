@@ -9,8 +9,8 @@ from views.styled_views.styled import StyledLabel, StyledHBox
 
 
 class PreferencesPage(BasePage):
-    def __init__(self, page_name):
-        super(PreferencesPage, self).__init__(page_name)
+    def __init__(self, index: int, page_name):
+        super(PreferencesPage, self).__init__(index, page_name)
         # initialize all views
         self._init_views()
         # initialize all events

@@ -5,8 +5,8 @@ from views.voc_adding.single_voc_form import SingleVocForm
 
 
 class VocAddingPage(BasePage):
-    def __init__(self, page_name):
-        super(VocAddingPage, self).__init__(page_name)
+    def __init__(self, index: int, page_name):
+        super(VocAddingPage, self).__init__(index, page_name)
         # initialize all views
         self._init_views()
         # initialize all events

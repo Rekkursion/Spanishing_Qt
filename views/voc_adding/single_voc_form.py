@@ -2,7 +2,7 @@ from PyQt5.QtWidgets import QWidget
 
 from enums.strs import Strs
 from views.styled_views.styled import StyledHBox, StyledLabel, StyledLineEdit, StyledVBox, StyledButton
-from views.voc_adding.meaning_form.meaning_form_dialog import MeaningFormDialog
+from views.voc_adding.meaning_form_dialog import MeaningFormDialog
 
 
 class SingleVocForm(QWidget):

@@ -2,7 +2,7 @@ from PyQt5.QtWidgets import QFrame, QStackedLayout
 
 from enums.strs import Strs
 from utils import dimension as dim
-from views.menu_list.menu_list_widget import MenuListWidget
+from views.list_widgets.menu_list.menu_list_widget import MenuListWidget
 from views.pages.preferences_page import PreferencesPage
 from views.pages.voc_adding_page import VocAddingPage
 from views.styled_views.styled import StyledMainWindow, StyledHBox
@@ -28,8 +28,8 @@ class MainWindow(StyledMainWindow):
         #     Strs.Menu_List_Item_Preferences
         # )
         self.__lis_menu = MenuListWidget(
-            VocAddingPage(Strs.Menu_List_Item_Add_Voc),
-            PreferencesPage(Strs.Menu_List_Item_Preferences)
+            VocAddingPage(0, Strs.Menu_List_Item_Add_Voc),
+            PreferencesPage(1, Strs.Menu_List_Item_Preferences)
         )
         self.__hbox_all.addWidget(self.__lis_menu, 0)
         # the stacked-layout for containing various pages

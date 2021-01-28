@@ -7,9 +7,9 @@ from enums.strs import Strs
 from managers.pref_manager import PrefManager
 from models.example_sentence import ExampleSentence
 from utils import dimension as dim
+from views.list_widgets.example_translation_list.example_translation_list_widget import ExampleTranslationListWidget
 from views.message_boxes.base_message_box import BaseMessageBox
 from views.styled_views.styled import StyledLineEdit, StyledGridLayout, StyledButton, StyledDialog, StyledLabel
-from views.voc_adding.example_form.example_translation_list_widget import ExampleTranslationListWidget
 
 
 class ExampleFormDialog(StyledDialog):
@@ -21,7 +21,7 @@ class ExampleFormDialog(StyledDialog):
         instance.__le_example.setText(example_sentence.sentence)
         # set the texts of translations
         for translation in example_sentence.translation_list:
-            instance.__lis_translations.push_back(translation)
+            instance.__lis_translations.push_back(translation, max_height=dim.example_translation_list_widget_max_height)
         # set the dialog-mode to modification mode
         instance.__dialog_mode = AddModifyDialogMode.M
         # set the focus-point on the example-line-edit
@@ -84,7 +84,7 @@ class ExampleFormDialog(StyledDialog):
 
     # the event for adding a new translation
     def __event_add_new_translation(self):
-        self.__lis_translations.push_back()
+        self.__lis_translations.push_back('', max_height=dim.example_translation_list_widget_max_height)
         self.__lis_translations.setVisible(True)
 
     # the event for cancelling the action of adding a new example sentence

@@ -1,4 +1,4 @@
-from views.menu_list.menu_widget import MenuWidget
+from views.list_widgets.menu_list.menu_widget import MenuWidget
 
 
 class LayoutManager:
@@ -15,4 +15,4 @@ class LayoutManager:
     def switch_page_to(menu_widget: MenuWidget):
         if LayoutManager.__main_win is not None:
             # set the page corresponding to the passed-in menu-widget
-            LayoutManager.__main_win.set_page_by_index(menu_widget.index)
+            LayoutManager.__main_win.set_page_by_index(menu_widget.page.index)

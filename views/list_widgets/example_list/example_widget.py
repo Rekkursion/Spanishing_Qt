@@ -12,7 +12,7 @@ from utils import configuration as cfg
 from views.message_boxes.base_message_box import BaseMessageBox
 from views.styled_views.styled import StyledLabel, StyledHBox
 from views.styled_views.styled_action_button import StyledActionButton
-from views.voc_adding.example_form.example_form_dialog import ExampleFormDialog
+from views.voc_adding.example_form_dialog import ExampleFormDialog
 
 
 class ExampleWidget(QWidget):

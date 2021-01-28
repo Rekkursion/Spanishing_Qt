@@ -3,11 +3,11 @@ from PyQt5.QtWidgets import QSizePolicy
 
 from enums.strs import Strs
 from utils import dimension as dim
+from views.list_widgets.example_list.example_list_widget import ExampleListWidget
 from views.styled_views.styled import StyledLabel, StyledLineEdit, StyledGridLayout, \
     StyledButton, \
     StyledTextEdit, StyledDialog
-from views.voc_adding.example_form.example_form_dialog import ExampleFormDialog
-from views.voc_adding.meaning_form.example_list_widget import ExampleListWidget
+from views.voc_adding.example_form_dialog import ExampleFormDialog
 
 
 class MeaningFormDialog(StyledDialog):
@@ -69,4 +69,4 @@ class MeaningFormDialog(StyledDialog):
         # prompt up a dialog for filling the info of new example sentence
         dialog = ExampleFormDialog(Strs.Example_Form_Dialog_Title_A, self.__vocabulary).show_and_exec()
         if dialog.result_example is not None:
-            self.__lis_examples.push_back(dialog.result_example)
+            self.__lis_examples.push_back(dialog.result_example, max_height=dim.example_list_widget_max_height)

@@ -7,8 +7,10 @@ from utils import dimension as dim
 
 
 class BasePage(QLayout):
-    def __init__(self, page_name):
+    def __init__(self, index: int, page_name):
         super(BasePage, self).__init__()
+        # the index of this page
+        self.index = index
         # the name of this page
         self.page_name = page_name
         self._item_list = []
