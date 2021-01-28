@@ -47,10 +47,10 @@ class ExampleWidget(QWidget):
         self.setLayout(self.__hbox_base)
 
     def __init_events(self):
-        self.__btn_actions.add_action(Strs.Modify, self.__event_modify_example)
-        self.__btn_actions.add_action(Strs.Move_Up, self.__event_move_example_up)
-        self.__btn_actions.add_action(Strs.Move_Down, self.__event_move_example_down)
-        self.__btn_actions.add_action(Strs.Remove, self.__event_remove_example)
+        self.__btn_actions.add_action(Strs.Modify, cfg.modification_icon_path, self.__event_modify_example)
+        self.__btn_actions.add_action(Strs.Move_Up, cfg.moving_up_icon_path, self.__event_move_example_up)
+        self.__btn_actions.add_action(Strs.Move_Down, cfg.moving_down_icon_path, self.__event_move_example_down)
+        self.__btn_actions.add_action(Strs.Remove, cfg.removal_icon_path, self.__event_remove_example)
 
     # the event for modifying this example
     def __event_modify_example(self):

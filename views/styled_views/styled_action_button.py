@@ -21,8 +21,10 @@ class StyledActionButton(QPushButton):
         self.__fixed_size = fixed_size
 
     # add an action on this action-button
-    def add_action(self, action_name, event):
+    def add_action(self, action_name, icon_path: str, event):
         action = StyledAction(action_name, self.__fixed_size)
+        if icon_path is not None and icon_path != '':
+            action.setIcon(QIcon(icon_path))
         self.menu().addAction(action)
         action.triggered.connect(event)
 
