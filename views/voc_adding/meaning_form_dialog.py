@@ -1,12 +1,13 @@
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QSizePolicy
 
+from enums.part_of_speech import PartOfSpeech
 from enums.strs import Strs
 from utils import dimension as dim
 from views.list_widgets.example_list.example_list_widget import ExampleListWidget
 from views.styled_views.styled import StyledLabel, StyledLineEdit, StyledGridLayout, \
     StyledButton, \
-    StyledTextEdit, StyledDialog
+    StyledTextEdit, StyledDialog, StyledComboBox
 from views.voc_adding.example_form_dialog import ExampleFormDialog
 
 
@@ -26,6 +27,7 @@ class MeaningFormDialog(StyledDialog):
         # initially set the focus on the first line-edit
         self.__le_translation_chi.setFocus()
 
+    # noinspection PyTypeChecker
     def __init_views(self):
         # the grid-layout for containing all sub-views
         self.__grid_base = StyledGridLayout()
@@ -39,10 +41,11 @@ class MeaningFormDialog(StyledDialog):
         self.__le_translation_eng = StyledLineEdit(Strs.Voc_Adding_Page_Translation_Eng_Placeholder)
         self.__grid_base.addWidget(self.__lbl_translation_eng, 1, 0, 1, 1)
         self.__grid_base.addWidget(self.__le_translation_eng, 1, 1, 1, 6)
-        # the button for selecting the part-of-speech
-        self.__btn_pos = StyledButton(Strs.Voc_Adding_Page_Select_Pos_Button_Text)
-        self.__btn_pos.setSizePolicy(QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Ignored))
-        self.__grid_base.addWidget(self.__btn_pos, 0, 7, 2, 1)
+        # the combo-box for selecting the part-of-speech
+        self.__comb_pos = StyledComboBox()
+        self.__comb_pos.add_items(*list(map(lambda x: f'{x.get_fullname()} [{x.get_abbr()}]', PartOfSpeech)))
+        self.__comb_pos.setSizePolicy(QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Ignored))
+        self.__grid_base.addWidget(self.__comb_pos, 0, 7, 2, 1)
         # the button for adding example sentences
         self.__btn_add_new_example = StyledButton(Strs.Voc_Adding_Page_New_Example_Sentence_Button_Text)
         self.__btn_add_new_example.setSizePolicy(QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Ignored))
@@ -62,7 +65,12 @@ class MeaningFormDialog(StyledDialog):
         self.setLayout(self.__grid_base)
 
     def __init_events(self):
+        # self.__comb_pos.clicked.connect(self.__event_select_pos)
         self.__btn_add_new_example.clicked.connect(self.__event_add_new_example)
+
+    # the event for selecting the part-of-speech
+    def __event_select_pos(self):
+        pass
 
     # the event for adding a new example sentence
     def __event_add_new_example(self):

@@ -57,3 +57,24 @@ class Strs(Enum):
 
     # something pertains to the preferences-page
     Preferences_Page_Lang = ('介面語言', '语言界面', 'Interface language')
+
+    # all part-of-speeches
+    MASCULINE = ('陽性名詞', '阳性名词', 'Masculine')
+    FEMININE = ('陰性名詞', '阴性名词', 'Feminine')
+    PLURAL_MASCULINE = ('陽性複數名詞', '阳性复数名词', 'Plural Masculine')
+    PLURAL_FEMININE = ('陰性複數名詞', '阴性复数名词', 'Plural Feminine')
+    MASCULINE_OR_FEMININE = ('陽性/陰性名詞', '阳性/阴性名词', 'Masculine or Feminine')
+    PRONOUN = ('代名詞', '代词', 'Pronoun')
+    PROPER_NOUN = ('專有名詞', '专有名词', 'Proper Noun')
+    VERB = ('動詞', '动词', 'Verb')
+    REFLEXIVE_VERB = ('反身動詞', '反身动词/自复动词', 'Reflexive Verb')
+    TRANSITIVE_VERB = ('及物動詞', '及物动词', 'Transitive Verb')
+    INTRANSITIVE_VERB = ('不及物動詞', '不及物动词', 'Intransitive Verb')
+    ADJECTIVE = ('形容詞', '形容词', 'Adjective')
+    ADVERB = ('副詞', '副词', 'Adverb')
+    PHRASE = ('片語', '短语', 'Phrase')
+    CONJUNCTION = ('連接詞', '连词', 'Conjunction')
+    INTERJECTION = ('感嘆詞', '叹词', 'Interjection')
+    PREPOSITION = ('介係詞/前置詞', '介词/前置词', 'Preposition')
+    DEFINITE_ARTICLE = ('定冠詞', '定冠词', 'Definite Article')
+    INDEFINITE_ARTICLE = ('不定冠詞', '不定冠词', 'Indefinite Article')

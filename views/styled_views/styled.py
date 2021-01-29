@@ -1,6 +1,6 @@
 from PyQt5.QtGui import QFont
 from PyQt5.QtWidgets import QLabel, QPushButton, QLineEdit, QAction, QMainWindow, QDialog, QMenu, QHBoxLayout, \
-    QVBoxLayout, QGridLayout, QTextEdit, QLayout, QWidget, QCheckBox
+    QVBoxLayout, QGridLayout, QTextEdit, QLayout, QWidget, QCheckBox, QComboBox
 
 from enums.fixed_size import FixedSizes
 from enums.pref_key import PrefKey
@@ -90,6 +90,29 @@ class StyledCheckBox(QCheckBox, BaseStyled):
         self.register_str_enum(text)
         # set the fixed-size
         self.setFont(QFont(cfg.font_family, fixed_size))
+
+
+class StyledComboBox(QComboBox, BaseStyled):
+    def __init__(self, fixed_size=FixedSizes.MEDIUM):
+        super(StyledComboBox, self).__init__()
+        # set the fixed-size
+        self.setFont(QFont(cfg.font_family, fixed_size))
+        # for centering the displayed text
+        # self.setEditable(True)
+        # self.lineEdit().setReadOnly(True)
+        # self.lineEdit().setAlignment(Qt.AlignCenter)
+
+    # add a single item
+    def add_item(self, text):
+        self.addItem(text)
+        self.register_str_enum(text)
+        # for centering the texts of items in the pop-up list
+        # self.setItemData(self.count() - 1, Qt.AlignCenter, Qt.TextAlignmentRole)
+
+    # add multiple items
+    def add_items(self, *texts):
+        for text in texts:
+            self.add_item(text)
 
 
 class StyledAction(QAction, BaseStyled):

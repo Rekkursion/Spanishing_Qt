@@ -1,5 +1,9 @@
 from enum import Enum
 
+from enums.pref_key import PrefKey
+from enums.strs import Strs
+from managers.pref_manager import PrefManager
+
 
 class PartOfSpeech(Enum):
     MASCULINE = 'm'
@@ -11,7 +15,9 @@ class PartOfSpeech(Enum):
     PROPER_NOUN = 'n'
 
     VERB = 'v'
-    REFLEXIVE_VERB = 'ref.v'
+    REFLEXIVE_VERB = 'v.r'
+    TRANSITIVE_VERB = 'v.t'
+    INTRANSITIVE_VERB = 'v.i'
 
     ADJECTIVE = 'adj'
 
@@ -25,9 +31,13 @@ class PartOfSpeech(Enum):
 
     PREPOSITION = 'prep'
 
-    DEFINITE_ARTICLE = 'def.art'
-    INDEFINITE_ARTICLE = 'ind.art'
+    DEFINITE_ARTICLE = 'art.def'
+    INDEFINITE_ARTICLE = 'art.ind'
 
     # get the abbreviation of a certain part-of-speech
     def get_abbr(self):
         return self.value
+
+    # get the fullname of a certain part-of-speech
+    def get_fullname(self):
+        return Strs[self.name].value[PrefManager.get_pref(PrefKey.LANG)]

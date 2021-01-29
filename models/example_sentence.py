@@ -8,5 +8,5 @@ class ExampleSentence:
     word: str
     # the example sentence
     sentence: str
-    # the list of translation
+    # the list of translations of this example sentence
     translation_list: List[str] = field(default_factory=list, compare=False)
