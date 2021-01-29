@@ -40,7 +40,7 @@ class ExampleWidget(QWidget):
         # the line-edit for displaying the translation
         self.__lbl_sentence = StyledLabel(self.__example_sentence.sentence)
         # the action-button for some actions about this example sentence
-        self.__btn_actions = StyledActionButton(cfg.example_action_icon_path)
+        self.__btn_actions = StyledActionButton(cfg.more_actions_icon_path)
         # the base h-box
         self.__hbox_base = StyledHBox((self.__lbl_sentence, 1), (self.__btn_actions, 0), spacing=-6)
         # set the h-box as the layout of this widget

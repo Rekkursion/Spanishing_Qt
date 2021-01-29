@@ -85,7 +85,6 @@ class ExampleFormDialog(StyledDialog):
     # the event for adding a new translation
     def __event_add_new_translation(self):
         self.__lis_translations.push_back('', max_height=dim.example_translation_list_widget_max_height)
-        self.__lis_translations.setVisible(True)
 
     # the event for cancelling the action of adding a new example sentence
     def __event_cancel(self):
@@ -113,7 +112,7 @@ class ExampleFormDialog(StyledDialog):
             # close the dialog
             self.close()
 
-    # the event for disable/enable the submit-button according to
+    # the event for disable/enable the submission button
     def __event_example_line_edit_changed(self):
         self.__btn_submit.setEnabled(self.__le_example.text() != '')
 

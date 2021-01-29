@@ -13,8 +13,8 @@ icons_attribution_html_code = '<div>Icons made by <a href="https://www.freepik.c
 # the root-path of icons
 __icons_root_path = './res/icons'
 
-# the icon-path for the action-button of example sentences
-example_action_icon_path = os.path.join(__icons_root_path, 'more-options.png')
+# the icon-path for more actions
+more_actions_icon_path = os.path.join(__icons_root_path, 'more-options.png')
 
 # the icon-path for the action of modification
 modification_icon_path = os.path.join(__icons_root_path, 'pencil.png')

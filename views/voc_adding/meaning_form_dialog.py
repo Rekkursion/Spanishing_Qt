@@ -37,6 +37,10 @@ class MeaningFormDialog(StyledDialog):
         # the add-modify-dialog-mode
         self.__dialog_mode = AddModifyDialogMode.A
 
+    @property
+    def result_meaning(self):
+        return self.__result_meaning
+
     # noinspection PyTypeChecker
     def __init_views(self):
         # the grid-layout for containing all sub-views
@@ -53,7 +57,7 @@ class MeaningFormDialog(StyledDialog):
         self.__grid_base.addWidget(self.__le_translation_eng, 1, 1, 1, 6)
         # the combo-box for selecting the part-of-speech
         self.__comb_pos = StyledComboBox()
-        self.__comb_pos.add_items(*list(map(lambda x: f'{x.get_fullname()} [{x.get_abbr()}]', PartOfSpeech)))
+        self.__comb_pos.add_items(*list(map(lambda x: x.format(), PartOfSpeech)))
         self.__comb_pos.setSizePolicy(QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Ignored))
         self.__grid_base.addWidget(self.__comb_pos, 0, 7, 2, 1)
         # the button for adding example sentences
@@ -69,6 +73,7 @@ class MeaningFormDialog(StyledDialog):
         # the buttons of cancelling & submitting
         self.__btn_cancel = StyledButton(Strs.Cancel)
         self.__btn_submit = StyledButton(Strs.Submit)
+        self.__btn_submit.setEnabled(False)
         self.__grid_base.addWidget(self.__btn_cancel, 5, 0, 1, 4)
         self.__grid_base.addWidget(self.__btn_submit, 5, 4, 1, 4)
         # set the base grid-layout as the layout
@@ -78,6 +83,8 @@ class MeaningFormDialog(StyledDialog):
         self.__btn_add_new_example.clicked.connect(self.__event_add_new_example)
         self.__btn_cancel.clicked.connect(self.__event_cancel)
         self.__btn_submit.clicked.connect(self.__event_submit)
+        self.__le_translation_chi.textChanged.connect(self.__event_translation_line_edits_changed)
+        self.__le_translation_eng.textChanged.connect(self.__event_translation_line_edits_changed)
 
     # the event for adding a new example sentence
     def __event_add_new_example(self):
@@ -104,7 +111,7 @@ class MeaningFormDialog(StyledDialog):
     # the event for submitting the new meaning
     def __event_submit(self):
         # get the selected part-of-speech
-        pos = PartOfSpeech.get_pos_by_displayed_text(self.__comb_pos.currentText())
+        pos = PartOfSpeech.get_pos_by_formatted_text(self.__comb_pos.currentText())
         # get the text of the translation in chinese and in english respectively
         translation_chi = self.__le_translation_chi.text()
         translation_eng = self.__le_translation_eng.text()
@@ -118,3 +125,7 @@ class MeaningFormDialog(StyledDialog):
             print(self.__result_meaning)
             # close the dialog
             self.close()
+
+    # the event for disable/enable the submission button
+    def __event_translation_line_edits_changed(self):
+        self.__btn_submit.setEnabled(self.__le_translation_chi.text() != '' or self.__le_translation_eng.text() != '')

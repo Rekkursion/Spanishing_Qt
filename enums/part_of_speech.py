@@ -42,9 +42,13 @@ class PartOfSpeech(Enum):
     def get_fullname(self):
         return Strs[self.name].value[PrefManager.get_pref(PrefKey.LANG)]
 
-    # get the part-of-speech by the text displayed at the combo-box in meaning-form-dialog
+    # get the formatted text of a certain part-of-speech
+    def format(self):
+        return f'{self.get_fullname()} [{self.get_abbr()}]'
+
+    # get the part-of-speech by the formatted text
     @staticmethod
-    def get_pos_by_displayed_text(text: str):
+    def get_pos_by_formatted_text(text: str):
         abbr_text = text[text.index('[') + 1: text.index(']')]
         for pos in PartOfSpeech:
             if pos.value == abbr_text:
