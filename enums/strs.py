@@ -13,7 +13,12 @@ class Strs(Enum):
     Make_Sure_For_Cancelling_Adding_New_Example_Sentence_Dialog_Content = (
         '確定要取消新增例句嗎？請注意系統並不會保留您所鍵入的資料。',
         '是否确定要取消添加例句？请注意系统并不会保留您所输入的数据。',
-        'YOU ARE GIVING UP THE EXAMPLE SENTENCE. Please aware that the system will not keep anything you typed and this action cannot be undone.'
+        'YOU ARE GIVING UP THE NEW EXAMPLE SENTENCE. Please aware that the system will not keep anything you typed and this action cannot be undone.'
+    )
+    Make_Sure_For_Cancelling_Adding_New_Meaning_Dialog_Content = (
+        '確定要取消新增單字意義嗎？請注意系統並不會保留您所鍵入的資料。',
+        '是否确定要取消添加单词意思？请注意系统并不会保留您所输入的数据。',
+        'YOU ARE GIVING UP THE NEW MEANING. Please aware that the system will not keep anything you typed and this action cannot be undone.'
     )
     Make_Sure_For_Removing_Added_Example_Sentence_Dialog_Content = (
         '確定要刪除此例句嗎？此動作將無法還原。',

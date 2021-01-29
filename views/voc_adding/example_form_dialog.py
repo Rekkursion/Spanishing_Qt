@@ -98,7 +98,7 @@ class ExampleFormDialog(StyledDialog):
                     show_and_exec().\
                     dialog_result == DialogResult.YES:
                 self.close()
-        # otherwise, close the message-box directly
+        # otherwise, close the example-form-dialog directly
         else:
             self.close()
 

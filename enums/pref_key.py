@@ -5,6 +5,9 @@ class PrefKey(Enum):
     # the interface language
     LANG = 'lang'
 
+    # prompt up the warning message-box before cancelling at adding a new meaning
+    MSG_BOX_CANCELLING_NEW_MEANING = 'msg-box-cancelling-new-meaning'
+
     # prompt up the warning message-box before cancelling at adding a new example sentence
     MSG_BOX_CANCELLING_NEW_EXAMPLE = 'msg-box-cancelling-new-example'
 

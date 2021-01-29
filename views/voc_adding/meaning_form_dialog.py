@@ -1,10 +1,16 @@
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QSizePolicy
 
+from enums.Add_Modify_Dialog_Mode import AddModifyDialogMode
+from enums.dialog_result import DialogResult
 from enums.part_of_speech import PartOfSpeech
+from enums.pref_key import PrefKey
 from enums.strs import Strs
+from managers.pref_manager import PrefManager
+from models.meaning import Meaning
 from utils import dimension as dim
 from views.list_widgets.example_list.example_list_widget import ExampleListWidget
+from views.message_boxes.base_message_box import BaseMessageBox
 from views.styled_views.styled import StyledLabel, StyledLineEdit, StyledGridLayout, \
     StyledButton, \
     StyledTextEdit, StyledDialog, StyledComboBox
@@ -26,6 +32,10 @@ class MeaningFormDialog(StyledDialog):
         self.resize(*dim.meaning_form_dialog_size)
         # initially set the focus on the first line-edit
         self.__le_translation_chi.setFocus()
+        # the result-meaning
+        self.__result_meaning = None
+        # the add-modify-dialog-mode
+        self.__dialog_mode = AddModifyDialogMode.A
 
     # noinspection PyTypeChecker
     def __init_views(self):
@@ -65,12 +75,9 @@ class MeaningFormDialog(StyledDialog):
         self.setLayout(self.__grid_base)
 
     def __init_events(self):
-        # self.__comb_pos.clicked.connect(self.__event_select_pos)
         self.__btn_add_new_example.clicked.connect(self.__event_add_new_example)
-
-    # the event for selecting the part-of-speech
-    def __event_select_pos(self):
-        pass
+        self.__btn_cancel.clicked.connect(self.__event_cancel)
+        self.__btn_submit.clicked.connect(self.__event_submit)
 
     # the event for adding a new example sentence
     def __event_add_new_example(self):
@@ -78,3 +85,36 @@ class MeaningFormDialog(StyledDialog):
         dialog = ExampleFormDialog(Strs.Example_Form_Dialog_Title_A, self.__vocabulary).show_and_exec()
         if dialog.result_example is not None:
             self.__lis_examples.push_back(dialog.result_example, max_height=dim.example_list_widget_max_height)
+
+    # the event for cancelling the action of adding a new meaning
+    def __event_cancel(self):
+        # if a message-box for warning the user is needed
+        if self.__dialog_mode == AddModifyDialogMode.A and PrefManager.get_pref(PrefKey.MSG_BOX_CANCELLING_NEW_MEANING):
+            # create & show the dialog to make sure that the user really want to cancel the action for adding it
+            if BaseMessageBox.Builder. \
+                    init(Strs.Make_Sure_For_Cancelling_Sth_Dialog_Title, PrefKey.MSG_BOX_CANCELLING_NEW_MEANING). \
+                    set_content(Strs.Make_Sure_For_Cancelling_Adding_New_Meaning_Dialog_Content).create(). \
+                    show_and_exec(). \
+                    dialog_result == DialogResult.YES:
+                self.close()
+        # otherwise, close this meaning-form-dialog directly
+        else:
+            self.close()
+
+    # the event for submitting the new meaning
+    def __event_submit(self):
+        # get the selected part-of-speech
+        pos = PartOfSpeech.get_pos_by_displayed_text(self.__comb_pos.currentText())
+        # get the text of the translation in chinese and in english respectively
+        translation_chi = self.__le_translation_chi.text()
+        translation_eng = self.__le_translation_eng.text()
+        # get the list of example sentences
+        example_sentences = self.__lis_examples.get_all_examples()
+        # get the notes
+        notes = self.__te_notes.toPlainText()
+        if translation_chi != '' or translation_eng != '':
+            # instantiate a meaning as the result
+            self.__result_meaning = Meaning(pos, translation_chi, translation_eng, example_sentences, notes)
+            print(self.__result_meaning)
+            # close the dialog
+            self.close()

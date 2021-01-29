@@ -26,3 +26,7 @@ class ExampleListWidget(BaseListWidget):
         to_be_moved_example_sentence = item_widget.example_sentence
         item_widget.example_sentence = adjacent_widget.example_sentence
         adjacent_widget.example_sentence = to_be_moved_example_sentence
+
+    # get all examples
+    def get_all_examples(self):
+        return [self.itemWidget(self.item(i)).example_sentence for i in range(0, self.count())]
