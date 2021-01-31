@@ -18,6 +18,27 @@ from views.voc_adding.example_form_dialog import ExampleFormDialog
 
 
 class MeaningFormDialog(StyledDialog):
+    @staticmethod
+    def from_instance(dialog_title, vocabulary: str, meaning: Meaning):
+        # instantiate an instance of meaning-form-dialog
+        instance = MeaningFormDialog(dialog_title, vocabulary)
+        # set the texts of translations in both chinese & english
+        instance.__le_translation_chi.setText(meaning.translation_chi)
+        instance.__le_translation_eng.setText(meaning.translation_eng)
+        # set the part-of-speech
+        instance.__comb_pos.setCurrentText(meaning.pos.format())
+        # set the example sentences
+        for example in meaning.example_list:
+            instance.__lis_examples.push_back(data_model=example, max_height=dim.example_list_widget_max_height)
+        # set the notes
+        instance.__te_notes.setText(meaning.notes)
+        # set the dialog-mode to modification mode
+        instance.__dialog_mode = AddModifyDialogMode.M
+        # set the focus-point on the line-edit of chinese translation
+        instance.__le_translation_chi.setFocus()
+        # return the created instance
+        return instance
+
     def __init__(self, dialog_title, vocabulary: str):
         super(MeaningFormDialog, self).__init__(dialog_title)
         # force this dialog being the top form
@@ -91,7 +112,7 @@ class MeaningFormDialog(StyledDialog):
         # prompt up a dialog for filling the info of new example sentence
         dialog = ExampleFormDialog(Strs.Example_Form_Dialog_Title_A, self.__vocabulary).show_and_exec()
         if dialog.result_example is not None:
-            self.__lis_examples.push_back(dialog.result_example, max_height=dim.example_list_widget_max_height)
+            self.__lis_examples.push_back(data_model=dialog.result_example, max_height=dim.example_list_widget_max_height)
 
     # the event for cancelling the action of adding a new meaning
     def __event_cancel(self):

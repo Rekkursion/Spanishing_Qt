@@ -41,9 +41,9 @@ class SingleVocForm(QWidget):
     # the event for adding a new meaning
     def __event_add_new_meaning(self):
         # prompt up a dialog for filling the data of the new meaning
-        dialog = MeaningFormDialog(Strs.Meaning_Form_Dialog_Title, self.__le_word.text()).show_and_exec()
+        dialog = MeaningFormDialog(Strs.Meaning_Form_Dialog_Title_A, self.__le_word.text()).show_and_exec()
         if dialog.result_meaning is not None:
-            self.__lis_meanings.push_back(dialog.result_meaning, adjust_height=False)
+            self.__lis_meanings.push_back(self.__le_word.text(), data_model=dialog.result_meaning, adjust_height=False)
 
     def setFocus(self) -> None:
         self.__le_word.setFocus()

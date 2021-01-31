@@ -10,8 +10,8 @@ class BaseListWidget(QListWidget):
         self._widget_type = widget_type
 
     # push an item into this list
-    def push_back(self, data_model, adjust_height: bool = True, max_height: int = 2147483647):
-        widget = self._widget_type(data_model, self)
+    def push_back(self, *widget_args, data_model, adjust_height: bool = True, max_height: int = 2147483647):
+        widget = self._widget_type(data_model, *widget_args, self)
         item = QListWidgetItem(self)
         item.setSizeHint(widget.sizeHint())
         self.setItemWidget(item, widget)

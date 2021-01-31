@@ -12,7 +12,7 @@ class MenuListWidget(BaseListWidget):
         self.itemClicked.connect(self.__event_switch_page)
         # initially push the items back into the list
         for page in pages:
-            self.push_back(page, adjust_height=False)
+            self.push_back(data_model=page, adjust_height=False)
         # set the fixed width
         self.setFixedWidth(dim.menu_list_width)
 

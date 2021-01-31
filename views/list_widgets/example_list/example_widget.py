@@ -57,7 +57,7 @@ class ExampleWidget(QWidget):
         # prompt up a dialog for modifying this example sentence
         dialog = ExampleFormDialog.from_instance(Strs.Example_Form_Dialog_Title_M, self.__example_sentence).show_and_exec()
         if dialog.result_example is not None:
-            self.__attached.modify_certain_example(self, dialog.result_example)
+            self.example_sentence = dialog.result_example
 
     # the event for moving this example up
     def __event_move_example_up(self):

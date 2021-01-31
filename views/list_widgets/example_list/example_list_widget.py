@@ -1,4 +1,3 @@
-from models.example_sentence import ExampleSentence
 from views.list_widgets.base_list_widget import BaseListWidget
 from views.list_widgets.example_list.example_widget import ExampleWidget
 
@@ -6,12 +5,6 @@ from views.list_widgets.example_list.example_widget import ExampleWidget
 class ExampleListWidget(BaseListWidget):
     def __init__(self):
         super(ExampleListWidget, self).__init__(ExampleWidget)
-
-    # modify a certain example sentence
-    def modify_certain_example(self, item_widget: ExampleWidget, new_example_sentence: ExampleSentence):
-        row = self.indexAt(item_widget.pos()).row()
-        widget = self.itemWidget(self.item(row))
-        widget.example_sentence = new_example_sentence
 
     # move a certain example sentence up/down
     def move_certain_example(self, item_widget: ExampleWidget, is_going_up: bool):

@@ -13,8 +13,13 @@ class ExampleTranslationListWidget(BaseListWidget):
         return [self.itemWidget(self.item(i)).translation for i in range(0, self.count())]
 
     # override the push-back method for updating rows in each item-widget when adding items
-    def push_back(self, data_model, adjust_height: bool = True, max_height: int = 2147483647):
-        super(ExampleTranslationListWidget, self).push_back(data_model, adjust_height, max_height)
+    def push_back(self, data_model, *widget_args, adjust_height: bool = True, max_height: int = 2147483647):
+        super(ExampleTranslationListWidget, self).push_back(
+            *widget_args,
+            data_model=data_model,
+            adjust_height=adjust_height,
+            max_height=max_height
+        )
         # update rows of all added widgets
         for i in range(0, self.count()):
             self.itemWidget(self.item(i)).update_row()

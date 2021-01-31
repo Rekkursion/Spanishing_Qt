@@ -4,7 +4,8 @@ from enum import Enum
 class Strs(Enum):
     # titles of some windows/dialogs
     Main_Window_Title = ('西班牙語學習', '西班牙语学习', 'Spanishing')
-    Meaning_Form_Dialog_Title = ('新增/修改單字意義', '添加/修改单词意思', 'Add/Modify the meaning')
+    Meaning_Form_Dialog_Title_A = ('新增單字意義', '添加单词意思', 'Add the meaning')
+    Meaning_Form_Dialog_Title_M = ('修改單字意義', '修改单词意思', 'Modify the meaning')
     Example_Form_Dialog_Title_A = ('新增例句', '添加例句', 'Add the example sentence')
     Example_Form_Dialog_Title_M = ('修改例句', '修改例句', 'Modify the example sentence')
     Make_Sure_For_Cancelling_Sth_Dialog_Title = ('確定要取消此動作？', '是否确定要取消此操作？', 'Please make sure before doing this.')

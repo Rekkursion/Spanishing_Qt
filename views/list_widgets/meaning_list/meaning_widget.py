@@ -2,15 +2,19 @@ import copy
 
 from PyQt5.QtWidgets import QWidget
 
+from enums.strs import Strs
 from models.meaning import Meaning
 from utils import configuration as cfg
 from views.styled_views.styled import StyledLabel, StyledHBox
 from views.styled_views.styled_action_button import StyledActionButton
+from views.voc_adding.meaning_form_dialog import MeaningFormDialog
 
 
 class MeaningWidget(QWidget):
-    def __init__(self, meaning: Meaning, attached):
+    def __init__(self, meaning: Meaning, vocabulary: str, attached):
         super(MeaningWidget, self).__init__()
+        # the vocabulary for this meaning
+        self.__vocabulary = vocabulary
         # the meaning for this widget
         self.__meaning = copy.deepcopy(meaning)
         # the list-widget that this widget attached on
@@ -22,7 +26,7 @@ class MeaningWidget(QWidget):
 
     @property
     def meaning(self):
-        return copy.deepcopy(self.__meaning)
+        return copy.deepcopy(self.meaning)
 
     @meaning.setter
     def meaning(self, value):
@@ -43,7 +47,10 @@ class MeaningWidget(QWidget):
         self.setLayout(self.__hbox_base)
 
     def __init_events(self):
-        pass
+        self.__btn_actions.add_action(Strs.Modify, cfg.modification_icon_path, self.__event_modify_meaning)
+        self.__btn_actions.add_action(Strs.Move_Up, cfg.moving_up_icon_path, self.__event_move_meaning_up)
+        self.__btn_actions.add_action(Strs.Move_Down, cfg.moving_down_icon_path, self.__event_move_meaning_down)
+        self.__btn_actions.add_action(Strs.Remove, cfg.removal_icon_path, self.__event_remove_meaning)
 
     # get the formatted part-of-speech to be displayed w/ abbreviation only
     def __get_formatted_abbr_of_pos(self):
@@ -60,3 +67,42 @@ class MeaningWidget(QWidget):
         # if the one in chinese is empty
         else:
             return self.__meaning.translation_eng
+
+    # the event for modifying this meaning
+    def __event_modify_meaning(self):
+        # prompt up a dialog for modifying this meaning sentence
+        dialog = MeaningFormDialog.from_instance(Strs.Meaning_Form_Dialog_Title_M, self.__vocabulary, self.__meaning).show_and_exec()
+        if dialog.result_meaning is not None:
+            self.meaning = dialog.result_meaning
+
+    # the event for moving this meaning up
+    def __event_move_meaning_up(self):
+        pass
+        # self.__attached.move_certain_example(self, True)
+
+    # the event for moving this meaning down
+    def __event_move_meaning_down(self):
+        pass
+        # self.__attached.move_certain_example(self, False)
+
+    # the event for removing this meaning
+    def __event_remove_meaning(self):
+        pass
+        # # the nested function for removing the example actually
+        # def ____remove_example():
+        #     # unregister the registered views
+        #     LangManager.unregister(self.__lbl_sentence, *self.__btn_actions.get_all_actions())
+        #     # remove the item in the list
+        #     self.__attached.takeItem(self.__attached.indexAt(self.pos()).row())
+        #
+        # # if a message-box for warning the user is needed
+        # if PrefManager.get_pref(PrefKey.MSG_BOX_DELETING_ADDED_EXAMPLE):
+        #     if BaseMessageBox.Builder. \
+        #             init(Strs.Make_Sure_For_Cancelling_Sth_Dialog_Title, PrefKey.MSG_BOX_DELETING_ADDED_EXAMPLE). \
+        #             set_content(Strs.Make_Sure_For_Removing_Added_Example_Sentence_Dialog_Content).create(). \
+        #             show_and_exec(). \
+        #             dialog_result == DialogResult.YES:
+        #         ____remove_example()
+        # # otherwise, remove the example directly
+        # else:
+        #     ____remove_example()
