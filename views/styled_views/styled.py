@@ -14,10 +14,16 @@ from utils import dimension as dim
 # the base class of all styled views
 class BaseStyled:
     def __init__(self):
+        self.__str = None
         super(BaseStyled, self).__init__()
 
+    # register the str-enum or set the literal string
     def register_str_enum(self, str_enum_or_literal_str):
-        LangManager.register(self, str_enum_or_literal_str)
+        if isinstance(str_enum_or_literal_str, Strs):
+            LangManager.register(self, str_enum_or_literal_str)
+        else:
+            self.set_string_by_str_enum_or_literal_str(str_enum_or_literal_str)
+        self.__str = str_enum_or_literal_str
 
     # set the string on this view according to its type
     def set_string_by_str_enum_or_literal_str(self, str_enum_or_literal_str):
@@ -38,6 +44,14 @@ class BaseStyled:
         # q-menu -> set its title
         elif isinstance(self, QMenu):
             self.setTitle(literal_str)
+
+    def __repr__(self):
+        if self.__str is None:
+            return 'None'
+        elif isinstance(self.__str, Strs):
+            return self.__str.value[PrefManager.get_pref(PrefKey.LANG)]
+        else:
+            return self.__str
 
 
 class StyledLabel(QLabel, BaseStyled):

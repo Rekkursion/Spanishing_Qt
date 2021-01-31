@@ -51,7 +51,7 @@ class ExampleTranslationWidget(QWidget):
     # the event for removing this translation
     def __event_remove_translation(self):
         # unregister the registered views
-        LangManager.unregister(self.__lbl_row, self.__le_translation, self.__btn_remove_translation)
+        LangManager.unregister(self.__le_translation, self.__btn_remove_translation)
         # remove the item in the list
         self.__attached.takeItem(self.__row)
 

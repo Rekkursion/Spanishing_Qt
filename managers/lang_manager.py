@@ -11,8 +11,9 @@ class LangManager:
     # register a single node
     @staticmethod
     def register(node, str_enum_or_literal_str):
-        LangManager.__registered_dict[node] = str_enum_or_literal_str
-        LangManager.notify_registered(node)
+        if isinstance(str_enum_or_literal_str, Strs):
+            LangManager.__registered_dict[node] = str_enum_or_literal_str
+            LangManager.notify_registered(node)
 
     # register multiple nodes
     @staticmethod
@@ -30,7 +31,9 @@ class LangManager:
     @staticmethod
     def notify_all_registered():
         for key, _ in LangManager.__registered_dict.items():
+            print(key, type(key))
             LangManager.__update_registered(key)
+        print()
 
     # notify a node to be updated
     @staticmethod

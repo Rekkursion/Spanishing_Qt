@@ -4,6 +4,7 @@ from enums.Add_Modify_Dialog_Mode import AddModifyDialogMode
 from enums.dialog_result import DialogResult
 from enums.pref_key import PrefKey
 from enums.strs import Strs
+from managers.lang_manager import LangManager
 from managers.pref_manager import PrefManager
 from models.example_sentence import ExampleSentence
 from utils import dimension as dim
@@ -115,6 +116,10 @@ class ExampleFormDialog(StyledDialog):
     # the event for disable/enable the submission button
     def __event_example_line_edit_changed(self):
         self.__btn_submit.setEnabled(self.__le_example.text() != '')
+
+    def close(self) -> bool:
+        LangManager.unregister(self.__le_example, self.__btn_add_new_translation, self.__btn_cancel, self.__btn_submit)
+        return super(ExampleFormDialog, self).close()
 
     def setFocus(self) -> None:
         self.__le_example.setFocus()

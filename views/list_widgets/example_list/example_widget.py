@@ -72,7 +72,7 @@ class ExampleWidget(QWidget):
         # the nested function for removing the example actually
         def ____remove_example():
             # unregister the registered views
-            LangManager.unregister(self.__lbl_sentence, *self.__btn_actions.get_all_actions())
+            LangManager.unregister(*self.__btn_actions.get_all_actions())
             # remove the item in the list
             self.__attached.takeItem(self.__attached.indexAt(self.pos()).row())
 
