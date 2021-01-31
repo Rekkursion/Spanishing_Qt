@@ -15,9 +15,9 @@ from views.styled_views.styled import StyledLineEdit, StyledGridLayout, StyledBu
 
 class ExampleFormDialog(StyledDialog):
     @staticmethod
-    def from_instance(dialog_title, example_sentence: ExampleSentence):
+    def from_instance(dialog_title, vocabulary: str, example_sentence: ExampleSentence):
         # instantiate an instance of example-form-dialog
-        instance = ExampleFormDialog(dialog_title, example_sentence.word)
+        instance = ExampleFormDialog(dialog_title, vocabulary)
         # set the text of the example sentence
         instance.__le_example.setText(example_sentence.sentence)
         # set the texts of translations
@@ -109,7 +109,7 @@ class ExampleFormDialog(StyledDialog):
         # if the line-edit of the example sentence is not empty
         if example_text != '':
             # instantiate an example-sentence as the result
-            self.__result_example = ExampleSentence(self.__vocabulary, example_text, self.__lis_translations.get_all_translations())
+            self.__result_example = ExampleSentence(example_text, self.__lis_translations.get_all_translations())
             # close the dialog
             self.close()
 

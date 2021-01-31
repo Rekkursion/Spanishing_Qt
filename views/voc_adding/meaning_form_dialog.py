@@ -29,7 +29,7 @@ class MeaningFormDialog(StyledDialog):
         instance.__comb_pos.setCurrentText(meaning.pos.format())
         # set the example sentences
         for example in meaning.example_list:
-            instance.__lis_examples.push_back(data_model=example, max_height=dim.example_list_widget_max_height)
+            instance.__lis_examples.push_back(vocabulary, data_model=example, max_height=dim.example_list_widget_max_height)
         # set the notes
         instance.__te_notes.setText(meaning.notes)
         # set the dialog-mode to modification mode
@@ -112,7 +112,7 @@ class MeaningFormDialog(StyledDialog):
         # prompt up a dialog for filling the info of new example sentence
         dialog = ExampleFormDialog(Strs.Example_Form_Dialog_Title_A, self.__vocabulary).show_and_exec()
         if dialog.result_example is not None:
-            self.__lis_examples.push_back(data_model=dialog.result_example, max_height=dim.example_list_widget_max_height)
+            self.__lis_examples.push_back(self.__vocabulary, data_model=dialog.result_example, max_height=dim.example_list_widget_max_height)
 
     # the event for cancelling the action of adding a new meaning
     def __event_cancel(self):

@@ -16,10 +16,12 @@ from views.voc_adding.example_form_dialog import ExampleFormDialog
 
 
 class ExampleWidget(QWidget):
-    def __init__(self, example_sentence: ExampleSentence, attached):
+    def __init__(self, example_sentence: ExampleSentence, vocabulary: str, attached):
         super(ExampleWidget, self).__init__()
         # the example sentence for this widget
         self.__example_sentence = copy.deepcopy(example_sentence)
+        # the vocabulary for this example
+        self.__vocabulary = vocabulary
         # the list-widget that this widget attached on
         self.__attached = attached
         # initialize all views
@@ -55,7 +57,7 @@ class ExampleWidget(QWidget):
     # the event for modifying this example
     def __event_modify_example(self):
         # prompt up a dialog for modifying this example sentence
-        dialog = ExampleFormDialog.from_instance(Strs.Example_Form_Dialog_Title_M, self.__example_sentence).show_and_exec()
+        dialog = ExampleFormDialog.from_instance(Strs.Example_Form_Dialog_Title_M, self.__vocabulary, self.__example_sentence).show_and_exec()
         if dialog.result_example is not None:
             self.example_sentence = dialog.result_example
 
