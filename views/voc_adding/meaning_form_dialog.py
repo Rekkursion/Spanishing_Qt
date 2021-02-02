@@ -1,5 +1,5 @@
 from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import QSizePolicy
+from PyQt5.QtWidgets import QSizePolicy, QButtonGroup
 
 from enums.add_modify_dialog_mode import AddModifyDialogMode
 from enums.dialog_result import DialogResult
@@ -13,7 +13,7 @@ from views.list_widgets.example_list.example_list_widget import ExampleListWidge
 from views.message_boxes.base_message_box import BaseMessageBox
 from views.styled_views.styled import StyledLabel, StyledLineEdit, StyledGridLayout, \
     StyledButton, \
-    StyledTextEdit, StyledDialog, StyledComboBox
+    StyledTextEdit, StyledDialog, StyledComboBox, StyledRadioButton, StyledHBox
 from views.voc_adding.example_form_dialog import ExampleFormDialog
 
 
@@ -70,33 +70,66 @@ class MeaningFormDialog(StyledDialog):
         self.__lbl_translation_chi = StyledLabel(Strs.Chinese)
         self.__le_translation_chi = StyledLineEdit(Strs.Voc_Adding_Page_Translation_Chi_Placeholder)
         self.__grid_base.addWidget(self.__lbl_translation_chi, 0, 0, 1, 1)
-        self.__grid_base.addWidget(self.__le_translation_chi, 0, 1, 1, 6)
+        self.__grid_base.addWidget(self.__le_translation_chi, 0, 1, 1, 9)
         # the translation for english
         self.__lbl_translation_eng = StyledLabel(Strs.English)
         self.__le_translation_eng = StyledLineEdit(Strs.Voc_Adding_Page_Translation_Eng_Placeholder)
         self.__grid_base.addWidget(self.__lbl_translation_eng, 1, 0, 1, 1)
-        self.__grid_base.addWidget(self.__le_translation_eng, 1, 1, 1, 6)
+        self.__grid_base.addWidget(self.__le_translation_eng, 1, 1, 1, 9)
         # the combo-box for selecting the part-of-speech
         self.__comb_pos = StyledComboBox()
         self.__comb_pos.add_items(*list(map(lambda x: x.format(), PartOfSpeech)))
         self.__comb_pos.setSizePolicy(QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Ignored))
-        self.__grid_base.addWidget(self.__comb_pos, 0, 7, 2, 1)
+        self.__grid_base.addWidget(self.__comb_pos, 0, 10, 2, 4)
+        # the radio-buttons for gender-variabilities and their button-group
+        self.__lbl_gender_variability = StyledLabel(Strs.Gender_Variability)
+        self.__rdb_gender_general = StyledRadioButton(Strs.Word_Variability_General)
+        self.__rdb_gender_special = StyledRadioButton(Strs.Word_Variability_Special)
+        self.__rdb_gender_invariant = StyledRadioButton(Strs.Word_Variability_Invariant)
+        self.__grp_gender_variability = QButtonGroup()
+        self.__grp_gender_variability.addButton(self.__rdb_gender_general)
+        self.__grp_gender_variability.addButton(self.__rdb_gender_special)
+        self.__grp_gender_variability.addButton(self.__rdb_gender_invariant)
+        self.__hbox_gender_variability = StyledHBox(self.__lbl_gender_variability, self.__rdb_gender_general, self.__rdb_gender_special, self.__rdb_gender_invariant)
+        self.__grid_base.addLayout(self.__hbox_gender_variability, 2, 0, 1, 6)
+        self.__rdb_gender_general.setChecked(True)
+        # the radio-buttons for number-variabilities and their button-group
+        self.__lbl_number_variability = StyledLabel(Strs.Number_Variability)
+        self.__rdb_number_general = StyledRadioButton(Strs.Word_Variability_General)
+        self.__rdb_number_special = StyledRadioButton(Strs.Word_Variability_Special)
+        self.__rdb_number_invariant = StyledRadioButton(Strs.Word_Variability_Invariant)
+        self.__grp_number_variability = QButtonGroup()
+        self.__grp_number_variability.addButton(self.__rdb_number_general)
+        self.__grp_number_variability.addButton(self.__rdb_number_special)
+        self.__grp_number_variability.addButton(self.__rdb_number_invariant)
+        self.__hbox_number_variability = StyledHBox(self.__lbl_number_variability, self.__rdb_number_general, self.__rdb_number_special, self.__rdb_number_invariant)
+        self.__grid_base.addLayout(self.__hbox_number_variability, 3, 0, 1, 6)
+        self.__rdb_number_general.setChecked(True)
+        # the line-edits for the forms of genders & numbers
+        self.__le_masculine_singular = StyledLineEdit(Strs.Masculine_Singular_Placeholder)
+        self.__grid_base.addWidget(self.__le_masculine_singular, 2, 6, 1, 4)
+        self.__le_feminine_singular = StyledLineEdit(Strs.Feminine_Singular_Placeholder)
+        self.__grid_base.addWidget(self.__le_feminine_singular, 2, 10, 1, 4)
+        self.__le_masculine_plural = StyledLineEdit(Strs.Masculine_Plural_Placeholder)
+        self.__grid_base.addWidget(self.__le_masculine_plural, 3, 6, 1, 4)
+        self.__le_feminine_plural = StyledLineEdit(Strs.Feminine_Plural_Placeholder)
+        self.__grid_base.addWidget(self.__le_feminine_plural, 3, 10, 1, 4)
         # the button for adding example sentences
         self.__btn_add_new_example = StyledButton(Strs.Voc_Adding_Page_New_Example_Sentence_Button_Text)
         self.__btn_add_new_example.setSizePolicy(QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Ignored))
-        self.__grid_base.addWidget(self.__btn_add_new_example, 2, 0, 1, 1)
+        self.__grid_base.addWidget(self.__btn_add_new_example, 4, 0, 1, 2)
         # the list-widget for containing all added example sentences
         self.__lis_examples = ExampleListWidget()
-        self.__grid_base.addWidget(self.__lis_examples, 2, 1, 1, 7)
+        self.__grid_base.addWidget(self.__lis_examples, 4, 2, 1, 12)
         # the text-edit for notes
         self.__te_notes = StyledTextEdit(Strs.Voc_Adding_Page_Notes_Placeholder)
-        self.__grid_base.addWidget(self.__te_notes, 3, 0, 1, 8)
+        self.__grid_base.addWidget(self.__te_notes, 5, 0, 1, 14)
         # the buttons of cancelling & submitting
         self.__btn_cancel = StyledButton(Strs.Cancel)
         self.__btn_submit = StyledButton(Strs.Submit)
         self.__btn_submit.setEnabled(False)
-        self.__grid_base.addWidget(self.__btn_cancel, 5, 0, 1, 4)
-        self.__grid_base.addWidget(self.__btn_submit, 5, 4, 1, 4)
+        self.__grid_base.addWidget(self.__btn_cancel, 7, 0, 1, 7)
+        self.__grid_base.addWidget(self.__btn_submit, 7, 7, 1, 7)
         # set the base grid-layout as the layout
         self.setLayout(self.__grid_base)
 

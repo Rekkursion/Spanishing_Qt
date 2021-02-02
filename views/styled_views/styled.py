@@ -1,6 +1,6 @@
 from PyQt5.QtGui import QFont
 from PyQt5.QtWidgets import QLabel, QPushButton, QLineEdit, QAction, QMainWindow, QDialog, QMenu, QHBoxLayout, \
-    QVBoxLayout, QGridLayout, QTextEdit, QLayout, QWidget, QCheckBox, QComboBox
+    QVBoxLayout, QGridLayout, QTextEdit, QLayout, QWidget, QCheckBox, QComboBox, QRadioButton
 
 from enums.fixed_size import FixedSizes
 from enums.pref_key import PrefKey
@@ -32,8 +32,8 @@ class BaseStyled:
             literal_str = str_enum_or_literal_str.value[PrefManager.get_pref(PrefKey.LANG)]
         else:
             literal_str = str_enum_or_literal_str
-        # q-label, q-push-button, q-action, q-check-box -> set its text
-        if isinstance(self, (QLabel, QPushButton, QAction, QCheckBox)):
+        # q-label, q-push-button, q-action, q-check-box, q-radio-button -> set its text
+        if isinstance(self, (QLabel, QPushButton, QAction, QCheckBox, QRadioButton)):
             self.setText(literal_str)
         # q-line-edit, q-text-edit -> set its placeholder
         elif isinstance(self, (QLineEdit, QTextEdit)):
@@ -106,6 +106,15 @@ class StyledCheckBox(QCheckBox, BaseStyled):
         self.setFont(QFont(cfg.font_family, fixed_size))
 
 
+class StyledRadioButton(QRadioButton, BaseStyled):
+    def __init__(self, text='', fixed_size=FixedSizes.MEDIUM):
+        super(StyledRadioButton, self).__init__()
+        # set the text
+        self.register_str_enum(text)
+        # set the fixed-size
+        self.setFont(QFont(cfg.font_family, fixed_size))
+
+
 class StyledComboBox(QComboBox, BaseStyled):
     def __init__(self, fixed_size=FixedSizes.MEDIUM):
         super(StyledComboBox, self).__init__()
@@ -166,7 +175,12 @@ class StyledHBox(QHBoxLayout):
     def __init__(self, *sub_views, spacing=dim.general_spacing):
         super(StyledHBox, self).__init__()
         self.setSpacing(spacing)
-        for (sub_view, stretch) in sub_views:
+        # for (sub_view, stretch) in sub_views:
+        for sub_view_and_or_stretch in sub_views:
+            if isinstance(sub_view_and_or_stretch, tuple):
+                (sub_view, stretch) = sub_view_and_or_stretch
+            else:
+                (sub_view, stretch) = (sub_view_and_or_stretch, 0)
             if isinstance(sub_view, QLayout):
                 self.addLayout(sub_view, stretch=stretch)
             elif isinstance(sub_view, QWidget):

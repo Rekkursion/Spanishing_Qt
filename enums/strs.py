@@ -47,6 +47,17 @@ class Strs(Enum):
     Voc_Adding_Page_Example_Sentence_New_Translation_Placeholder = ('在此鍵入翻譯內容', '在此输入翻译文句', 'The translation goes here')
     Voc_Adding_Page_Notes_Placeholder = ('補充說明', '补充说明', 'Notes')
 
+    # the word-variabilities
+    Gender_Variability = ('性', '性', 'Gender')
+    Number_Variability = ('數', '数', 'Number')
+    Word_Variability_General = ('一般', '一般', 'General')
+    Word_Variability_Special = ('特殊', '特殊', 'Special')
+    Word_Variability_Invariant = ('不變', '不变', 'Invariant')
+    Masculine_Singular_Placeholder = ('陽性單數形', '阳性单数形', 'Masculine & singular')
+    Feminine_Singular_Placeholder = ('陰性單數形', '阴性单数形', 'Feminine & singular')
+    Masculine_Plural_Placeholder = ('陽性複數形', '阳性复数形', 'Masculine & plural')
+    Feminine_Plural_Placeholder = ('陰性複數形', '阴性复数形', 'Feminine & plural')
+
     # general usages
     Chinese = ('中文', '中文', 'Chinese')
     English = ('英文', '英文', 'English')
