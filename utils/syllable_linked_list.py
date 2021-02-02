@@ -1,23 +1,21 @@
 from dataclasses import dataclass, field
 from enum import Enum
 
-from utils.utility import Utils
 
-
+# the node-type of a component
 class NodeType(Enum):
     VOWEL = 0
     CONSONANT = 1
     OTHER = 2
-    NONE = 999
 
 
+# the node-class for the linked-list
 @dataclass
 class Node:
-    component: str = field(compare=False)
-    node_type: NodeType = field(compare=False)
+    component: str
+    node_type: NodeType
     next_p: any = field(default=None, compare=False)
     prev_p: any = field(default=None, compare=False)
-    __id: str = field(default_factory=Utils.generate_random_string)
 
 
 class SyllableLinkedList:

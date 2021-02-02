@@ -69,3 +69,35 @@ class WordAnalyzer:
             while q.node_type == NodeType.VOWEL and q.prev_p is not None and q.prev_p.node_type == NodeType.CONSONANT:
                 linked_list.combine_with_previous_node(q)
         print(linked_list)
+        # return it as a python-list
+        return linked_list.as_list_copied()
+
+    # get the stressed syllable of a certain word
+    # return: (<the stressed syllable>, <the index of the syllable>, <the index of string where the syllable begins>)
+    @staticmethod
+    def get_stressed_syllable(syllable_list):
+        # the last syllable (in the case that the last component is an OTHER-type, i.e., '!' or spaces)
+        last_syllable = None
+        # the index of the last syllable in the list
+        idx_of_last_syllable = -1
+        # the index of word
+        idx_of_word = 0
+        # iterate the whole list to find the stressed syllable
+        for idx_of_syllables, syllable in enumerate(syllable_list):
+            # iterate this single syllable to try if there's a stressed alphabet, i.e., 'á', 'ó', 'é', 'í', 'ú'
+            for ch in syllable.component:
+                if Checker.is_stressed(ch):
+                    return syllable.component, idx_of_syllables, idx_of_word
+            # update the index of word
+            idx_of_word += len(syllable.component)
+            # update the last syllable
+            if syllable.node_type != NodeType.OTHER:
+                last_syllable = syllable
+                idx_of_last_syllable = idx_of_syllables
+        # if there's no stressed alphabet, take the last syllable a look
+        if last_syllable is not None:
+            if last_syllable.component.lower().endswith(('n', 's', 'a', 'o', 'e', 'i', 'u', 'á', 'ó', 'é', 'í', 'ú')) and \
+                    last_syllable.prev_p is not None and last_syllable.prev_p.node_type != NodeType.OTHER:
+                return last_syllable.prev_p.component, idx_of_last_syllable - 1, idx_of_word - len(last_syllable.component) - len(last_syllable.prev_p.component)
+            else:
+                return last_syllable.component, idx_of_last_syllable, idx_of_word - len(last_syllable.component)

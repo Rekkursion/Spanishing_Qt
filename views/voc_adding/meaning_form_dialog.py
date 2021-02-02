@@ -1,7 +1,7 @@
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QSizePolicy
 
-from enums.Add_Modify_Dialog_Mode import AddModifyDialogMode
+from enums.add_modify_dialog_mode import AddModifyDialogMode
 from enums.dialog_result import DialogResult
 from enums.part_of_speech import PartOfSpeech
 from enums.pref_key import PrefKey

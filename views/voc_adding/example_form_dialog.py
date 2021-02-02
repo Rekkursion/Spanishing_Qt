@@ -1,6 +1,6 @@
 from PyQt5.QtCore import Qt
 
-from enums.Add_Modify_Dialog_Mode import AddModifyDialogMode
+from enums.add_modify_dialog_mode import AddModifyDialogMode
 from enums.dialog_result import DialogResult
 from enums.pref_key import PrefKey
 from enums.strs import Strs

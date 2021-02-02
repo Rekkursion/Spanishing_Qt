@@ -21,5 +21,6 @@ if __name__ == '__main__':
     # initialize the preferences
     PrefManager.init_pref()
     # start the application
-    # start_app()
-    WordAnalyzer.split_syllables('las ficciones')
+    start_app()
+    lis = WordAnalyzer.split_syllables('habláis')
+    WordAnalyzer.get_stressed_syllable(lis)
