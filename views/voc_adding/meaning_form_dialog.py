@@ -6,17 +6,20 @@ from enums.dialog_result import DialogResult
 from enums.part_of_speech import PartOfSpeech
 from enums.pref_key import PrefKey
 from enums.strs import Strs
+from enums.word_variability import WordVariability
 from managers.pref_manager import PrefManager
 from models.meaning import Meaning
 from utils import dimension as dim
+from utils.word_forms_updater import WordFormsUpdater
 from views.list_widgets.example_list.example_list_widget import ExampleListWidget
 from views.message_boxes.base_message_box import BaseMessageBox
 from views.styled_views.styled import StyledLabel, StyledLineEdit, StyledGridLayout, \
-    StyledButton, \
-    StyledTextEdit, StyledDialog, StyledComboBox, StyledRadioButton, StyledHBox
+    StyledButton, StyledTextEdit, StyledDialog, StyledComboBox, StyledHBox
+from views.styled_views.styled_word_variability_radio_button import StyledWordVariabilityRadioButton
 from views.voc_adding.example_form_dialog import ExampleFormDialog
 
 
+# noinspection PyTypeChecker,PyUnresolvedReferences
 class MeaningFormDialog(StyledDialog):
     @staticmethod
     def from_instance(dialog_title, vocabulary: str, meaning: Meaning):
@@ -57,12 +60,13 @@ class MeaningFormDialog(StyledDialog):
         self.__result_meaning = None
         # the add-modify-dialog-mode
         self.__dialog_mode = AddModifyDialogMode.A
+        # the word-forms-updater
+        self.__forms_updater = WordFormsUpdater(self.__grp_gender_variability, self.__grp_number_variability, self.__le_masculine_singular, self.__le_feminine_singular, self.__le_masculine_plural, self.__le_feminine_plural)
 
     @property
     def result_meaning(self):
         return self.__result_meaning
 
-    # noinspection PyTypeChecker
     def __init_views(self):
         # the grid-layout for containing all sub-views
         self.__grid_base = StyledGridLayout()
@@ -70,66 +74,74 @@ class MeaningFormDialog(StyledDialog):
         self.__lbl_translation_chi = StyledLabel(Strs.Chinese)
         self.__le_translation_chi = StyledLineEdit(Strs.Voc_Adding_Page_Translation_Chi_Placeholder)
         self.__grid_base.addWidget(self.__lbl_translation_chi, 0, 0, 1, 1)
-        self.__grid_base.addWidget(self.__le_translation_chi, 0, 1, 1, 9)
+        self.__grid_base.addWidget(self.__le_translation_chi, 0, 1, 1, 10)
         # the translation for english
         self.__lbl_translation_eng = StyledLabel(Strs.English)
         self.__le_translation_eng = StyledLineEdit(Strs.Voc_Adding_Page_Translation_Eng_Placeholder)
         self.__grid_base.addWidget(self.__lbl_translation_eng, 1, 0, 1, 1)
-        self.__grid_base.addWidget(self.__le_translation_eng, 1, 1, 1, 9)
+        self.__grid_base.addWidget(self.__le_translation_eng, 1, 1, 1, 10)
         # the combo-box for selecting the part-of-speech
         self.__comb_pos = StyledComboBox()
         self.__comb_pos.add_items(*list(map(lambda x: x.format(), PartOfSpeech)))
         self.__comb_pos.setSizePolicy(QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Ignored))
-        self.__grid_base.addWidget(self.__comb_pos, 0, 10, 2, 4)
+        self.__grid_base.addWidget(self.__comb_pos, 0, 11, 2, 5)
         # the radio-buttons for gender-variabilities and their button-group
         self.__lbl_gender_variability = StyledLabel(Strs.Gender_Variability)
-        self.__rdb_gender_general = StyledRadioButton(Strs.Word_Variability_General)
-        self.__rdb_gender_special = StyledRadioButton(Strs.Word_Variability_Special)
-        self.__rdb_gender_invariant = StyledRadioButton(Strs.Word_Variability_Invariant)
+        self.__rdb_gender_general = StyledWordVariabilityRadioButton(WordVariability.GENERAL, Strs.Word_Variability_General)
+        self.__rdb_gender_special = StyledWordVariabilityRadioButton(WordVariability.SPECIAL, Strs.Word_Variability_Special)
+        self.__rdb_gender_invariant = StyledWordVariabilityRadioButton(WordVariability.INVARIANT, Strs.Word_Variability_Invariant)
         self.__grp_gender_variability = QButtonGroup()
         self.__grp_gender_variability.addButton(self.__rdb_gender_general)
         self.__grp_gender_variability.addButton(self.__rdb_gender_special)
         self.__grp_gender_variability.addButton(self.__rdb_gender_invariant)
-        self.__hbox_gender_variability = StyledHBox(self.__lbl_gender_variability, self.__rdb_gender_general, self.__rdb_gender_special, self.__rdb_gender_invariant)
-        self.__grid_base.addLayout(self.__hbox_gender_variability, 2, 0, 1, 6)
+        self.__hbox_gender_variability = StyledHBox(self.__lbl_gender_variability, self.__rdb_gender_general, self.__rdb_gender_special, self.__rdb_gender_invariant, StyledLabel('    '))
+        self.__grid_base.addLayout(self.__hbox_gender_variability, 2, 0, 1, 8)
         self.__rdb_gender_general.setChecked(True)
         # the radio-buttons for number-variabilities and their button-group
         self.__lbl_number_variability = StyledLabel(Strs.Number_Variability)
-        self.__rdb_number_general = StyledRadioButton(Strs.Word_Variability_General)
-        self.__rdb_number_special = StyledRadioButton(Strs.Word_Variability_Special)
-        self.__rdb_number_invariant = StyledRadioButton(Strs.Word_Variability_Invariant)
+        self.__rdb_number_general = StyledWordVariabilityRadioButton(WordVariability.GENERAL, Strs.Word_Variability_General)
+        self.__rdb_number_special = StyledWordVariabilityRadioButton(WordVariability.SPECIAL, Strs.Word_Variability_Special)
+        self.__rdb_number_invariant = StyledWordVariabilityRadioButton(WordVariability.INVARIANT, Strs.Word_Variability_Invariant)
         self.__grp_number_variability = QButtonGroup()
         self.__grp_number_variability.addButton(self.__rdb_number_general)
         self.__grp_number_variability.addButton(self.__rdb_number_special)
         self.__grp_number_variability.addButton(self.__rdb_number_invariant)
-        self.__hbox_number_variability = StyledHBox(self.__lbl_number_variability, self.__rdb_number_general, self.__rdb_number_special, self.__rdb_number_invariant)
-        self.__grid_base.addLayout(self.__hbox_number_variability, 3, 0, 1, 6)
+        self.__hbox_number_variability = StyledHBox(self.__lbl_number_variability, self.__rdb_number_general, self.__rdb_number_special, self.__rdb_number_invariant, StyledLabel('    '))
+        self.__grid_base.addLayout(self.__hbox_number_variability, 2, 8, 1, 8)
         self.__rdb_number_general.setChecked(True)
-        # the line-edits for the forms of genders & numbers
+        # the labels & line-edits for the forms of genders & numbers
+        self.__lbl_masculine_singular = StyledLabel(Strs.Masculine_Singular_Placeholder)
         self.__le_masculine_singular = StyledLineEdit(Strs.Masculine_Singular_Placeholder)
-        self.__grid_base.addWidget(self.__le_masculine_singular, 2, 6, 1, 4)
+        self.__grid_base.addWidget(self.__lbl_masculine_singular, 3, 0, 1, 2)
+        self.__grid_base.addWidget(self.__le_masculine_singular, 3, 2, 1, 6)
+        self.__lbl_feminine_singular = StyledLabel(Strs.Feminine_Singular_Placeholder)
         self.__le_feminine_singular = StyledLineEdit(Strs.Feminine_Singular_Placeholder)
-        self.__grid_base.addWidget(self.__le_feminine_singular, 2, 10, 1, 4)
+        self.__grid_base.addWidget(self.__lbl_feminine_singular, 3, 8, 1, 2)
+        self.__grid_base.addWidget(self.__le_feminine_singular, 3, 10, 1, 6)
+        self.__lbl_masculine_plural = StyledLabel(Strs.Masculine_Plural_Placeholder)
         self.__le_masculine_plural = StyledLineEdit(Strs.Masculine_Plural_Placeholder)
-        self.__grid_base.addWidget(self.__le_masculine_plural, 3, 6, 1, 4)
+        self.__grid_base.addWidget(self.__lbl_masculine_plural, 4, 0, 1, 2)
+        self.__grid_base.addWidget(self.__le_masculine_plural, 4, 2, 1, 6)
+        self.__lbl_feminine_plural = StyledLabel(Strs.Feminine_Plural_Placeholder)
         self.__le_feminine_plural = StyledLineEdit(Strs.Feminine_Plural_Placeholder)
-        self.__grid_base.addWidget(self.__le_feminine_plural, 3, 10, 1, 4)
+        self.__grid_base.addWidget(self.__lbl_feminine_plural, 4, 8, 1, 2)
+        self.__grid_base.addWidget(self.__le_feminine_plural, 4, 10, 1, 6)
         # the button for adding example sentences
         self.__btn_add_new_example = StyledButton(Strs.Voc_Adding_Page_New_Example_Sentence_Button_Text)
         self.__btn_add_new_example.setSizePolicy(QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Ignored))
-        self.__grid_base.addWidget(self.__btn_add_new_example, 4, 0, 1, 2)
+        self.__grid_base.addWidget(self.__btn_add_new_example, 5, 0, 1, 2)
         # the list-widget for containing all added example sentences
         self.__lis_examples = ExampleListWidget()
-        self.__grid_base.addWidget(self.__lis_examples, 4, 2, 1, 12)
+        self.__grid_base.addWidget(self.__lis_examples, 5, 2, 1, 14)
         # the text-edit for notes
         self.__te_notes = StyledTextEdit(Strs.Voc_Adding_Page_Notes_Placeholder)
-        self.__grid_base.addWidget(self.__te_notes, 5, 0, 1, 14)
+        self.__grid_base.addWidget(self.__te_notes, 6, 0, 1, 16)
         # the buttons of cancelling & submitting
         self.__btn_cancel = StyledButton(Strs.Cancel)
         self.__btn_submit = StyledButton(Strs.Submit)
         self.__btn_submit.setEnabled(False)
-        self.__grid_base.addWidget(self.__btn_cancel, 7, 0, 1, 7)
-        self.__grid_base.addWidget(self.__btn_submit, 7, 7, 1, 7)
+        self.__grid_base.addWidget(self.__btn_cancel, 8, 0, 1, 8)
+        self.__grid_base.addWidget(self.__btn_submit, 8, 8, 1, 8)
         # set the base grid-layout as the layout
         self.setLayout(self.__grid_base)
 
@@ -139,6 +151,9 @@ class MeaningFormDialog(StyledDialog):
         self.__btn_submit.clicked.connect(self.__event_submit)
         self.__le_translation_chi.textChanged.connect(self.__event_translation_line_edits_changed)
         self.__le_translation_eng.textChanged.connect(self.__event_translation_line_edits_changed)
+        self.__comb_pos.currentIndexChanged.connect(self.__event_update_word_forms)
+        self.__grp_gender_variability.buttonClicked.connect(self.__event_update_word_forms)
+        self.__grp_number_variability.buttonClicked.connect(self.__event_update_word_forms)
 
     # the event for adding a new example sentence
     def __event_add_new_example(self):
@@ -183,3 +198,14 @@ class MeaningFormDialog(StyledDialog):
     # the event for disable/enable the submission button
     def __event_translation_line_edits_changed(self):
         self.__btn_submit.setEnabled(self.__le_translation_chi.text() != '' or self.__le_translation_eng.text() != '')
+
+    # the event for updating the forms for the word according to its selected part-of-speech
+    def __event_update_word_forms(self, obj):
+        # get the sender to distinguish which attribute is the reason to update forms
+        sender = self.sender()
+        # if it's the part-of-speech combobox, the reason to update forms is the change of part-of-speech
+        if sender == self.__comb_pos:
+            self.__forms_updater.update(list(PartOfSpeech)[obj], self.__grp_gender_variability.checkedButton().word_variability, self.__grp_number_variability.checkedButton().word_variability)
+        # if it's the radio-buttons of genders or numbers
+        else:
+            self.__forms_updater.update(list(PartOfSpeech)[self.__comb_pos.currentIndex()], self.__grp_gender_variability.checkedButton().word_variability, self.__grp_number_variability.checkedButton().word_variability)

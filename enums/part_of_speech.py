@@ -8,8 +8,8 @@ from managers.pref_manager import PrefManager
 class PartOfSpeech(Enum):
     MASCULINE = 'm'
     FEMININE = 'f'
-    PLURAL_MASCULINE = 'f.pl'
-    PLURAL_FEMININE = 'm.pl'
+    PLURAL_MASCULINE = 'm.pl'
+    PLURAL_FEMININE = 'f.pl'
     MASCULINE_OR_FEMININE = 'm/f'
     PRONOUN = 'pron'
     PROPER_NOUN = 'n'
@@ -45,6 +45,30 @@ class PartOfSpeech(Enum):
     # get the formatted text of a certain part-of-speech
     def format(self):
         return f'{self.get_fullname()} [{self.get_abbr()}]'
+
+    # check if it's a gender-variant part-of-speech or not
+    def is_gender_variant(self):
+        return self == PartOfSpeech.MASCULINE_OR_FEMININE or self == PartOfSpeech.PRONOUN or self == PartOfSpeech.ADJECTIVE
+
+    # check if it's a number-variant part-of-speech or not
+    def is_number_variant(self):
+        return self == PartOfSpeech.MASCULINE or self == PartOfSpeech.FEMININE or self == PartOfSpeech.PLURAL_MASCULINE or self == PartOfSpeech.PLURAL_FEMININE or self == PartOfSpeech.MASCULINE_OR_FEMININE or self == PartOfSpeech.PRONOUN or self == PartOfSpeech.ADJECTIVE
+
+    # check if it's a masculine part-of-speech or not
+    def is_masculine(self):
+        return self == PartOfSpeech.MASCULINE or self == PartOfSpeech.PLURAL_MASCULINE
+
+    # check if it's a feminine part-of-speech or not
+    def is_feminine(self):
+        return self == PartOfSpeech.FEMININE or self == PartOfSpeech.PLURAL_FEMININE
+
+    # check if it's a singular part-of-speech or not
+    def is_singular(self):
+        return self == PartOfSpeech.MASCULINE or self == PartOfSpeech.FEMININE or self == PartOfSpeech.MASCULINE_OR_FEMININE or self == PartOfSpeech.PRONOUN or self == PartOfSpeech.ADJECTIVE
+
+    # check if it's a plural part-of-speech or not
+    def is_plural(self):
+        return self == PartOfSpeech.PLURAL_MASCULINE or self == PartOfSpeech.PLURAL_FEMININE
 
     # get the part-of-speech by the formatted text
     @staticmethod
