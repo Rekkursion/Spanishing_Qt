@@ -8,8 +8,9 @@ from enums.pref_key import PrefKey
 from enums.strs import Strs
 from enums.word_variability import WordVariability
 from managers.pref_manager import PrefManager
-from models.meaning import Meaning
+from models.meaning import Meaning, WordForms
 from utils import dimension as dim
+from utils.word_analyzer import WordAnalyzer
 from utils.word_forms_updater import WordFormsUpdater
 from views.list_widgets.example_list.example_list_widget import ExampleListWidget
 from views.message_boxes.base_message_box import BaseMessageBox
@@ -21,35 +22,14 @@ from views.voc_adding.example_form_dialog import ExampleFormDialog
 
 # noinspection PyTypeChecker,PyUnresolvedReferences
 class MeaningFormDialog(StyledDialog):
-    @staticmethod
-    def from_instance(dialog_title, vocabulary: str, meaning: Meaning):
-        # instantiate an instance of meaning-form-dialog
-        instance = MeaningFormDialog(dialog_title, vocabulary)
-        # set the texts of translations in both chinese & english
-        instance.__le_translation_chi.setText(meaning.translation_chi)
-        instance.__le_translation_eng.setText(meaning.translation_eng)
-        # set the part-of-speech
-        instance.__comb_pos.setCurrentText(meaning.pos.format())
-        # set the example sentences
-        for example in meaning.example_list:
-            instance.__lis_examples.push_back(vocabulary, data_model=example, max_height=dim.example_list_widget_max_height)
-        # set the notes
-        instance.__te_notes.setText(meaning.notes)
-        # set the dialog-mode to modification mode
-        instance.__dialog_mode = AddModifyDialogMode.M
-        # set the focus-point on the line-edit of chinese translation
-        instance.__le_translation_chi.setFocus()
-        # return the created instance
-        return instance
-
-    def __init__(self, dialog_title, vocabulary: str):
+    def __init__(self, dialog_title, vocabulary: str, meaning=None):
         super(MeaningFormDialog, self).__init__(dialog_title)
         # force this dialog being the top form
         self.setWindowModality(Qt.ApplicationModal)
         # the vocabulary
         self.__vocabulary = vocabulary
         # initialize all views
-        self.__init_views()
+        self.__init_views(meaning)
         # initialize all events
         self.__init_events()
         # resize to a proper one
@@ -59,15 +39,21 @@ class MeaningFormDialog(StyledDialog):
         # the result-meaning
         self.__result_meaning = None
         # the add-modify-dialog-mode
-        self.__dialog_mode = AddModifyDialogMode.A
+        self.__dialog_mode = AddModifyDialogMode.A if meaning is None else AddModifyDialogMode.M
         # the word-forms-updater
-        self.__forms_updater = WordFormsUpdater(self.__grp_gender_variability, self.__grp_number_variability, self.__le_masculine_singular, self.__le_feminine_singular, self.__le_masculine_plural, self.__le_feminine_plural)
+        self.__forms_updater = WordFormsUpdater(
+            self.__grp_gender_variability, 0,
+            self.__grp_number_variability, 0,
+            self.__le_masculine_singular, self.__le_feminine_singular, self.__le_masculine_plural, self.__le_feminine_plural
+        )
+        # initially update the word-forms
+        self.__event_update_word_forms()
 
     @property
     def result_meaning(self):
         return self.__result_meaning
 
-    def __init_views(self):
+    def __init_views(self, meaning):
         # the grid-layout for containing all sub-views
         self.__grid_base = StyledGridLayout()
         # the translation for chinese
@@ -139,11 +125,35 @@ class MeaningFormDialog(StyledDialog):
         # the buttons of cancelling & submitting
         self.__btn_cancel = StyledButton(Strs.Cancel)
         self.__btn_submit = StyledButton(Strs.Submit)
-        self.__btn_submit.setEnabled(False)
+        self.__btn_submit.setEnabled(meaning is not None)
         self.__grid_base.addWidget(self.__btn_cancel, 8, 0, 1, 8)
         self.__grid_base.addWidget(self.__btn_submit, 8, 8, 1, 8)
         # set the base grid-layout as the layout
         self.setLayout(self.__grid_base)
+        # initially set the data from the data-model of meaning, if exists
+        if meaning is not None and isinstance(meaning, Meaning):
+            # set the texts of translations in both chinese & english
+            self.__le_translation_chi.setText(meaning.translation_chi)
+            self.__le_translation_eng.setText(meaning.translation_eng)
+            # set the part-of-speech
+            self.__comb_pos.setCurrentText(meaning.pos.format())
+            # set the example sentences
+            for example in meaning.example_list:
+                self.__lis_examples.push_back(vocabulary, data_model=example, max_height=dim.example_list_widget_max_height)
+            # set the notes
+            self.__te_notes.setText(meaning.notes)
+            # set the dialog-mode to modification mode
+            self.__dialog_mode = AddModifyDialogMode.M
+            # set the focus-point on the line-edit of chinese translation
+            self.__le_translation_chi.setFocus()
+            self.__grp_gender_variability.buttons()[meaning.forms.gender_variability.value].setChecked(True)
+            self.__grp_number_variability.buttons()[meaning.forms.number_variability.value].setChecked(True)
+            self.__le_masculine_singular.setText(meaning.forms.get_form(True, True))
+            self.__le_feminine_singular.setText(meaning.forms.get_form(False, True))
+            self.__le_masculine_plural.setText(meaning.forms.get_form(True, False))
+            self.__le_feminine_plural.setText(meaning.forms.get_form(False, False))
+        self.__rdb_gender_special.hide()
+        self.__rdb_number_special.hide()
 
     def __init_events(self):
         self.__btn_add_new_example.clicked.connect(self.__event_add_new_example)
@@ -189,8 +199,18 @@ class MeaningFormDialog(StyledDialog):
         # get the notes
         notes = self.__te_notes.toPlainText()
         if translation_chi != '' or translation_eng != '':
+            # instantiate a 'word-forms'
+            forms = WordForms(self.__grp_gender_variability.checkedButton().word_variability, self.__grp_number_variability.checkedButton().word_variability)
+            if self.__le_masculine_singular.isEnabled():
+                forms.set_form(self.__le_masculine_singular.text(), True, True)
+            if self.__le_feminine_singular.isEnabled():
+                forms.set_form(self.__le_feminine_singular.text(), False, True)
+            if self.__le_masculine_plural.isEnabled():
+                forms.set_form(self.__le_masculine_plural.text(), True, False)
+            if self.__le_feminine_plural.isEnabled():
+                forms.set_form(self.__le_feminine_plural.text(), False, False)
             # instantiate a meaning as the result
-            self.__result_meaning = Meaning(pos, translation_chi, translation_eng, example_sentences, notes)
+            self.__result_meaning = Meaning(pos, translation_chi, translation_eng, example_sentences, notes, forms)
             print(self.__result_meaning)
             # close the dialog
             self.close()
@@ -200,12 +220,19 @@ class MeaningFormDialog(StyledDialog):
         self.__btn_submit.setEnabled(self.__le_translation_chi.text() != '' or self.__le_translation_eng.text() != '')
 
     # the event for updating the forms for the word according to its selected part-of-speech
-    def __event_update_word_forms(self, obj):
-        # get the sender to distinguish which attribute is the reason to update forms
-        sender = self.sender()
-        # if it's the part-of-speech combobox, the reason to update forms is the change of part-of-speech
-        if sender == self.__comb_pos:
-            self.__forms_updater.update(list(PartOfSpeech)[obj], self.__grp_gender_variability.checkedButton().word_variability, self.__grp_number_variability.checkedButton().word_variability)
-        # if it's the radio-buttons of genders or numbers
-        else:
-            self.__forms_updater.update(list(PartOfSpeech)[self.__comb_pos.currentIndex()], self.__grp_gender_variability.checkedButton().word_variability, self.__grp_number_variability.checkedButton().word_variability)
+    def __event_update_word_forms(self):
+        # update forms by the change of part-of-speech or word-variabilities
+        self.__forms_updater.update(
+            list(PartOfSpeech)[self.__comb_pos.currentIndex()],
+            self.__grp_gender_variability.checkedButton().word_variability,
+            self.__grp_number_variability.checkedButton().word_variability
+        )
+        # m_s, f_s, m_pl, f_pl = WordAnalyzer.get_general_forms(self.__vocabulary, list(PartOfSpeech)[self.__comb_pos.currentIndex()])
+        # if self.__le_masculine_singular.isEnabled() and self.__le_masculine_singular.text() == '':
+        #     self.__le_masculine_singular.setText(m_s)
+        # if self.__le_feminine_singular.isEnabled() and self.__le_feminine_singular.text() == '':
+        #     self.__le_feminine_singular.setText(f_s)
+        # if self.__le_masculine_plural.isEnabled() and self.__le_masculine_plural.text() == '':
+        #     self.__le_masculine_plural.setText(m_pl)
+        # if self.__le_feminine_plural.isEnabled() and self.__le_feminine_plural.text() == '':
+        #     self.__le_feminine_plural.setText(f_pl)

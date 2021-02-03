@@ -22,5 +22,5 @@ if __name__ == '__main__':
     PrefManager.init_pref()
     # start the application
     start_app()
-    lis = WordAnalyzer.split_syllables('habláis')
-    WordAnalyzer.get_stressed_syllable(lis)
+    # lis = WordAnalyzer.split_syllables('habláis')
+    # WordAnalyzer.get_stressed_syllable(lis)

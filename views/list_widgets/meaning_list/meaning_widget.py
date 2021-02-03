@@ -71,7 +71,7 @@ class MeaningWidget(QWidget):
     # the event for modifying this meaning
     def __event_modify_meaning(self):
         # prompt up a dialog for modifying this meaning sentence
-        dialog = MeaningFormDialog.from_instance(Strs.Meaning_Form_Dialog_Title_M, self.__vocabulary, self.__meaning).show_and_exec()
+        dialog = MeaningFormDialog(Strs.Meaning_Form_Dialog_Title_M, self.__vocabulary, meaning=self.__meaning).show_and_exec()
         if dialog.result_meaning is not None:
             self.meaning = dialog.result_meaning
 

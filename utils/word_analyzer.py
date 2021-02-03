@@ -1,3 +1,4 @@
+from enums.part_of_speech import PartOfSpeech
 from utils.character_checker import CharChecker as Checker
 from utils.syllable_linked_list import SyllableLinkedList, NodeType
 
@@ -101,3 +102,35 @@ class WordAnalyzer:
                 return last_syllable.prev_p.component, idx_of_last_syllable - 1, idx_of_word - len(last_syllable.component) - len(last_syllable.prev_p.component)
             else:
                 return last_syllable.component, idx_of_last_syllable, idx_of_word - len(last_syllable.component)
+
+    # get the gender-variant & number-variant forms of a word in the general way, e.g., o -> a, ción -> ciones
+    @staticmethod
+    def get_general_forms(word: str, pos: PartOfSpeech):
+        if word == '':
+            return '', '', '', ''
+        if Checker.is_vowel(word[-1]) and not Checker.is_stressed(word[-1]):
+            if pos.is_singular():
+                m_s = word
+                f_s = word[:-1] + 'a'
+                m_pl = word + 's'
+                f_pl = f_s + 's'
+            else:
+                m_s = word; f_s = word; m_pl = word; f_pl = word
+        else:
+            if pos.is_singular():
+                m_s = word
+                f_s = word if Checker.is_stressed(word[-1]) else word + 'a'
+                m_pl = word[:-1] + 'ces' if word.lower().endswith('z') else word + 'es'
+                f_pl = f_s + 's'
+            else:
+                if word.lower()[-1] == 's':
+                    m_s = word[:-1]
+                    f_s = m_s if Checker.is_stressed(word[-1]) else m_s + 'a'
+                    m_pl = word
+                    f_pl = f_s + 's'
+                else:
+                    m_s = word; f_s = word; m_pl = word; f_pl = word
+        if pos == PartOfSpeech.ADJECTIVE:
+            return m_s, f_s, m_pl, f_pl
+        else:
+            return 'el ' + m_s, 'la ' + f_s, 'los ' + m_pl, 'las ' + f_pl
