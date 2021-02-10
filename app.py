@@ -4,7 +4,6 @@ from PyQt5.QtWidgets import QApplication
 
 from managers.layout_manager import LayoutManager
 from managers.pref_manager import PrefManager
-from utils.word_analyzer import WordAnalyzer
 from views.main_win.main_window import MainWindow
 
 

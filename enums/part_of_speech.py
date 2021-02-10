@@ -70,6 +70,10 @@ class PartOfSpeech(Enum):
     def is_plural(self):
         return self == PartOfSpeech.PLURAL_MASCULINE or self == PartOfSpeech.PLURAL_FEMININE
 
+    # check if it's a verb
+    def is_verb(self):
+        return self == PartOfSpeech.VERB or self == PartOfSpeech.REFLEXIVE_VERB or self == PartOfSpeech.TRANSITIVE_VERB or self == PartOfSpeech.INTRANSITIVE_VERB
+
     # get the part-of-speech by the formatted text
     @staticmethod
     def get_pos_by_formatted_text(text: str):

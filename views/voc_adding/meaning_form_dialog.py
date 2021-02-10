@@ -10,7 +10,6 @@ from enums.word_variability import WordVariability
 from managers.pref_manager import PrefManager
 from models.meaning import Meaning, WordForms
 from utils import dimension as dim
-from utils.word_analyzer import WordAnalyzer
 from utils.word_forms_updater import WordFormsUpdater
 from views.list_widgets.example_list.example_list_widget import ExampleListWidget
 from views.message_boxes.base_message_box import BaseMessageBox

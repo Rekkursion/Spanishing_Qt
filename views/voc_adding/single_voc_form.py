@@ -44,6 +44,8 @@ class SingleVocForm(QWidget):
         dialog = MeaningFormDialog(Strs.Meaning_Form_Dialog_Title_A, self.__le_word.text()).show_and_exec()
         if dialog.result_meaning is not None:
             self.__lis_meanings.push_back(self.__le_word.text(), data_model=dialog.result_meaning, adjust_height=False)
+            # if the result-meaning is a verb, show up the verb conjugation form
+            # todo: if the result-meaning is a verb, show up the verb conjugation form
 
     def setFocus(self) -> None:
         self.__le_word.setFocus()
