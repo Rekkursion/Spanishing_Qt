@@ -29,4 +29,4 @@ class PrefManager:
     @staticmethod
     def __update_json():
         with open(cfg.pref_json_file_path, 'w') as jf:
-            json.dump(PrefManager.__pref_dict, jf)
+            json.dump(PrefManager.__pref_dict, jf, indent=2)

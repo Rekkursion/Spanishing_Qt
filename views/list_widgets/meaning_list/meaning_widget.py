@@ -2,9 +2,14 @@ import copy
 
 from PyQt5.QtWidgets import QWidget
 
+from enums.dialog_result import DialogResult
+from enums.pref_key import PrefKey
 from enums.strs import Strs
+from managers.lang_manager import LangManager
+from managers.pref_manager import PrefManager
 from models.meaning import Meaning
 from utils import configuration as cfg
+from views.message_boxes.base_message_box import BaseMessageBox
 from views.styled_views.styled import StyledLabel, StyledHBox
 from views.styled_views.styled_action_button import StyledActionButton
 from views.voc_adding.meaning_form_dialog import MeaningFormDialog
@@ -85,22 +90,21 @@ class MeaningWidget(QWidget):
 
     # the event for removing this meaning
     def __event_remove_meaning(self):
-        pass
-        # # the nested function for removing the example actually
-        # def ____remove_example():
-        #     # unregister the registered views
-        #     LangManager.unregister(self.__lbl_sentence, *self.__btn_actions.get_all_actions())
-        #     # remove the item in the list
-        #     self.__attached.takeItem(self.__attached.indexAt(self.pos()).row())
-        #
-        # # if a message-box for warning the user is needed
-        # if PrefManager.get_pref(PrefKey.MSG_BOX_DELETING_ADDED_EXAMPLE):
-        #     if BaseMessageBox.Builder. \
-        #             init(Strs.Make_Sure_For_Cancelling_Sth_Dialog_Title, PrefKey.MSG_BOX_DELETING_ADDED_EXAMPLE). \
-        #             set_content(Strs.Make_Sure_For_Removing_Added_Example_Sentence_Dialog_Content).create(). \
-        #             show_and_exec(). \
-        #             dialog_result == DialogResult.YES:
-        #         ____remove_example()
-        # # otherwise, remove the example directly
-        # else:
-        #     ____remove_example()
+        # the nested function for removing the meaning actually
+        def ____remove_meaning():
+            # unregister the registered views
+            LangManager.unregister(*self.__btn_actions.get_all_actions())
+            # remove the item in the list
+            self.__attached.takeItem(self.__attached.indexAt(self.pos()).row())
+
+        # if a message-box for warning the user is needed
+        if PrefManager.get_pref(PrefKey.MSG_BOX_DELETING_ADDED_MEANING):
+            if BaseMessageBox.Builder. \
+                    init(Strs.Make_Sure_For_Cancelling_Sth_Dialog_Title, PrefKey.MSG_BOX_DELETING_ADDED_MEANING). \
+                    set_content(Strs.Make_Sure_For_Removing_Added_Example_Sentence_Dialog_Content).create(). \
+                    show_and_exec(). \
+                    dialog_result == DialogResult.YES:
+                ____remove_meaning()
+        # otherwise, remove the example directly
+        else:
+            ____remove_meaning()
