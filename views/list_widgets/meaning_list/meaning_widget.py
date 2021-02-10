@@ -11,10 +11,10 @@ from views.voc_adding.meaning_form_dialog import MeaningFormDialog
 
 
 class MeaningWidget(QWidget):
-    def __init__(self, meaning: Meaning, vocabulary: str, attached):
+    def __init__(self, meaning: Meaning, vocabulary_getter, attached):
         super(MeaningWidget, self).__init__()
-        # the vocabulary for this meaning
-        self.__vocabulary = vocabulary
+        # the vocabulary-getter for this meaning
+        self.__vocabulary_getter = vocabulary_getter
         # the meaning for this widget
         self.__meaning = copy.deepcopy(meaning)
         # the list-widget that this widget attached on
@@ -26,7 +26,7 @@ class MeaningWidget(QWidget):
 
     @property
     def meaning(self):
-        return copy.deepcopy(self.meaning)
+        return copy.deepcopy(self.__meaning)
 
     @meaning.setter
     def meaning(self, value):
@@ -71,19 +71,17 @@ class MeaningWidget(QWidget):
     # the event for modifying this meaning
     def __event_modify_meaning(self):
         # prompt up a dialog for modifying this meaning sentence
-        dialog = MeaningFormDialog(Strs.Meaning_Form_Dialog_Title_M, self.__vocabulary, meaning=self.__meaning).show_and_exec()
+        dialog = MeaningFormDialog(Strs.Meaning_Form_Dialog_Title_M, self.__vocabulary_getter, meaning=self.__meaning).show_and_exec()
         if dialog.result_meaning is not None:
             self.meaning = dialog.result_meaning
 
     # the event for moving this meaning up
     def __event_move_meaning_up(self):
-        pass
-        # self.__attached.move_certain_example(self, True)
+        self.__attached.move_certain_meaning(self, True)
 
     # the event for moving this meaning down
     def __event_move_meaning_down(self):
-        pass
-        # self.__attached.move_certain_example(self, False)
+        self.__attached.move_certain_meaning(self, False)
 
     # the event for removing this meaning
     def __event_remove_meaning(self):

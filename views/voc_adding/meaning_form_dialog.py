@@ -21,12 +21,12 @@ from views.voc_adding.example_form_dialog import ExampleFormDialog
 
 # noinspection PyTypeChecker,PyUnresolvedReferences
 class MeaningFormDialog(StyledDialog):
-    def __init__(self, dialog_title, vocabulary: str, meaning=None):
+    def __init__(self, dialog_title, vocabulary_getter, meaning=None):
         super(MeaningFormDialog, self).__init__(dialog_title)
         # force this dialog being the top form
         self.setWindowModality(Qt.ApplicationModal)
-        # the vocabulary
-        self.__vocabulary = vocabulary
+        # the getter of vocabulary
+        self.__vocabulary_getter = vocabulary_getter
         # initialize all views
         self.__init_views(meaning)
         # initialize all events
@@ -138,7 +138,7 @@ class MeaningFormDialog(StyledDialog):
             self.__comb_pos.setCurrentText(meaning.pos.format())
             # set the example sentences
             for example in meaning.example_list:
-                self.__lis_examples.push_back(vocabulary, data_model=example, max_height=dim.example_list_widget_max_height)
+                self.__lis_examples.push_back(self.__vocabulary_getter(), data_model=example, max_height=dim.example_list_widget_max_height)
             # set the notes
             self.__te_notes.setText(meaning.notes)
             # set the dialog-mode to modification mode
@@ -167,9 +167,9 @@ class MeaningFormDialog(StyledDialog):
     # the event for adding a new example sentence
     def __event_add_new_example(self):
         # prompt up a dialog for filling the info of new example sentence
-        dialog = ExampleFormDialog(Strs.Example_Form_Dialog_Title_A, self.__vocabulary).show_and_exec()
+        dialog = ExampleFormDialog(Strs.Example_Form_Dialog_Title_A, self.__vocabulary_getter()).show_and_exec()
         if dialog.result_example is not None:
-            self.__lis_examples.push_back(self.__vocabulary, data_model=dialog.result_example, max_height=dim.example_list_widget_max_height)
+            self.__lis_examples.push_back(self.__vocabulary_getter(), data_model=dialog.result_example, max_height=dim.example_list_widget_max_height)
 
     # the event for cancelling the action of adding a new meaning
     def __event_cancel(self):
@@ -226,7 +226,7 @@ class MeaningFormDialog(StyledDialog):
             self.__grp_gender_variability.checkedButton().word_variability,
             self.__grp_number_variability.checkedButton().word_variability
         )
-        # m_s, f_s, m_pl, f_pl = WordAnalyzer.get_general_forms(self.__vocabulary, list(PartOfSpeech)[self.__comb_pos.currentIndex()])
+        # m_s, f_s, m_pl, f_pl = WordAnalyzer.get_general_forms(self.__vocabulary_getter(), list(PartOfSpeech)[self.__comb_pos.currentIndex()])
         # if self.__le_masculine_singular.isEnabled() and self.__le_masculine_singular.text() == '':
         #     self.__le_masculine_singular.setText(m_s)
         # if self.__le_feminine_singular.isEnabled() and self.__le_feminine_singular.text() == '':
