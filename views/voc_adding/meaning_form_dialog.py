@@ -1,4 +1,3 @@
-from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QSizePolicy, QButtonGroup
 
 from enums.add_modify_dialog_mode import AddModifyDialogMode
@@ -23,8 +22,6 @@ from views.voc_adding.example_form_dialog import ExampleFormDialog
 class MeaningFormDialog(StyledDialog):
     def __init__(self, dialog_title, vocabulary_getter, meaning=None):
         super(MeaningFormDialog, self).__init__(dialog_title)
-        # force this dialog being the top form
-        self.setWindowModality(Qt.ApplicationModal)
         # the getter of vocabulary
         self.__vocabulary_getter = vocabulary_getter
         # initialize all views
@@ -35,8 +32,6 @@ class MeaningFormDialog(StyledDialog):
         self.resize(*dim.meaning_form_dialog_size)
         # initially set the focus on the first line-edit
         self.__le_translation_chi.setFocus()
-        # the result-meaning
-        self.__result_meaning = None
         # the add-modify-dialog-mode
         self.__dialog_mode = AddModifyDialogMode.A if meaning is None else AddModifyDialogMode.M
         # the word-forms-updater
@@ -47,10 +42,6 @@ class MeaningFormDialog(StyledDialog):
         )
         # initially update the word-forms
         self.__event_update_word_forms()
-
-    @property
-    def result_meaning(self):
-        return self.__result_meaning
 
     def __init_views(self, meaning):
         # the grid-layout for containing all sub-views
@@ -168,8 +159,8 @@ class MeaningFormDialog(StyledDialog):
     def __event_add_new_example(self):
         # prompt up a dialog for filling the info of new example sentence
         dialog = ExampleFormDialog(Strs.Example_Form_Dialog_Title_A, self.__vocabulary_getter()).show_and_exec()
-        if dialog.result_example is not None:
-            self.__lis_examples.push_back(self.__vocabulary_getter(), data_model=dialog.result_example, max_height=dim.example_list_widget_max_height)
+        if dialog.result is not None:
+            self.__lis_examples.push_back(self.__vocabulary_getter(), data_model=dialog.result, max_height=dim.example_list_widget_max_height)
 
     # the event for cancelling the action of adding a new meaning
     def __event_cancel(self):
@@ -209,8 +200,8 @@ class MeaningFormDialog(StyledDialog):
             if self.__le_feminine_plural.isEnabled():
                 forms.set_form(self.__le_feminine_plural.text(), False, False)
             # instantiate a meaning as the result
-            self.__result_meaning = Meaning(pos, translation_chi, translation_eng, example_sentences, notes, forms)
-            print(self.__result_meaning)
+            self._result = Meaning(pos, translation_chi, translation_eng, example_sentences, notes, forms)
+            print(self._result)
             # close the dialog
             self.close()
 

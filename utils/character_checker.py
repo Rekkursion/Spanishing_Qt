@@ -12,7 +12,8 @@ class CharChecker:
     # check a certain pair of characters is a consonant-cluster
     @staticmethod
     def is_consonant_cluster(pair_of_chars: str):
-        return (len(pair_of_chars) == 2 and pair_of_chars.lower()[0] in 'pbtcgf' and pair_of_chars.lower()[1] in 'lr') or pair_of_chars.lower() == 'dr'
+        return (len(pair_of_chars) == 2 and pair_of_chars.lower()[0] in 'pbtcgf' and pair_of_chars.lower()[
+            1] in 'lr') or pair_of_chars.lower() == 'dr'
 
     # check a certain character is a consonant or a consonant-cluster
     @staticmethod
@@ -28,6 +29,21 @@ class CharChecker:
     @staticmethod
     def is_stressed(char: str):
         return len(char) == 1 and char.lower() in 'áóéíú'
+
+    # convert a certain character into a stressed character if it's a vowel
+    @staticmethod
+    def to_stressed(char: str):
+        if char == 'a':
+            return 'á'
+        elif char == 'o':
+            return 'ó'
+        elif char == 'e':
+            return 'é'
+        elif char == 'i':
+            return 'í'
+        elif char == 'u':
+            return 'ú'
+        return char
 
     # check a certain character is a strong vowel or not
     @staticmethod

@@ -1,6 +1,7 @@
 from enum import Enum
 
 
+# noinspection NonAsciiCharacters
 class Strs(Enum):
     # titles of some windows/dialogs
     Main_Window_Title = ('西班牙語學習', '西班牙语学习', 'Spanishing')
@@ -8,23 +9,24 @@ class Strs(Enum):
     Meaning_Form_Dialog_Title_M = ('修改單字意義', '修改单词意思', 'Modify the meaning')
     Example_Form_Dialog_Title_A = ('新增例句', '添加例句', 'Add the example sentence')
     Example_Form_Dialog_Title_M = ('修改例句', '修改例句', 'Modify the example sentence')
-    Make_Sure_For_Cancelling_Sth_Dialog_Title = ('確定要取消此動作？', '是否确定要取消此操作？', 'Please make sure before doing this.')
+    Conjugation_Form_Dialog_Title = ('編輯動詞變位', '编辑动词变位', 'Edit the verb conjugation')
+    Make_Sure_For_Cancelling_Sth_Dialog_Title = ('確定要取消此動作？', '是否确定要取消此操作？', 'Make sure before doing this.')
 
     # some contents of message-boxes
     Make_Sure_For_Cancelling_Adding_New_Example_Sentence_Dialog_Content = (
         '確定要取消新增例句嗎？請注意系統並不會保留您所鍵入的資料。',
         '是否确定要取消添加例句？请注意系统并不会保留您所输入的数据。',
-        'YOU ARE GIVING UP THE NEW EXAMPLE SENTENCE. Please aware that the system will not keep anything you typed and this action cannot be undone.'
+        'YOU ARE GIVING UP THE NEW EXAMPLE SENTENCE. Aware that the system will not keep anything you typed and this action cannot be undone.'
     )
     Make_Sure_For_Cancelling_Adding_New_Meaning_Dialog_Content = (
         '確定要取消新增單字意義嗎？請注意系統並不會保留您所鍵入的資料。',
         '是否确定要取消添加单词意思？请注意系统并不会保留您所输入的数据。',
-        'YOU ARE GIVING UP THE NEW MEANING. Please aware that the system will not keep anything you typed and this action cannot be undone.'
+        'YOU ARE GIVING UP THE NEW MEANING. Aware that the system will not keep anything you typed and this action cannot be undone.'
     )
     Make_Sure_For_Removing_Added_Example_Sentence_Dialog_Content = (
         '確定要刪除此例句嗎？此動作將無法還原。',
         '是否确定要删除此例句？此操作将无法恢复。',
-        'YOU ARE DELETING THIS EXAMPLE SENTENCE. Please aware that this action cannot be undone.'
+        'YOU ARE DELETING THIS EXAMPLE SENTENCE. Aware that this action cannot be undone.'
     )
 
     # items of the menu-list
@@ -38,6 +40,7 @@ class Strs(Enum):
     Voc_Adding_Page_Word = ('單字', '单词', 'Word')
     Voc_Adding_Page_Word_Placeholder = ('欲新增的單字', '欲添加的单词', 'The word goes here')
     Voc_Adding_Page_New_Meaning_Button_Text = ('新增意義', '添加意思', 'New meaning')
+    Voc_Adding_Page_Edit_Conjugation_Button_Text = ('編輯動詞變位', '编辑动词变位', 'Edit the verb conjugation')
     Voc_Adding_Page_Translation_Chi_Placeholder = ('在此鍵入中文意義', '在此输入中文意思', 'The meaning in Chinese goes here')
     Voc_Adding_Page_Translation_Eng_Placeholder = ('在此鍵入英文意義', '在此输入英文意思', 'The meaning in English goes here')
     Voc_Adding_Page_Select_Pos_Button_Text = ('選擇詞性', '选择词性', 'Select PoS')
@@ -57,6 +60,18 @@ class Strs(Enum):
     Feminine_Singular_Placeholder = ('陰性單數形', '阴性单数形', 'Feminine & singular')
     Masculine_Plural_Placeholder = ('陽性複數形', '阳性复数形', 'Masculine & plural')
     Feminine_Plural_Placeholder = ('陰性複數形', '阴性复数形', 'Feminine & plural')
+
+    # something related to the verb conjugation
+    Regular_Verb = ('規則動詞', '规则动词', 'Regular verb')
+    Irregular_Verb = ('不規則動詞', '不规则动词', 'Irregular verb')
+    Is_Stem_Changing_Verb = ('字根變化', '字根变化', 'Stem-changing')
+    Has_Special_Yo_Form = ('特殊 Yo 型', '特殊 Yo 型', 'Special yo-form')
+    Has_Special_Preterite_Stem = ('特殊過去時 (preterite) 字根', '特殊过去时（preterite）字根', 'Special stem of preterite tense')
+    Has_Special_Imperfect_Stem = ('特殊未完成時字根', '特殊未完成时字根', 'Special stem of imperfect tense')
+    Has_Special_Future_Stem = ('特殊未來時字根', '特殊未来时字根', 'Special stem of future tense')
+    Has_Special_Present_Subjunctive_Stem = ('特殊現在虛擬式字根', '特殊现在虚拟式字根', 'Special stem of present subjunctive')
+    Has_Special_Tú_Form_Affirmative_Imperative = ('特殊肯定命令式的 Tú 型', '特殊肯定命令式的 Tú 型', 'Special tú-form of affirmative imperative')
+    Special_Stem_Placeholder = ('只需鍵入字根即可', '只需输入字根即可', 'Type the stem only')
 
     # general usages
     Chinese = ('中文', '中文', 'Chinese')

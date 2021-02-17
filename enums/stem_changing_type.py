@@ -12,5 +12,10 @@ class StemChangingType(Enum):
     O2UE = 3
     # advanced o -> ue, e.g., dormir -> durmiendo
     O2UE_ADVANCED = 4
-    # u -> ue
-    U2UE = 5
+    # i -> ie, e.g., adquirir -> adquiero, inquirir -> inquiero
+    I2IE = 5
+    # u -> ue, e.g., jugar -> juego
+    U2UE = 6
+
+    def format(self):
+        return self.name.lower().replace('2', ' > ').replace('_advanced', ' (Advanced)')

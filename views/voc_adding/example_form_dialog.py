@@ -1,5 +1,3 @@
-from PyQt5.QtCore import Qt
-
 from enums.add_modify_dialog_mode import AddModifyDialogMode
 from enums.dialog_result import DialogResult
 from enums.pref_key import PrefKey
@@ -32,8 +30,6 @@ class ExampleFormDialog(StyledDialog):
 
     def __init__(self, dialog_title, vocabulary: str):
         super(ExampleFormDialog, self).__init__(dialog_title)
-        # force this dialog being the top form
-        self.setWindowModality(Qt.ApplicationModal)
         # the vocabulary of examples
         self.__vocabulary = vocabulary
         # initialize all views
@@ -44,14 +40,8 @@ class ExampleFormDialog(StyledDialog):
         self.resize(*dim.example_form_dialog_size)
         # initially set the focus on the first line-edit
         self.__le_example.setFocus()
-        # the result-example
-        self.__result_example = None
         # the add-modify-dialog-mode
         self.__dialog_mode = AddModifyDialogMode.A
-
-    @property
-    def result_example(self):
-        return self.__result_example
 
     def __init_views(self):
         # the grid-layout for containing all sub-views
@@ -61,19 +51,19 @@ class ExampleFormDialog(StyledDialog):
         self.__grid_base.addWidget(self.__lbl_vocabulary, 0, 0, 1, 1)
         # the line-edit for typing the example sentence
         self.__le_example = StyledLineEdit(Strs.Voc_Adding_Page_Example_Sentence_Placeholder)
-        self.__grid_base.addWidget(self.__le_example, 0, 1, 1, 10)
+        self.__grid_base.addWidget(self.__le_example, 0, 1, 1, 11)
         # the button for adding new translations for this example sentence
         self.__btn_add_new_translation = StyledButton(Strs.Voc_Adding_Page_Example_Sentence_New_Translation_Button_Text)
-        self.__grid_base.addWidget(self.__btn_add_new_translation, 0, 11, 1, 1)
+        self.__grid_base.addWidget(self.__btn_add_new_translation, 0, 12, 1, 2)
         # the list for displaying added translations
         self.__lis_translations = ExampleTranslationListWidget()
-        self.__grid_base.addWidget(self.__lis_translations, 1, 0, 2, 12)
+        self.__grid_base.addWidget(self.__lis_translations, 1, 0, 2, 14)
         # the buttons of cancelling & submitting
         self.__btn_cancel = StyledButton(Strs.Cancel)
         self.__btn_submit = StyledButton(Strs.Submit)
         self.__btn_submit.setEnabled(False)
-        self.__grid_base.addWidget(self.__btn_cancel, 3, 0, 1, 6)
-        self.__grid_base.addWidget(self.__btn_submit, 3, 6, 1, 6)
+        self.__grid_base.addWidget(self.__btn_cancel, 3, 0, 1, 7)
+        self.__grid_base.addWidget(self.__btn_submit, 3, 7, 1, 7)
         # set the base v-box as the layout of this widget
         self.setLayout(self.__grid_base)
 
@@ -109,7 +99,7 @@ class ExampleFormDialog(StyledDialog):
         # if the line-edit of the example sentence is not empty
         if example_text != '':
             # instantiate an example-sentence as the result
-            self.__result_example = ExampleSentence(example_text, self.__lis_translations.get_all_translations())
+            self._result = ExampleSentence(example_text, self.__lis_translations.get_all_translations())
             # close the dialog
             self.close()
 

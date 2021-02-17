@@ -1,3 +1,4 @@
+from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QFont
 from PyQt5.QtWidgets import QLabel, QPushButton, QLineEdit, QAction, QMainWindow, QDialog, QMenu, QHBoxLayout, \
     QVBoxLayout, QGridLayout, QTextEdit, QLayout, QWidget, QCheckBox, QComboBox, QRadioButton
@@ -163,6 +164,14 @@ class StyledDialog(QDialog, BaseStyled):
         self.register_str_enum(dialog_title)
         # set the fixed-size
         self.setFont(QFont(cfg.font_family, fixed_size))
+        # force this dialog being the top form
+        self.setWindowModality(Qt.ApplicationModal)
+        # the result of some data-model
+        self._result = None
+
+    @property
+    def result(self):
+        return self._result
 
     # show & execute the dialog, then return itself
     def show_and_exec(self):
@@ -175,7 +184,6 @@ class StyledHBox(QHBoxLayout):
     def __init__(self, *sub_views, spacing=dim.general_spacing):
         super(StyledHBox, self).__init__()
         self.setSpacing(spacing)
-        # for (sub_view, stretch) in sub_views:
         for sub_view_and_or_stretch in sub_views:
             if isinstance(sub_view_and_or_stretch, tuple):
                 (sub_view, stretch) = sub_view_and_or_stretch
@@ -191,7 +199,11 @@ class StyledVBox(QVBoxLayout):
     def __init__(self, *sub_views, spacing=dim.general_spacing):
         super(StyledVBox, self).__init__()
         self.setSpacing(spacing)
-        for (sub_view, stretch) in sub_views:
+        for sub_view_and_or_stretch in sub_views:
+            if isinstance(sub_view_and_or_stretch, tuple):
+                (sub_view, stretch) = sub_view_and_or_stretch
+            else:
+                (sub_view, stretch) = (sub_view_and_or_stretch, 0)
             if isinstance(sub_view, QLayout):
                 self.addLayout(sub_view, stretch=stretch)
             elif isinstance(sub_view, QWidget):
