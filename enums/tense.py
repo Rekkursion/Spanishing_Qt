@@ -25,18 +25,6 @@ class Tense(Enum):
     def format(self):
         return self.name.replace('_', ' ').title()
 
-    # @staticmethod
-    # def get_all_indicative_tenses():
-    #     return [tense for tense in list(Tense) if tense.name.startswith('INDICATIVE')]
-    #
-    # @staticmethod
-    # def get_all_subjunctive_tenses():
-    #     return [tense for tense in list(Tense) if tense.name.startswith('SUBJUNCTIVE')]
-    #
-    # @staticmethod
-    # def get_all_imperative_tenses():
-    #     return [tense for tense in list(Tense) if tense.name.startswith('IMPERATIVE')]
-
     # get all personals according to the corresponding tense (or particle)
     def get_personals(self):
         # if it's the present or past particle

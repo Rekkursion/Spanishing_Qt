@@ -27,7 +27,8 @@ class Conjugation:
     # set a field of conjugation w/ a certain tense & a certain personal
     def set(self, form: str, tense: Tense, personal: Personal):
         if tense in self.__dict and personal in self.__dict[tense]:
-            self.__dict[tense][personal] = self.verb_type.get_conjugated(form, tense, personal)[1]
+            success, conjugated, spelling_change = self.verb_type.get_conjugated(form, tense, personal)
+            self.__dict[tense][personal] = conjugated
 
     # get a field of conjugation w/ a certain tense & a certain personal
     def get(self, tense: Tense, personal: Personal):
@@ -43,9 +44,12 @@ class Conjugation:
 # noinspection PyTypeChecker
 class Conjugator:
     """
-    atreverse, quejarse, medir, comenzar, almorzar, dormir, torcer, padecer, seducir
-    freír, sonreír, huir, fluir, sustituir, seguir, conseguir, tañer, teñir
-    evacuar, graduar, graduarse, apaciguar, hervir
+    atreverse, quejarse, medir, comenzar, almorzar, dormir, torcer, padecer, seducir, degollar, aullar,
+    apaciguar, jugar, tocar, gozar,
+    freír, sonreír, tañer, empeller, teñir, bruñir, bullir,
+    hervir, roer, oír, traer, embaír, creer, criar, confiar, cambiar, limpiar
+    garuar, evacuar, graduar, graduarse, apaciguar,
+    argüir, erguir, seguir, delinquir, sustituir, rehuir, huir
     """
     # conjugate a verb in infinitive form w/ some irregularity, if any
     @staticmethod

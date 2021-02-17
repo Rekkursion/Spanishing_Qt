@@ -1,7 +1,5 @@
 from PyQt5.QtWidgets import QWidget
 
-from PyQt5.QtWidgets import QWidget
-
 from enums.fixed_size import FixedSizes
 from enums.personal import Personal
 from enums.tense import Tense

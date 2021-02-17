@@ -7,6 +7,15 @@ from utils.character_checker import CharChecker
 
 # noinspection SpellCheckingInspection
 class VerbType(Enum):
+    """
+    iar uar
+    aer eer oer (ller ñer)
+    aír eír oír uir üir (llir ñir)
+    -
+    car gar zar guar
+    cer ger
+    cir gir quir guir
+    """
     # the ar-verb
     AR = {
         Tense.PARTICLES: {
@@ -22,7 +31,7 @@ class VerbType(Enum):
             Personal.ELLOS__ELLAS__USTEDES: ('-ar', '+an')
         },
         Tense.INDICATIVE_PRETERITE: {
-            Personal.YO: ('-ar', '+é'),
+            Personal.YO: ('-ar', '+é|gu>gü|g>gu|c>qu|z>c'),
             Personal.TÚ: ('-ar', '+aste'),
             Personal.ÉL__ELLA__USTED: ('-ar', '+ó'),
             Personal.NOSOTROS: ('-ar', '+amos'),
@@ -54,18 +63,18 @@ class VerbType(Enum):
             Personal.ELLOS__ELLAS__USTEDES: ('+án',)
         },
         Tense.SUBJUNCTIVE_PRESENT: {
-            Personal.YO: ('-ar', '+e'),
-            Personal.TÚ: ('-ar', '+es'),
-            Personal.ÉL__ELLA__USTED: ('-ar', '+e'),
-            Personal.NOSOTROS: ('-ar', '+emos'),
-            Personal.VOSOTROS: ('-ar', '+éis'),
-            Personal.ELLOS__ELLAS__USTEDES: ('-ar', '+en')
+            Personal.YO: ('-ar', '+e|gu>gü|g>gu|c>qu|z>c'),
+            Personal.TÚ: ('-ar', '+es|gu>gü|g>gu|c>qu|z>c'),
+            Personal.ÉL__ELLA__USTED: ('-ar', '+e|gu>gü|g>gu|c>qu|z>c'),
+            Personal.NOSOTROS: ('-ar', '+emos|gu>gü|g>gu|c>qu|z>c'),
+            Personal.VOSOTROS: ('-ar', '+éis|gu>gü|g>gu|c>qu|z>c'),
+            Personal.ELLOS__ELLAS__USTEDES: ('-ar', '+en|gu>gü|g>gu|c>qu|z>c')
         },
         Tense.SUBJUNCTIVE_IMPERFECT_1: {
             Personal.YO: ('-ron', '+ra'),
             Personal.TÚ: ('-ron', '+ras'),
             Personal.ÉL__ELLA__USTED: ('-ron', '+ra'),
-            Personal.NOSOTROS: ('-ron', '/s', '+ramos'),
+            Personal.NOSOTROS: ('-ron', '/', '+ramos'),
             Personal.VOSOTROS: ('-ron', '+rais'),
             Personal.ELLOS__ELLAS__USTEDES: ('-ron', '+ran')
         },
@@ -73,7 +82,7 @@ class VerbType(Enum):
             Personal.YO: ('-ron', '+se'),
             Personal.TÚ: ('-ron', '+ses'),
             Personal.ÉL__ELLA__USTED: ('-ron', '+se'),
-            Personal.NOSOTROS: ('-ron', '/s', '+semos'),
+            Personal.NOSOTROS: ('-ron', '/', '+semos'),
             Personal.VOSOTROS: ('-ron', '+seis'),
             Personal.ELLOS__ELLAS__USTEDES: ('-ron', '+sen')
         },
@@ -81,23 +90,23 @@ class VerbType(Enum):
             Personal.YO: ('-ron', '+re'),
             Personal.TÚ: ('-ron', '+res'),
             Personal.ÉL__ELLA__USTED: ('-ron', '+re'),
-            Personal.NOSOTROS: ('-ron', '/s', '+remos'),
+            Personal.NOSOTROS: ('-ron', '/', '+remos'),
             Personal.VOSOTROS: ('-ron', '+reis'),
             Personal.ELLOS__ELLAS__USTEDES: ('-ron', '+ren')
         },
         Tense.IMPERATIVE_AFFIRMATIVE: {
             Personal.TÚ: ('-o', '+a'),
-            Personal.ÉL__ELLA__USTED: ('-o', '+e'),
-            Personal.NOSOTROS: ('-o', '+emos'),
+            Personal.ÉL__ELLA__USTED: ('-o', '+e|gu>gü|g>gu|c>qu|z>c'),
+            Personal.NOSOTROS: ('-o', '+emos|gu>gü|g>gu|c>qu|z>c'),
             Personal.VOSOTROS: ('-o', '+ad'),
-            Personal.ELLOS__ELLAS__USTEDES: ('-o', '+en')
+            Personal.ELLOS__ELLAS__USTEDES: ('-o', '+en|gu>gü|g>gu|c>qu|z>c')
         },
         Tense.IMPERATIVE_NEGATIVE: {
-            Personal.TÚ: (':no ', '-ar', '+es'),
-            Personal.ÉL__ELLA__USTED: (':no ', '-ar', '+e'),
-            Personal.NOSOTROS: (':no ', '-ar', '+emos'),
-            Personal.VOSOTROS: (':no ', '-ar', '+éis'),
-            Personal.ELLOS__ELLAS__USTEDES: (':no ', '-ar', '+en')
+            Personal.TÚ: (':no ', '-ar', '+es|gu>gü|g>gu|c>qu|z>c'),
+            Personal.ÉL__ELLA__USTED: (':no ', '-ar', '+e|gu>gü|g>gu|c>qu|z>c'),
+            Personal.NOSOTROS: (':no ', '-ar', '+emos|gu>gü|g>gu|c>qu|z>c'),
+            Personal.VOSOTROS: (':no ', '-ar', '+éis|gu>gü|g>gu|c>qu|z>c'),
+            Personal.ELLOS__ELLAS__USTEDES: (':no ', '-ar', '+en|gu>gü|g>gu|c>qu|z>c')
         }
     }
     # the er-verb
@@ -121,6 +130,9 @@ class VerbType(Enum):
         for verb_type in list(VerbType):
             if verb_type != VerbType.NOT_VERB and inf.lower().endswith(verb_type.name.lower()):
                 return verb_type
+        # special case: the verb which ends w/ 'ír'
+        if inf.lower().endswith('ír'):
+            return VerbType.IR
         # no result after checking all verb-types, it's not a verb
         return VerbType.NOT_VERB
 
@@ -128,26 +140,37 @@ class VerbType(Enum):
     def get_conjugated(self, form: str, tense: Tense, personal: Personal):
         method = self.__get_conjugating_method(tense, personal)
         lis = list(form)
+        spelling_change = None
         if method is not None:
             for cmd in method:
+                # split the command into a main command and possibly a list of spelling commands
+                main_cmd, *spelling_cmds = cmd.split('|')
+                # if there's some spelling-changings
+                for spelling_cmd in spelling_cmds:
+                    bef, aft = spelling_cmd.split('>')
+                    if ''.join(lis).endswith(bef):
+                        lis = lis[:-len(bef)]
+                        lis.extend(aft)
+                        spelling_change = spelling_cmd
+                        break
                 # remove some characters from the tail of the form
-                if cmd[0] == '-':
-                    if ''.join(lis).endswith(cmd[1:]):
-                        lis = lis[:-(len(cmd) - 1)]
+                if main_cmd[0] == '-':
+                    if ''.join(lis).endswith(main_cmd[1:]):
+                        lis = lis[:-(len(main_cmd) - 1)]
                     else:
-                        return False, ''
+                        return False, '', None
                 # concatenate some characters into the tail of the form
-                elif cmd[0] == '+':
-                    lis.extend(cmd[1:])
+                elif main_cmd[0] == '+':
+                    lis.extend(main_cmd[1:])
                 # add some character at the head of the form
-                elif cmd[0] == ':':
-                    lis = list(cmd[1:] + ''.join(lis))
+                elif main_cmd[0] == ':':
+                    lis = list(main_cmd[1:] + ''.join(lis))
                 # stress the last character if it's a vowel
-                elif cmd == '/s':
+                elif main_cmd == '/':
                     lis[-1] = CharChecker.to_stressed(lis[-1])
-            return True, ''.join(lis)
+            return True, ''.join(lis), spelling_change
         else:
-            return False, ''
+            return False, '', None
 
     # get the conjugating method according to the different type of verb
     def __get_conjugating_method(self, tense: Tense, personal: Personal):
