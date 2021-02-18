@@ -1,3 +1,5 @@
+import re
+
 from PyQt5.QtWidgets import QWidget
 
 from enums.strs import Strs
@@ -64,7 +66,7 @@ class SingleVocForm(QWidget):
 
     # get the text of the current vocabulary
     def get_vocabulary(self):
-        return self.__le_word.text()
+        return re.sub(r'\s+', ' ', self.__le_word.text().strip())
 
     def setFocus(self) -> None:
         self.__le_word.setFocus()

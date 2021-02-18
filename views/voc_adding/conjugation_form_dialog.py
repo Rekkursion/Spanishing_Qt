@@ -131,7 +131,7 @@ class ConjugationFormDialog(StyledDialog):
         self.__verb_irregularity.sp_present_subjunctive_stem = self.__le_special_present_subjunctive_stem.text() if self.__chk_special_present_subjunctive_stem.isChecked() else None
         self.__verb_irregularity.sp_tú_form_affirmative_imperative = self.__le_special_tú_form_affirmative_imperative.text() if self.__chk_special_tú_form_affirmative_imperative.isChecked() else None
         # get the new conjugation according to the updated irregularity
-        conjugation = Conjugator.conjugate(self.__vocabulary_getter(), None if self.__rdb_regular.isChecked() else self.__verb_irregularity)
+        conjugation = Conjugator.conjugate(self.__vocabulary_getter().lower(), None if self.__rdb_regular.isChecked() else self.__verb_irregularity)
         # get the dictionary of the new conjugation
         conjugation_dict = conjugation.get_all()
         # iterate the whole dictionary to update all line-edits in the conjugation-chart-list
