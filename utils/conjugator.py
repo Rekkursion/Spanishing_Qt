@@ -63,9 +63,12 @@ class Conjugator:
                 # if the tense is imperfect-1, imperfect-2, or future of the subjunctive mood
                 if tense in (Tense.SUBJUNCTIVE_IMPERFECT_1, Tense.SUBJUNCTIVE_IMPERFECT_2, Tense.SUBJUNCTIVE_FUTURE):
                     conjugation.set(conjugation.get(Tense.INDICATIVE_PRETERITE, Personal.ELLOS__ELLAS__USTEDES), tense, personal)
-                # if the tense is imperative-affirmative
-                elif tense == Tense.IMPERATIVE_AFFIRMATIVE:
+                # if the tense is present subjunctive
+                elif tense == Tense.SUBJUNCTIVE_PRESENT:
                     conjugation.set(conjugation.get(Tense.INDICATIVE_PRESENT, Personal.YO), tense, personal)
+                # if the tense is negative imperative
+                elif tense == Tense.IMPERATIVE_NEGATIVE:
+                    conjugation.set(conjugation.get(Tense.SUBJUNCTIVE_PRESENT, personal), tense, personal)
                 # the rest cases
                 else:
                     conjugation.set(conjugation.inf, tense, personal)
