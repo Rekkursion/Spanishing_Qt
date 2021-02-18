@@ -16,7 +16,7 @@ class VerbType(Enum):
     cer ger
     cir gir quir guir
     """
-    """ special characters: + - / : | > """
+    """ special symbols: + - _ / : | > """
     # the ar-verb
     AR = {
         Tense.PARTICLES: {
@@ -204,7 +204,98 @@ class VerbType(Enum):
         }
     }
     # the ir-verb
-    IR = {}
+    IR = {
+        Tense.PARTICLES: {
+            Personal.PRESENT_PARTICLE: ('-r', '|gui>gui|qui>qui|ui>uy|üi>uy|aí>ay|oí>oy|eí>i|ñi>ñ|lli>ll', '+endo'),
+            Personal.PAST_PARTICLE: ('-r', '+do')
+        },
+        Tense.INDICATIVE_PRESENT: {
+            Personal.YO: ('-ir_ír', '+o|g>j|gü>guy|gu>g|qu>c|u>uy|ac>azc|oc>ozc|ec>ezc|ic>izc|uc>uzc|c>z|a>aig|o>oig|e>í'),
+            Personal.TÚ: ('-ir_ír', '+es|gü>guy|gu>gu|qu>qu|u>uy|o>oy|e>í'),
+            Personal.ÉL__ELLA__USTED: ('-ir_ír', '+e|gü>guy|gu>gu|qu>qu|u>uy|o>oy|e>í'),
+            Personal.NOSOTROS: ('-r', '+mos'),
+            Personal.VOSOTROS: ('-ir_ír', '+ís'),
+            Personal.ELLOS__ELLAS__USTEDES: ('-ir_ír', '+en|gü>guy|gu>gu|qu>qu|u>uy|o>oy|e>í')
+        },
+        Tense.INDICATIVE_PRETERITE: {
+            Personal.YO: ('-ir_ír', '+í'),
+            Personal.TÚ: ('-ir_ír', '+i', '|ai>aí|oi>oí|ei>eí', '+ste'),
+            Personal.ÉL__ELLA__USTED: ('-ir_ír', '+i', '|güi>guy|gui>gui|qui>qui|ui>uy|ai>ay|oi>oy|ei>i|ñi>ñ|lli>ll', '+ó'),
+            Personal.NOSOTROS: ('-ir_ír', '+i', '|ai>aí|oi>oí|ei>eí', '+mos'),
+            Personal.VOSOTROS: ('-ir_ír', '+i', '|ai>aí|oi>oí|ei>eí', '+steis'),
+            Personal.ELLOS__ELLAS__USTEDES: ('-ir_ír', '+i', '|güi>guy|gui>gui|qui>qui|ui>uy|ai>ay|oi>oy|ei>i|ñi>ñ|lli>ll', '+eron')
+        },
+        Tense.INDICATIVE_IMPERFECT: {
+            Personal.YO: ('-ir_ír', '+ía'),
+            Personal.TÚ: ('-ir_ír', '+ías'),
+            Personal.ÉL__ELLA__USTED: ('-ir_ír', '+ía'),
+            Personal.NOSOTROS: ('-ir_ír', '+íamos'),
+            Personal.VOSOTROS: ('-ir_ír', '+íais'),
+            Personal.ELLOS__ELLAS__USTEDES: ('-ir_ír', '+ían')
+        },
+        Tense.INDICATIVE_CONDITIONAL: {
+            Personal.YO: ('+ía|ír>ir',),
+            Personal.TÚ: ('+ías|ír>ir',),
+            Personal.ÉL__ELLA__USTED: ('+ía|ír>ir',),
+            Personal.NOSOTROS: ('+íamos|ír>ir',),
+            Personal.VOSOTROS: ('+íais|ír>ir',),
+            Personal.ELLOS__ELLAS__USTEDES: ('+ían|ír>ir',)
+        },
+        Tense.INDICATIVE_FUTURE: {
+            Personal.YO: ('+é|ír>ir',),
+            Personal.TÚ: ('+ás|ír>ir',),
+            Personal.ÉL__ELLA__USTED: ('+á|ír>ir',),
+            Personal.NOSOTROS: ('+emos|ír>ir',),
+            Personal.VOSOTROS: ('+éis|ír>ir',),
+            Personal.ELLOS__ELLAS__USTEDES: ('+án|ír>ir',)
+        },
+        Tense.SUBJUNCTIVE_PRESENT: {
+            Personal.YO: ('-o', '+a'),
+            Personal.TÚ: ('-o', '+as'),
+            Personal.ÉL__ELLA__USTED: ('-o', '+a'),
+            Personal.NOSOTROS: ('-o', '+amos|í>i'),
+            Personal.VOSOTROS: ('-o', '+áis|í>i'),
+            Personal.ELLOS__ELLAS__USTEDES: ('-o', '+an')
+        },
+        Tense.SUBJUNCTIVE_IMPERFECT_1: {
+            Personal.YO: ('-ron', '+ra'),
+            Personal.TÚ: ('-ron', '+ras'),
+            Personal.ÉL__ELLA__USTED: ('-ron', '+ra'),
+            Personal.NOSOTROS: ('-ron', '/', '+ramos'),
+            Personal.VOSOTROS: ('-ron', '+rais'),
+            Personal.ELLOS__ELLAS__USTEDES: ('-ron', '+ran')
+        },
+        Tense.SUBJUNCTIVE_IMPERFECT_2: {
+            Personal.YO: ('-ron', '+se'),
+            Personal.TÚ: ('-ron', '+ses'),
+            Personal.ÉL__ELLA__USTED: ('-ron', '+se'),
+            Personal.NOSOTROS: ('-ron', '/', '+semos'),
+            Personal.VOSOTROS: ('-ron', '+seis'),
+            Personal.ELLOS__ELLAS__USTEDES: ('-ron', '+sen')
+        },
+        Tense.SUBJUNCTIVE_FUTURE: {
+            Personal.YO: ('-ron', '+re'),
+            Personal.TÚ: ('-ron', '+res'),
+            Personal.ÉL__ELLA__USTED: ('-ron', '+re'),
+            Personal.NOSOTROS: ('-ron', '/', '+remos'),
+            Personal.VOSOTROS: ('-ron', '+reis'),
+            Personal.ELLOS__ELLAS__USTEDES: ('-ron', '+ren')
+        },
+        Tense.IMPERATIVE_AFFIRMATIVE: {
+            Personal.TÚ: ('-ir_ír', '+e|e>í|gü>guy|gu>gu|qu>qu|u>uy|o>oy'),
+            Personal.ÉL__ELLA__USTED: ('-ir_ír', '+a|g>j|gü>guy|gu>g|qu>c|u>uy|ac>azc|oc>ozc|ec>ezc|ic>izc|uc>uzc|c>z|a>aig|o>oig|e>í'),
+            Personal.NOSOTROS: ('-ir_ír', '+amos|g>j|gü>guy|gu>g|qu>c|u>uy|ac>azc|oc>ozc|ec>ezc|ic>izc|uc>uzc|c>z|a>aig|o>oig|e>i'),
+            Personal.VOSOTROS: ('-r', '+d'),
+            Personal.ELLOS__ELLAS__USTEDES: ('-ir_ír', '+an|g>j|gü>guy|gu>g|qu>c|u>uy|ac>azc|oc>ozc|ec>ezc|ic>izc|uc>uzc|c>z|a>aig|o>oig|e>í')
+        },
+        Tense.IMPERATIVE_NEGATIVE: {
+            Personal.TÚ: (':no ',),
+            Personal.ÉL__ELLA__USTED: (':no ',),
+            Personal.NOSOTROS: (':no ',),
+            Personal.VOSOTROS: (':no ',),
+            Personal.ELLOS__ELLAS__USTEDES: (':no ',)
+        }
+    }
     # the ar-reflexive-verb
     ARSE = {}
     # the er-reflexive-verb
@@ -248,8 +339,10 @@ class VerbType(Enum):
                 if main_cmd != '':
                     # remove some characters from the tail of the form
                     if main_cmd[0] == '-':
-                        if ''.join(lis).endswith(main_cmd[1:]):
-                            lis = lis[:-(len(main_cmd) - 1)]
+                        for removee in main_cmd[1:].split('_'):
+                            if ''.join(lis).endswith(removee):
+                                lis = lis[:-len(removee)]
+                                break
                         else:
                             return False, '', None
                     # concatenate some characters into the tail of the form
