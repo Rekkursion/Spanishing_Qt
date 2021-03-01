@@ -4,10 +4,11 @@ from enums.personal import Personal
 from enums.tense import Tense
 from enums.verb_type import VerbType
 from models.verb_irregularity import VerbIrregularity
+from utils.word_analyzer import WordAnalyzer
 
 
+# noinspection PyTypeChecker
 class Conjugation:
-    # noinspection PyTypeChecker
     def __init__(self, verb: str):
         # the infinitive form of the verb
         self.__verb = verb
@@ -54,7 +55,7 @@ class Conjugation:
         return copy.deepcopy(self.__dict)
 
 
-# noinspection PyTypeChecker
+# noinspection PyTypeChecker,SpellCheckingInspection
 class Conjugator:
     """
     atreverse, quejarse, medir, comenzar, almorzar, dormir, torcer, padecer, seducir, degollar, aullar,
@@ -69,6 +70,9 @@ class Conjugator:
     def conjugate(verb: str, verb_irregularity: VerbIrregularity = None):
         # instantiate a new conjugation
         conjugation = Conjugation(verb)
+        # change the stem of the infinite-form, e.g., for the word 'comenzar' -> 'comienzar'
+        stem_changed = WordAnalyzer.change_stem(conjugation.inf, verb_irregularity.stem_changing_type) if verb_irregularity is not None and verb_irregularity.stem_changing_type is not None else conjugation.inf
+        _, non_stem_changed_first_personal_present_form, _ = conjugation.verb_type.get_conjugated(conjugation.inf, Tense.INDICATIVE_PRESENT, Personal.YO)
         # iterate all tenses
         for tense in list(Tense):
             # and all personals corresponding to the tense
@@ -80,7 +84,7 @@ class Conjugator:
                         conjugation.set(form.split(' ')[0], tense, personal)
                 # if the tense is present subjunctive
                 elif tense == Tense.SUBJUNCTIVE_PRESENT:
-                    form = conjugation.get(Tense.INDICATIVE_PRESENT, Personal.YO)
+                    form = conjugation.get(Tense.INDICATIVE_PRESENT, Personal.YO) if personal.should_change_stem() else non_stem_changed_first_personal_present_form
                     if form is not None:
                         conjugation.set(form.split(' ')[0], tense, personal)
                 # if the tense is negative imperative
@@ -90,6 +94,9 @@ class Conjugator:
                         conjugation.set(form.split(' ')[0], tense, personal)
                 # the general case
                 else:
-                    conjugation.set(conjugation.inf, tense, personal)
+                    if tense in (Tense.INDICATIVE_PRESENT, Tense.IMPERATIVE_AFFIRMATIVE) and personal != Personal.NOSOTROS and personal != Personal.VOSOTROS:
+                        conjugation.set(stem_changed, tense, personal)
+                    else:
+                        conjugation.set(conjugation.inf, tense, personal)
         # return the new conjugation
         return conjugation

@@ -93,6 +93,7 @@ class ConjugationFormDialog(StyledDialog):
     def __init_events(self):
         self.__grp_irregularity.buttonClicked.connect(self.__event_update_irregularity)
         self.__chk_stem_changing.clicked.connect(self.__event_update_irregularity)
+        self.__comb_stem_changing.currentIndexChanged.connect(self.__event_update_irregularity)
         self.__chk_special_yo_form.clicked.connect(self.__event_update_irregularity)
         self.__chk_special_preterite_stem.clicked.connect(self.__event_update_irregularity)
         self.__chk_special_imperfect_stem.clicked.connect(self.__event_update_irregularity)

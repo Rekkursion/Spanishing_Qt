@@ -20,6 +20,10 @@ class Personal(Enum):
     # formal plural 2nd-personal & plural 3rd-personal
     ELLOS__ELLAS__USTEDES = 5
 
+    # check if the personal is the one which should change its stem when conjugating the first personal present
+    def should_change_stem(self):
+        return self in (Personal.YO, Personal.TÚ, Personal.ÉL__ELLA__USTED, Personal.ELLOS__ELLAS__USTEDES)
+
     def format(self):
         return self.name.title().replace('__', '/').replace('_', ' ')
 

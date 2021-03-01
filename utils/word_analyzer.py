@@ -1,4 +1,4 @@
-from enums.part_of_speech import PartOfSpeech
+from enums.stem_changing_type import StemChangingType
 from utils.character_checker import CharChecker as Checker
 from utils.syllable_linked_list import SyllableLinkedList, NodeType
 
@@ -73,6 +73,11 @@ class WordAnalyzer:
         # return it as a python-list
         return linked_list.as_list_copied()
 
+    # rebuild a word from some syllables
+    @staticmethod
+    def join_from_syllables(*syllables):
+        return ''.join(map(lambda x: x.component, syllables))
+
     # get the stressed syllable of a certain word
     # return: (<the stressed syllable>, <the index of the syllable>, <the index of string where the syllable begins>)
     @staticmethod
@@ -103,34 +108,15 @@ class WordAnalyzer:
             else:
                 return last_syllable.component, idx_of_last_syllable, idx_of_word - len(last_syllable.component)
 
-    # get the gender-variant & number-variant forms of a word in the general way, e.g., o -> a, ción -> ciones
+    # change the stem of a certain verb according to the type of the stem-changing
     @staticmethod
-    def get_general_forms(word: str, pos: PartOfSpeech):
-        if word == '':
-            return '', '', '', ''
-        if Checker.is_vowel(word[-1]) and not Checker.is_stressed(word[-1]):
-            if pos.is_singular():
-                m_s = word
-                f_s = word[:-1] + 'a'
-                m_pl = word + 's'
-                f_pl = f_s + 's'
-            else:
-                m_s = word; f_s = word; m_pl = word; f_pl = word
-        else:
-            if pos.is_singular():
-                m_s = word
-                f_s = word if Checker.is_stressed(word[-1]) else word + 'a'
-                m_pl = word[:-1] + 'ces' if word.lower().endswith('z') else word + 'es'
-                f_pl = f_s + 's'
-            else:
-                if word.lower()[-1] == 's':
-                    m_s = word[:-1]
-                    f_s = m_s if Checker.is_stressed(word[-1]) else m_s + 'a'
-                    m_pl = word
-                    f_pl = f_s + 's'
-                else:
-                    m_s = word; f_s = word; m_pl = word; f_pl = word
-        if pos == PartOfSpeech.ADJECTIVE:
-            return m_s, f_s, m_pl, f_pl
-        else:
-            return 'el ' + m_s, 'la ' + f_s, 'los ' + m_pl, 'las ' + f_pl
+    def change_stem(inf: str, stem_changing_type: StemChangingType):
+        # split the infinite-form into several syllables
+        syllables = WordAnalyzer.split_syllables(inf)
+        # if the number of syllables is smaller than 2, directly return the infinite-form
+        if len(syllables) < 2:
+            return inf
+        # otherwise, do the replacement at the second to last syllable
+        new_second_to_last_syllable = syllables[-2].component.replace(stem_changing_type.get_before(), stem_changing_type.get_after())
+        # return join the replaced syllables into a string and return it
+        return ('h' if inf == 'oler' and stem_changing_type == StemChangingType.O2UE else '') + ''.join([*map(lambda x: x.component, syllables[:-2]), new_second_to_last_syllable, syllables[-1].component])

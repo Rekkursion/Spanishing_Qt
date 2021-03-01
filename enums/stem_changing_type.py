@@ -21,3 +21,14 @@ class StemChangingType(Enum):
 
     def format(self):
         return self.name.lower().replace('2', ' > ').replace('_advanced', ' (Advanced)')
+
+    # get the form before the stem-changing
+    def get_before(self):
+        return self.name.lower()[:self.name.find('2')]
+
+    # get the form after the stem-changing
+    def get_after(self):
+        idx_of_underline = self.name.find('_')
+        if idx_of_underline == -1:
+            return self.name.lower()[self.name.find('2') + 1:]
+        return self.name.lower()[self.name.find('2') + 1:idx_of_underline]
