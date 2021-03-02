@@ -36,7 +36,6 @@ class VerbIrregularity:
     # the other types of special forms/irregularities, if any
     misc_forms: List[MiscIrregularForm] = field(default_factory=list)
 
-
-"""
-會影響到 present indicative 的：stem_changing_type, sp_yo_form, cir/cer -> zco/zo, uir -> y-, 
-"""
+    # check if the type of stem-changing is an advanced one or not
+    def is_advanced_stem_changing(self):
+        return self.stem_changing_type is not None and self.stem_changing_type.is_advanced()

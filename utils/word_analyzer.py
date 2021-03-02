@@ -73,11 +73,6 @@ class WordAnalyzer:
         # return it as a python-list
         return linked_list.as_list_copied()
 
-    # rebuild a word from some syllables
-    @staticmethod
-    def join_from_syllables(*syllables):
-        return ''.join(map(lambda x: x.component, syllables))
-
     # get the stressed syllable of a certain word
     # return: (<the stressed syllable>, <the index of the syllable>, <the index of string where the syllable begins>)
     @staticmethod
@@ -115,8 +110,14 @@ class WordAnalyzer:
         syllables = WordAnalyzer.split_syllables(inf)
         # if the number of syllables is smaller than 2, directly return the infinite-form
         if len(syllables) < 2:
-            return inf
+            return inf, inf
         # otherwise, do the replacement at the second to last syllable
-        new_second_to_last_syllable = syllables[-2].component.replace(stem_changing_type.get_before(), stem_changing_type.get_after())
-        # return join the replaced syllables into a string and return it
-        return ('h' if inf == 'oler' and stem_changing_type == StemChangingType.O2UE else '') + ''.join([*map(lambda x: x.component, syllables[:-2]), new_second_to_last_syllable, syllables[-1].component])
+        basic_second_to_last_syllable = syllables[-2].component.replace(stem_changing_type.get_before(), stem_changing_type.get_after())
+        # join the replaced syllables into a string
+        basic = ''.join([*map(lambda x: x.component, syllables[:-2]), basic_second_to_last_syllable, syllables[-1].component])
+        # if it's an advanced type of stem-changing
+        advanced_second_to_last_syllable = syllables[-2].component.replace(stem_changing_type.get_before(), stem_changing_type.get_advanced_after())
+        # join the replaced syllables into a string
+        advanced = ''.join([*map(lambda x: x.component, syllables[:-2]), advanced_second_to_last_syllable, syllables[-1].component])
+        # return both basic & advanced stem-changed forms
+        return basic, advanced
