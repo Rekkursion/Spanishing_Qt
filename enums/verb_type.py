@@ -96,11 +96,11 @@ class VerbType(Enum):
             Personal.ELLOS__ELLAS__USTEDES: ('-ron', '+ren')
         },
         Tense.IMPERATIVE_AFFIRMATIVE: {
-            Personal.TÚ: ('-ar', '+a'),
-            Personal.ÉL__ELLA__USTED: ('-ar', '+e|gu>gü|g>gu|c>qu|z>c'),
-            Personal.NOSOTROS: ('-ar', '+emos|gu>gü|g>gu|c>qu|z>c'),
-            Personal.VOSOTROS: ('-ar', '+ad'),
-            Personal.ELLOS__ELLAS__USTEDES: ('-ar', '+en|gu>gü|g>gu|c>qu|z>c')
+            Personal.TÚ: ('-o', '+a'),
+            Personal.ÉL__ELLA__USTED: ('-o', '+e|gu>gü|g>gu|c>qu|z>c'),
+            Personal.NOSOTROS: ('-o', '+emos|gu>gü|g>gu|c>qu|z>c'),
+            Personal.VOSOTROS: ('-r', '+d'),
+            Personal.ELLOS__ELLAS__USTEDES: ('-o', '+en|gu>gü|g>gu|c>qu|z>c')
         },
         Tense.IMPERATIVE_NEGATIVE: {
             Personal.TÚ: (':no ',),
@@ -189,11 +189,11 @@ class VerbType(Enum):
             Personal.ELLOS__ELLAS__USTEDES: ('-ron', '+ren')
         },
         Tense.IMPERATIVE_AFFIRMATIVE: {
-            Personal.TÚ: ('-er', '+e'),
-            Personal.ÉL__ELLA__USTED: ('-er', '+a|g>j|ac>azc|oc>ozc|ec>ezc|ic>izc|uc>uzc|c>z|a>ay|o>oy'),
-            Personal.NOSOTROS: ('-er', '+amos|g>j|ac>azc|oc>ozc|ec>ezc|ic>izc|uc>uzc|c>z|a>ay|o>oy'),
-            Personal.VOSOTROS: ('-er', '+ed'),
-            Personal.ELLOS__ELLAS__USTEDES: ('-er', '+an|g>j|ac>azc|oc>ozc|ec>ezc|ic>izc|uc>uzc|c>z|a>ay|o>oy')
+            Personal.TÚ: ('-o', '+e|j>g|z>c|zc>c|oy>o|ay>a|aig>a|oig>o|lg>l|sgo>s|g>gu'),
+            Personal.ÉL__ELLA__USTED: ('-o', '+a'),
+            Personal.NOSOTROS: ('-o', '+amos'),
+            Personal.VOSOTROS: ('-r', '+d'),
+            Personal.ELLOS__ELLAS__USTEDES: ('-o', '+an')
         },
         Tense.IMPERATIVE_NEGATIVE: {
             Personal.TÚ: (':no ',),
@@ -253,8 +253,8 @@ class VerbType(Enum):
             Personal.YO: ('-o', '+a'),
             Personal.TÚ: ('-o', '+as'),
             Personal.ÉL__ELLA__USTED: ('-o', '+a'),
-            Personal.NOSOTROS: ('-o', '+amos|í>i'),
-            Personal.VOSOTROS: ('-o', '+áis|í>i'),
+            Personal.NOSOTROS: ('-o', '+amos|u>|í>i'),
+            Personal.VOSOTROS: ('-o', '+áis|u>|í>i'),
             Personal.ELLOS__ELLAS__USTEDES: ('-o', '+an')
         },
         Tense.SUBJUNCTIVE_IMPERFECT_1: {
@@ -281,12 +281,13 @@ class VerbType(Enum):
             Personal.VOSOTROS: ('-ron', '+reis'),
             Personal.ELLOS__ELLAS__USTEDES: ('-ron', '+ren')
         },
+        # '|g>j|gü>guy|gu>g|qu>c|u>uy|ac>azc|oc>ozc|ec>ezc|ic>izc|uc>uzc|c>z|a>aig|o>oig|e>í'
         Tense.IMPERATIVE_AFFIRMATIVE: {
-            Personal.TÚ: ('-ir_ír', '+e|e>í|gü>guy|gu>gu|qu>qu|u>uy|o>oy'),
-            Personal.ÉL__ELLA__USTED: ('-ir_ír', '+a|g>j|gü>guy|gu>g|qu>c|u>uy|ac>azc|oc>ozc|ec>ezc|ic>izc|uc>uzc|c>z|a>aig|o>oig|e>í'),
-            Personal.NOSOTROS: ('-ir_ír', '+amos|g>j|gü>guy|gu>g|qu>c|u>uy|ac>azc|oc>ozc|ec>ezc|ic>izc|uc>uzc|c>z|a>aig|o>oig|e>i'),
+            Personal.TÚ: ('|oy>o', '-o', '+e|j>g|zc>c|z>c|c>qu|aig>a|oig>o|lg>l|sgo>s|g>gu'),
+            Personal.ÉL__ELLA__USTED: ('-o', '+a'),
+            Personal.NOSOTROS: ('-o', '+amos|u>'),
             Personal.VOSOTROS: ('-r', '+d'),
-            Personal.ELLOS__ELLAS__USTEDES: ('-ir_ír', '+an|g>j|gü>guy|gu>g|qu>c|u>uy|ac>azc|oc>ozc|ec>ezc|ic>izc|uc>uzc|c>z|a>aig|o>oig|e>í')
+            Personal.ELLOS__ELLAS__USTEDES: ('-o', '+an')
         },
         Tense.IMPERATIVE_NEGATIVE: {
             Personal.TÚ: (':no ',),

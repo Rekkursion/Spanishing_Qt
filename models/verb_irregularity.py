@@ -37,5 +37,11 @@ class VerbIrregularity:
     misc_forms: List[MiscIrregularForm] = field(default_factory=list)
 
     # check if the type of stem-changing is an advanced one or not
-    def is_advanced_stem_changing(self):
-        return self.stem_changing_type is not None and self.stem_changing_type.is_advanced()
+    @staticmethod
+    def check_advanced_stem_changing(verb_irr):
+        return verb_irr is not None and verb_irr.stem_changing_type is not None and verb_irr.stem_changing_type.is_advanced()
+
+    # get the special yo-form of present tense, if any
+    @staticmethod
+    def get_sp_yo_form(verb_irr):
+        return None if verb_irr is None else verb_irr.sp_yo_form

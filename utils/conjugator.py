@@ -44,6 +44,10 @@ class Conjugation:
                 else:
                     self.__dict[tense][personal] = f'{conjugated} {" ".join(self.__rest_part_list)}'
 
+    # set a field of conjugation directly
+    def set_directly(self, form: str, tense: Tense, personal: Personal):
+        self.__dict[tense][personal] = form
+
     # get a field of conjugation w/ a certain tense & a certain personal
     def get(self, tense: Tense, personal: Personal):
         if tense in self.__dict and personal in self.__dict[tense]:
@@ -63,23 +67,25 @@ class Conjugator:
     freír, sonreír, tañer, empeller, teñir, bruñir, bullir,
     hervir, roer, oír, traer, embaír, creer, criar, confiar, cambiar, limpiar
     garuar, evacuar, graduar, graduarse, apaciguar,
-    argüir, erguir, seguir, delinquir, sustituir, rehuir, huir
+    argüir, erguir, seguir, delinquir, sustituir, rehuir, huir, asir
     """
-    # conjugate a verb in infinitive form w/ some irregularity, if any
+    # conjugate a verb in its infinite form w/ some irregularity, if any
     @staticmethod
     def conjugate(verb: str, verb_irregularity: VerbIrregularity = None):
         # instantiate a new conjugation
         conjugation = Conjugation(verb)
-        # change the stem of the infinite-form, e.g., for the word 'comenzar' -> 'comienzar'
+        # change the stem of the infinite form, e.g., 'comenzar' -> 'comienzar'
         if verb_irregularity is not None and verb_irregularity.stem_changing_type is not None:
             basic, advanced = WordAnalyzer.change_stem(conjugation.inf, verb_irregularity.stem_changing_type)
         else:
             basic, advanced = conjugation.inf, conjugation.inf
-        # prepare the form of first personal present no matter if it's actually a stem-changing verb or not
-        _, non_stem_changed_first_personal_present_form, _ = conjugation.verb_type.get_conjugated(conjugation.inf, Tense.INDICATIVE_PRESENT, Personal.YO)
+        # the special yo-form of present tense
+        sp_yo_form = VerbIrregularity.get_sp_yo_form(verb_irregularity)
+        # prepare the regular yo-form of present tense no matter if it's a stem-changing verb or not
+        _, non_stem_changed_yo_form, _ = conjugation.verb_type.get_conjugated(conjugation.inf, Tense.INDICATIVE_PRESENT, Personal.YO)
         # iterate all tenses
         for tense in list(Tense):
-            # and all personals corresponding to the tense
+            # and all personals corresponding to the current tense
             for personal in tense.get_personals():
                 # if the tense is imperfect-1, imperfect-2, or future of the subjunctive mood
                 if tense in (Tense.SUBJUNCTIVE_IMPERFECT_1, Tense.SUBJUNCTIVE_IMPERFECT_2, Tense.SUBJUNCTIVE_FUTURE):
@@ -91,10 +97,10 @@ class Conjugator:
                 elif tense == Tense.SUBJUNCTIVE_PRESENT:
                     if personal.should_change_stem():
                         form = conjugation.get(Tense.INDICATIVE_PRESENT, Personal.YO)
-                    elif verb_irregularity is not None and verb_irregularity.is_advanced_stem_changing():
+                    elif verb_irregularity is not None and VerbIrregularity.check_advanced_stem_changing(verb_irregularity):
                         form = advanced[:-2] + 'o'
                     else:
-                        form = non_stem_changed_first_personal_present_form
+                        form = sp_yo_form if sp_yo_form is not None else non_stem_changed_yo_form
                     if form is not None:
                         conjugation.set(form.split(' ')[0], tense, personal)
 
@@ -104,15 +110,33 @@ class Conjugator:
                     if form is not None:
                         conjugation.set(form.split(' ')[0], tense, personal)
 
+                # if the tense is affirmative imperative
+                elif tense == Tense.IMPERATIVE_AFFIRMATIVE:
+                    if personal == Personal.NOSOTROS:
+                        if sp_yo_form is not None:
+                            form = sp_yo_form
+                        elif VerbIrregularity.check_advanced_stem_changing(verb_irregularity):
+                            form = advanced[:-2] + 'o'
+                        else:
+                            form = non_stem_changed_yo_form
+                    elif personal == Personal.VOSOTROS:
+                        form = conjugation.inf
+                    else:
+                        form = conjugation.get(Tense.INDICATIVE_PRESENT, Personal.YO)
+                    if form is not None:
+                        conjugation.set(form.split(' ')[0], tense, personal)
+
                 # the general case
                 else:
-                    # do the basic stem-changing if it's a stem-changing verb
-                    if tense in (Tense.INDICATIVE_PRESENT, Tense.IMPERATIVE_AFFIRMATIVE) and personal.should_change_stem():
+                    # if there's a special yo-form of present tense, set it directly
+                    if tense == Tense.INDICATIVE_PRESENT and personal == Personal.YO and sp_yo_form is not None:
+                        conjugation.set_directly(sp_yo_form, tense, personal)
+                    # do the basic stem-changing
+                    elif tense == Tense.INDICATIVE_PRESENT and personal.should_change_stem():
                         conjugation.set(basic, tense, personal)
                     # do the advanced stem-changing
                     elif (tense == Tense.PARTICLES and personal == Personal.PRESENT_PARTICLE) or\
-                            (tense == Tense.INDICATIVE_PRETERITE and personal in (Personal.ÉL__ELLA__USTED, Personal.ELLOS__ELLAS__USTEDES)) or\
-                            (tense == Tense.IMPERATIVE_AFFIRMATIVE and personal == Personal.NOSOTROS):
+                            (tense == Tense.INDICATIVE_PRETERITE and personal in (Personal.ÉL__ELLA__USTED, Personal.ELLOS__ELLAS__USTEDES)):
                         conjugation.set(advanced, tense, personal)
                     else:
                         conjugation.set(conjugation.inf, tense, personal)
