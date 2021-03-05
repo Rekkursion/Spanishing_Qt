@@ -79,9 +79,11 @@ class Conjugator:
             basic, advanced = WordAnalyzer.change_stem(conjugation.inf, verb_irregularity.stem_changing_type)
         else:
             basic, advanced = conjugation.inf, conjugation.inf
-        # set the special past particle, if exists
+        # the special past particle, if any
         sp_past_particle = VerbIrregularity.get_sp_past_particle(verb_irregularity)
-        # the special yo-form of present tense
+        # the special stem of preterite tense, if any
+        sp_preterite_stem = VerbIrregularity.get_sp_preterite_stem(verb_irregularity)
+        # the special yo-form of present tense, if any
         sp_yo_form = VerbIrregularity.get_sp_yo_form(verb_irregularity)
         # prepare the regular yo-form of present tense no matter if it's a stem-changing verb or not
         _, non_stem_changed_yo_form, _ = conjugation.verb_type.get_conjugated(conjugation.inf, Tense.INDICATIVE_PRESENT, Personal.YO)
@@ -128,11 +130,17 @@ class Conjugator:
                     if form is not None:
                         conjugation.set(form.split(' ')[0], tense, personal)
 
-                # the general case
+                # the general cases
                 else:
                     # if there's a special yo-form of present tense, set it directly
                     if tense == Tense.INDICATIVE_PRESENT and personal == Personal.YO and sp_yo_form is not None:
                         conjugation.set_directly(sp_yo_form, tense, personal)
+                    # if there's a special past particle, set it directly
+                    elif tense == Tense.PARTICLES and personal == Personal.PAST_PARTICLE and sp_past_particle is not None:
+                        conjugation.set_directly(sp_past_particle, tense, personal)
+                    # if there's a special stem of the preterite tense, use it as the stem when conjugating the verb
+                    elif tense == Tense.INDICATIVE_PRETERITE and sp_preterite_stem is not None:
+                        conjugation.set(sp_preterite_stem, tense, personal)
                     # do the basic stem-changing
                     elif tense == Tense.INDICATIVE_PRESENT and personal.should_change_stem():
                         conjugation.set(basic, tense, personal)
@@ -140,8 +148,6 @@ class Conjugator:
                     elif (tense == Tense.PARTICLES and personal == Personal.PRESENT_PARTICLE) or\
                             (tense == Tense.INDICATIVE_PRETERITE and personal in (Personal.ÉL__ELLA__USTED, Personal.ELLOS__ELLAS__USTEDES)):
                         conjugation.set(advanced, tense, personal)
-                    elif tense == Tense.PARTICLES and personal == Personal.PAST_PARTICLE and sp_past_particle is not None:
-                        conjugation.set_directly(sp_past_particle, tense, personal)
                     else:
                         conjugation.set(conjugation.inf, tense, personal)
         # return the new conjugation

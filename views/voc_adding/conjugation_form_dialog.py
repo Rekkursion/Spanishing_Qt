@@ -108,10 +108,10 @@ class ConjugationFormDialog(StyledDialog):
         self.__chk_special_tú_form_affirmative_imperative.clicked.connect(self.__event_update_irregularity)
         self.__le_special_past_particle.textChanged.connect(lambda: self.__event_update_irregularity() if self.__le_special_past_particle.text().endswith('o') else None)
         self.__le_special_yo_form.textChanged.connect(lambda: self.__event_update_irregularity() if self.__le_special_yo_form.text().endswith(('o', 'y')) else None)
+        self.__le_special_preterite_stem.textChanged.connect(self.__event_update_irregularity)
 
     # the event for switching the irregularity of this verb (regular or irregular)
     def __event_update_irregularity(self):
-        print(':3')
         self.__update_enabilities()
         self.__update_conjugation_charts()
 

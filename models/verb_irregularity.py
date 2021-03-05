@@ -52,3 +52,8 @@ class VerbIrregularity:
     @staticmethod
     def get_sp_yo_form(verb_irr):
         return None if verb_irr is None else verb_irr.sp_yo_form
+
+    # get the special stem of preterite tense, if any
+    @staticmethod
+    def get_sp_preterite_stem(verb_irr):
+        return None if verb_irr is None else verb_irr.sp_preterite_stem

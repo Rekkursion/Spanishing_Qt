@@ -16,7 +16,7 @@ class VerbType(Enum):
     cer ger
     cir gir quir guir
     """
-    """ special symbols: + - _ / : | > """
+    """ special symbols: + - _ / : | > ? # """
     # the ar-verb
     AR = {
         Tense.PARTICLES: {
@@ -32,12 +32,12 @@ class VerbType(Enum):
             Personal.ELLOS__ELLAS__USTEDES: ('-ar', '+an')
         },
         Tense.INDICATIVE_PRETERITE: {
-            Personal.YO: ('-ar', '+é|gu>gü|g>gu|c>qu|z>c'),
-            Personal.TÚ: ('-ar', '+aste'),
-            Personal.ÉL__ELLA__USTED: ('-ar', '+ó'),
-            Personal.NOSOTROS: ('-ar', '+amos'),
-            Personal.VOSOTROS: ('-ar', '+asteis'),
-            Personal.ELLOS__ELLAS__USTEDES: ('-ar', '+aron')
+            Personal.YO: ('-ar?2', '+é#|gu>gü|g>gu|c>qu|z>c', '+e|z>c'),
+            Personal.TÚ: ('-ar?2', '+aste#', '+iste|z>c'),
+            Personal.ÉL__ELLA__USTED: ('-ar?2', '+ó#', '+o|c>z'),
+            Personal.NOSOTROS: ('-ar?2', '+amos#', '+imos|z>c'),
+            Personal.VOSOTROS: ('-ar?2', '+asteis#', '+isteis|z>c'),
+            Personal.ELLOS__ELLAS__USTEDES: ('-ar?2', '+aron#', '+i', '+eron|ji>j')
         },
         Tense.INDICATIVE_IMPERFECT: {
             Personal.YO: ('-ar', '+aba'),
@@ -125,12 +125,12 @@ class VerbType(Enum):
             Personal.ELLOS__ELLAS__USTEDES: ('-er', '+en')
         },
         Tense.INDICATIVE_PRETERITE: {
-            Personal.YO: ('-er', '+í'),
-            Personal.TÚ: ('-er', '+i', '|ai>aí|oi>oí|ei>eí', '+ste'),
-            Personal.ÉL__ELLA__USTED: ('-er', '+i', '|ai>ay|oi>oy|ei>ey|ñi>ñ|lli>ll', '+ó'),
-            Personal.NOSOTROS: ('-er', '+i', '|ai>aí|oi>oí|ei>eí', '+mos'),
-            Personal.VOSOTROS: ('-er', '+i', '|ai>aí|oi>oí|ei>eí', '+steis'),
-            Personal.ELLOS__ELLAS__USTEDES: ('-er', '+i', '|ai>ay|oi>oy|ei>ey|ñi>ñ|lli>ll', '+eron')
+            Personal.YO: ('-er?2', '+í#', '+e|z>c'),
+            Personal.TÚ: ('-er?1', '+i', '|ai>aí|oi>oí|ei>eí|zi>ci', '+ste'),
+            Personal.ÉL__ELLA__USTED: ('-er?4', '+i', '|ai>ay|oi>oy|ei>ey|ñi>ñ|lli>ll', '+ó#', '+o|c>z'),
+            Personal.NOSOTROS: ('-er?1', '+i', '|ai>aí|oi>oí|ei>eí|zi>ci', '+mos'),
+            Personal.VOSOTROS: ('-er?1', '+i', '|ai>aí|oi>oí|ei>eí|zi>ci', '+steis'),
+            Personal.ELLOS__ELLAS__USTEDES: ('-er?1', '+i', '|ai>ay|oi>oy|ei>ey|ñi>ñ|lli>ll|ji>j|zi>ci', '+eron')
         },
         Tense.INDICATIVE_IMPERFECT: {
             Personal.YO: ('-er', '+ía'),
@@ -218,12 +218,12 @@ class VerbType(Enum):
             Personal.ELLOS__ELLAS__USTEDES: ('-ir_ír', '+en|gü>guy|gu>gu|qu>qu|u>uy|o>oy|e>í')
         },
         Tense.INDICATIVE_PRETERITE: {
-            Personal.YO: ('-ir_ír', '+í'),
-            Personal.TÚ: ('-ir_ír', '+i', '|ai>aí|oi>oí|ei>eí', '+ste'),
-            Personal.ÉL__ELLA__USTED: ('-ir_ír', '+i', '|güi>guy|gui>gui|qui>qui|ui>uy|ai>ay|oi>oy|ei>i|ñi>ñ|lli>ll', '+ó'),
-            Personal.NOSOTROS: ('-ir_ír', '+i', '|ai>aí|oi>oí|ei>eí', '+mos'),
-            Personal.VOSOTROS: ('-ir_ír', '+i', '|ai>aí|oi>oí|ei>eí', '+steis'),
-            Personal.ELLOS__ELLAS__USTEDES: ('-ir_ír', '+i', '|güi>guy|gui>gui|qui>qui|ui>uy|ai>ay|oi>oy|ei>i|ñi>ñ|lli>ll', '+eron')
+            Personal.YO: ('-ir_ír?2', '+í#', '+e|z>c'),
+            Personal.TÚ: ('-ir_ír?1', '+i', '|ai>aí|oi>oí|ei>eí|zi>ci', '+ste'),
+            Personal.ÉL__ELLA__USTED: ('-ir_ír?4', '+i', '|güi>guy|gui>gui|qui>qui|ui>uy|ai>ay|oi>oy|ei>i|ñi>ñ|lli>ll', '+ó#', '+o|c>z'),
+            Personal.NOSOTROS: ('-ir_ír?1', '+i', '|ai>aí|oi>oí|ei>eí|zi>ci', '+mos'),
+            Personal.VOSOTROS: ('-ir_ír?1', '+i', '|ai>aí|oi>oí|ei>eí|zi>ci', '+steis'),
+            Personal.ELLOS__ELLAS__USTEDES: ('-ir_ír?1', '+i', '|güi>guy|gui>gui|qui>qui|ui>uy|ai>ay|oi>oy|ei>i|ñi>ñ|lli>ll|ji>j|zi>ci', '+eron')
         },
         Tense.INDICATIVE_IMPERFECT: {
             Personal.YO: ('-ir_ír', '+ía'),
@@ -281,7 +281,6 @@ class VerbType(Enum):
             Personal.VOSOTROS: ('-ron', '+reis'),
             Personal.ELLOS__ELLAS__USTEDES: ('-ron', '+ren')
         },
-        # '|g>j|gü>guy|gu>g|qu>c|u>uy|ac>azc|oc>ozc|ec>ezc|ic>izc|uc>uzc|c>z|a>aig|o>oig|e>í'
         Tense.IMPERATIVE_AFFIRMATIVE: {
             Personal.TÚ: ('|oy>o', '-o', '+e|j>g|zc>c|z>c|c>qu|aig>a|oig>o|lg>l|sgo>s|g>gu'),
             Personal.ÉL__ELLA__USTED: ('-o', '+a'),
@@ -325,8 +324,11 @@ class VerbType(Enum):
         method = self.__get_conjugating_method(tense, personal)
         lis = list(form)
         spelling_change = None
+        jump_to_cmd_idx = None
         if method is not None:
-            for cmd in method:
+            for idx, cmd in enumerate(method):
+                if jump_to_cmd_idx is not None and idx < jump_to_cmd_idx:
+                    continue
                 # split the command into a main command and possibly a list of spelling commands
                 main_cmd, *spelling_cmds = cmd.split('|')
                 # if there's some spelling-changings
@@ -338,14 +340,27 @@ class VerbType(Enum):
                         spelling_change = spelling_cmd
                         break
                 if main_cmd != '':
+                    idx_of_ending_mark = main_cmd.find('#')
+                    should_end = False
+                    if idx_of_ending_mark >= 0:
+                        main_cmd = main_cmd[:-1]
+                        should_end = True
                     # remove some characters from the tail of the form
                     if main_cmd[0] == '-':
-                        for removee in main_cmd[1:].split('_'):
+                        idx_of_question_mark = main_cmd.find('?')
+                        if idx_of_question_mark >= 0:
+                            removees, jump_to = main_cmd[1:].split('?')
+                            jump_to_cmd_idx = int(jump_to)
+                        else:
+                            removees = main_cmd[1:]
+                        for removee in removees.split('_'):
                             if ''.join(lis).endswith(removee):
                                 lis = lis[:-len(removee)]
+                                jump_to_cmd_idx = None
                                 break
                         else:
-                            return False, '', None
+                            if jump_to_cmd_idx is None:
+                                return False, '', None
                     # concatenate some characters into the tail of the form
                     elif main_cmd[0] == '+':
                         lis.extend(main_cmd[1:])
@@ -355,6 +370,8 @@ class VerbType(Enum):
                     # stress the last character if it's a vowel
                     elif main_cmd == '/':
                         lis[-1] = CharChecker.to_stressed(lis[-1])
+                    if should_end:
+                        break
             return True, ''.join(lis), spelling_change
         else:
             return False, '', None
