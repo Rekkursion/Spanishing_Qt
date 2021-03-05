@@ -45,6 +45,9 @@ class ConjugationFormDialog(StyledDialog):
         self.__chk_stem_changing = StyledCheckBox(Strs.Is_Stem_Changing_Verb)
         self.__comb_stem_changing = StyledComboBox()
         self.__comb_stem_changing.add_items(*list(map(lambda x: x.format(), StemChangingType)))
+        # for determining if it has a special past particle
+        self.__chk_special_past_particle = StyledCheckBox(Strs.Has_Special_Past_Particle)
+        self.__le_special_past_particle = StyledLineEdit()
         # for determining if it has a special yo-form
         self.__chk_special_yo_form = StyledCheckBox(Strs.Has_Special_Yo_Form)
         self.__le_special_yo_form = StyledLineEdit()
@@ -67,6 +70,7 @@ class ConjugationFormDialog(StyledDialog):
         self.__vbox_settings = StyledVBox(
             StyledHBox((self.__rdb_regular, 0), (self.__rdb_irregular, 0)),
             StyledHBox((self.__chk_stem_changing, 0), (self.__comb_stem_changing, 0)),
+            StyledHBox((self.__chk_special_past_particle, 0), (self.__le_special_past_particle, 0)),
             StyledHBox((self.__chk_special_yo_form, 0), (self.__le_special_yo_form, 0)),
             StyledHBox((self.__chk_special_preterite_stem, 0), (self.__le_special_preterite_stem, 0)),
             StyledHBox((self.__chk_special_imperfect_stem, 0), (self.__le_special_imperfect_stem, 0)),
@@ -85,6 +89,7 @@ class ConjugationFormDialog(StyledDialog):
         if verb_irregularity is not None and isinstance(verb_irregularity, VerbIrregularity):
             self.__rdb_irregular.setChecked(True)
             self.__comb_stem_changing.setCurrentText(verb_irregularity.stem_changing_type.format())
+            self.__le_special_past_particle.setText(verb_irregularity.sp_past_particle)
             self.__le_special_yo_form.setText(verb_irregularity.sp_yo_form)
         # otherwise, viewing it as a regular verb is the default setting
         else:
@@ -94,15 +99,19 @@ class ConjugationFormDialog(StyledDialog):
         self.__grp_irregularity.buttonClicked.connect(self.__event_update_irregularity)
         self.__chk_stem_changing.clicked.connect(self.__event_update_irregularity)
         self.__comb_stem_changing.currentIndexChanged.connect(self.__event_update_irregularity)
+        self.__chk_special_past_particle.clicked.connect(self.__event_update_irregularity)
         self.__chk_special_yo_form.clicked.connect(self.__event_update_irregularity)
         self.__chk_special_preterite_stem.clicked.connect(self.__event_update_irregularity)
         self.__chk_special_imperfect_stem.clicked.connect(self.__event_update_irregularity)
         self.__chk_special_future_stem.clicked.connect(self.__event_update_irregularity)
         self.__chk_special_present_subjunctive_stem.clicked.connect(self.__event_update_irregularity)
         self.__chk_special_tú_form_affirmative_imperative.clicked.connect(self.__event_update_irregularity)
+        self.__le_special_past_particle.textChanged.connect(lambda: self.__event_update_irregularity() if self.__le_special_past_particle.text().endswith('o') else None)
+        self.__le_special_yo_form.textChanged.connect(lambda: self.__event_update_irregularity() if self.__le_special_yo_form.text().endswith(('o', 'y')) else None)
 
     # the event for switching the irregularity of this verb (regular or irregular)
     def __event_update_irregularity(self):
+        print(':3')
         self.__update_enabilities()
         self.__update_conjugation_charts()
 
@@ -114,6 +123,7 @@ class ConjugationFormDialog(StyledDialog):
         # if it's an irregular verb
         if self.__rdb_irregular.isChecked():
             self.__comb_stem_changing.setEnabled(self.__chk_stem_changing.isChecked())
+            self.__le_special_past_particle.setEnabled(self.__chk_special_past_particle.isChecked())
             self.__le_special_yo_form.setEnabled(self.__chk_special_yo_form.isChecked())
             self.__le_special_preterite_stem.setEnabled(self.__chk_special_preterite_stem.isChecked())
             self.__le_special_imperfect_stem.setEnabled(self.__chk_special_imperfect_stem.isChecked())
@@ -125,6 +135,7 @@ class ConjugationFormDialog(StyledDialog):
     def __update_conjugation_charts(self):
         # update the irregularity according to the current settings
         self.__verb_irregularity.stem_changing_type = list(StemChangingType)[self.__comb_stem_changing.currentIndex()] if self.__chk_stem_changing.isChecked() else None
+        self.__verb_irregularity.sp_past_particle = self.__le_special_past_particle.text() if self.__chk_special_past_particle.isChecked() else None
         self.__verb_irregularity.sp_yo_form = self.__le_special_yo_form.text() if self.__chk_special_yo_form.isChecked() else None
         self.__verb_irregularity.sp_preterite_stem = self.__le_special_preterite_stem.text() if self.__chk_special_preterite_stem.isChecked() else None
         self.__verb_irregularity.sp_imperfect_stem = self.__le_special_imperfect_stem.text() if self.__chk_special_imperfect_stem.isChecked() else None

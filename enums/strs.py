@@ -65,6 +65,7 @@ class Strs(Enum):
     Regular_Verb = ('規則動詞', '规则动词', 'Regular verb')
     Irregular_Verb = ('不規則動詞', '不规则动词', 'Irregular verb')
     Is_Stem_Changing_Verb = ('字根變化', '字根变化', 'Stem-changing')
+    Has_Special_Past_Particle = ('特殊過去分詞', '特殊过去分词', 'Special past particle')
     Has_Special_Yo_Form = ('特殊 Yo 型', '特殊 Yo 型', 'Special yo-form')
     Has_Special_Preterite_Stem = ('特殊過去時 (preterite) 字根', '特殊过去时（preterite）字根', 'Special stem of preterite tense')
     Has_Special_Imperfect_Stem = ('特殊未完成時字根', '特殊未完成时字根', 'Special stem of imperfect tense')

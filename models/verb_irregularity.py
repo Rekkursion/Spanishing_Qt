@@ -21,6 +21,8 @@ class MiscIrregularForm:
 class VerbIrregularity:
     # the stem-changing type
     stem_changing_type: StemChangingType = field(default=None)
+    # the special form of past particle, e.g., poner: puesto, romper: roto
+    sp_past_particle: str = field(default=None)
     # the special form of 1st-personal singular in simple tense, e.g., tener: tengo, padecer: padezco
     sp_yo_form: str = field(default=None)
     # the stem of special form in preterite tense, e.g., andar: anduv-
@@ -40,6 +42,11 @@ class VerbIrregularity:
     @staticmethod
     def check_advanced_stem_changing(verb_irr):
         return verb_irr is not None and verb_irr.stem_changing_type is not None and verb_irr.stem_changing_type.is_advanced()
+
+    # get the special past particle, if any
+    @staticmethod
+    def get_sp_past_particle(verb_irr):
+        return None if verb_irr is None else verb_irr.sp_past_particle
 
     # get the special yo-form of present tense, if any
     @staticmethod

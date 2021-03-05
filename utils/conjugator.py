@@ -79,6 +79,8 @@ class Conjugator:
             basic, advanced = WordAnalyzer.change_stem(conjugation.inf, verb_irregularity.stem_changing_type)
         else:
             basic, advanced = conjugation.inf, conjugation.inf
+        # set the special past particle, if exists
+        sp_past_particle = VerbIrregularity.get_sp_past_particle(verb_irregularity)
         # the special yo-form of present tense
         sp_yo_form = VerbIrregularity.get_sp_yo_form(verb_irregularity)
         # prepare the regular yo-form of present tense no matter if it's a stem-changing verb or not
@@ -138,6 +140,8 @@ class Conjugator:
                     elif (tense == Tense.PARTICLES and personal == Personal.PRESENT_PARTICLE) or\
                             (tense == Tense.INDICATIVE_PRETERITE and personal in (Personal.ÉL__ELLA__USTED, Personal.ELLOS__ELLAS__USTEDES)):
                         conjugation.set(advanced, tense, personal)
+                    elif tense == Tense.PARTICLES and personal == Personal.PAST_PARTICLE and sp_past_particle is not None:
+                        conjugation.set_directly(sp_past_particle, tense, personal)
                     else:
                         conjugation.set(conjugation.inf, tense, personal)
         # return the new conjugation
