@@ -3,7 +3,7 @@ import copy
 from enums.personal import Personal
 from enums.tense import Tense
 from enums.verb_type import VerbType
-from models.verb_irregularity import VerbIrregularity
+from models.verb_irregularity import VerbIrregularity, SpecialImperfectVerb
 from utils.word_analyzer import WordAnalyzer
 
 
@@ -42,7 +42,8 @@ class Conjugation:
                     self.__dict[tense][personal] = conjugated
                 # it's a verb phrase, e.g., 'tener esperanza'
                 else:
-                    self.__dict[tense][personal] = f'{conjugated} {" ".join(self.__rest_part_list)}'
+                    # self.__dict[tense][personal] = f'{conjugated} {" ".join(self.__rest_part_list)}'
+                    self.__dict[tense][personal] = conjugated
 
     # set a field of conjugation directly
     def set_directly(self, form: str, tense: Tense, personal: Personal):
@@ -79,10 +80,6 @@ class Conjugator:
             basic, advanced = WordAnalyzer.change_stem(conjugation.inf, verb_irregularity.stem_changing_type)
         else:
             basic, advanced = conjugation.inf, conjugation.inf
-        # the special past particle, if any
-        sp_past_particle = VerbIrregularity.get_sp_past_particle(verb_irregularity)
-        # the special stem of preterite tense, if any
-        sp_preterite_stem = VerbIrregularity.get_sp_preterite_stem(verb_irregularity)
         # the special yo-form of present tense, if any
         sp_yo_form = VerbIrregularity.get_sp_yo_form(verb_irregularity)
         # prepare the regular yo-form of present tense no matter if it's a stem-changing verb or not
@@ -132,6 +129,10 @@ class Conjugator:
 
                 # the general cases
                 else:
+                    # the special past particle, if any
+                    sp_past_particle = VerbIrregularity.get_sp_past_particle(verb_irregularity)
+                    # the special stem of preterite tense, if any
+                    sp_preterite_stem = VerbIrregularity.get_sp_preterite_stem(verb_irregularity)
                     # if there's a special yo-form of present tense, set it directly
                     if tense == Tense.INDICATIVE_PRESENT and personal == Personal.YO and sp_yo_form is not None:
                         conjugation.set_directly(sp_yo_form, tense, personal)
@@ -150,5 +151,10 @@ class Conjugator:
                         conjugation.set(advanced, tense, personal)
                     else:
                         conjugation.set(conjugation.inf, tense, personal)
+        # set the special forms of the verb whose imperfect tense is irregular
+        if SpecialImperfectVerb.is_special_imperfect_verb(conjugation.inf):
+            imperfect_tense_conjugation_list = SpecialImperfectVerb.get_imperfect_tense_conjugation(conjugation.inf)
+            for idx, personal in enumerate(Tense.INDICATIVE_IMPERFECT.get_personals()):
+                conjugation.set_directly(imperfect_tense_conjugation_list[idx], Tense.INDICATIVE_IMPERFECT, personal)
         # return the new conjugation
         return conjugation

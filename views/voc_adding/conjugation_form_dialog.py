@@ -54,9 +54,6 @@ class ConjugationFormDialog(StyledDialog):
         # for determining if it has a special preterite stem
         self.__chk_special_preterite_stem = StyledCheckBox(Strs.Has_Special_Preterite_Stem)
         self.__le_special_preterite_stem = StyledLineEdit(Strs.Special_Stem_Placeholder)
-        # for determining if it has a special imperfect stem
-        self.__chk_special_imperfect_stem = StyledCheckBox(Strs.Has_Special_Imperfect_Stem)
-        self.__le_special_imperfect_stem = StyledLineEdit(Strs.Special_Stem_Placeholder)
         # for determining if it has a special conditional-future stem
         self.__chk_special_future_stem = StyledCheckBox(Strs.Has_Special_Future_Stem)
         self.__le_special_future_stem = StyledLineEdit(Strs.Special_Stem_Placeholder)
@@ -73,7 +70,6 @@ class ConjugationFormDialog(StyledDialog):
             StyledHBox((self.__chk_special_past_particle, 0), (self.__le_special_past_particle, 0)),
             StyledHBox((self.__chk_special_yo_form, 0), (self.__le_special_yo_form, 0)),
             StyledHBox((self.__chk_special_preterite_stem, 0), (self.__le_special_preterite_stem, 0)),
-            StyledHBox((self.__chk_special_imperfect_stem, 0), (self.__le_special_imperfect_stem, 0)),
             StyledHBox((self.__chk_special_future_stem, 0), (self.__le_special_future_stem, 0)),
             StyledHBox((self.__chk_special_present_subjunctive_stem, 0), (self.__le_special_present_subjunctive_stem, 0)),
             StyledHBox((self.__chk_special_tú_form_affirmative_imperative, 0), (self.__le_special_tú_form_affirmative_imperative, 0)),
@@ -102,7 +98,6 @@ class ConjugationFormDialog(StyledDialog):
         self.__chk_special_past_particle.clicked.connect(self.__event_update_irregularity)
         self.__chk_special_yo_form.clicked.connect(self.__event_update_irregularity)
         self.__chk_special_preterite_stem.clicked.connect(self.__event_update_irregularity)
-        self.__chk_special_imperfect_stem.clicked.connect(self.__event_update_irregularity)
         self.__chk_special_future_stem.clicked.connect(self.__event_update_irregularity)
         self.__chk_special_present_subjunctive_stem.clicked.connect(self.__event_update_irregularity)
         self.__chk_special_tú_form_affirmative_imperative.clicked.connect(self.__event_update_irregularity)
@@ -126,7 +121,6 @@ class ConjugationFormDialog(StyledDialog):
             self.__le_special_past_particle.setEnabled(self.__chk_special_past_particle.isChecked())
             self.__le_special_yo_form.setEnabled(self.__chk_special_yo_form.isChecked())
             self.__le_special_preterite_stem.setEnabled(self.__chk_special_preterite_stem.isChecked())
-            self.__le_special_imperfect_stem.setEnabled(self.__chk_special_imperfect_stem.isChecked())
             self.__le_special_future_stem.setEnabled(self.__chk_special_future_stem.isChecked())
             self.__le_special_present_subjunctive_stem.setEnabled(self.__chk_special_present_subjunctive_stem.isChecked())
             self.__le_special_tú_form_affirmative_imperative.setEnabled(self.__chk_special_tú_form_affirmative_imperative.isChecked())
@@ -138,7 +132,6 @@ class ConjugationFormDialog(StyledDialog):
         self.__verb_irregularity.sp_past_particle = self.__le_special_past_particle.text() if self.__chk_special_past_particle.isChecked() else None
         self.__verb_irregularity.sp_yo_form = self.__le_special_yo_form.text() if self.__chk_special_yo_form.isChecked() else None
         self.__verb_irregularity.sp_preterite_stem = self.__le_special_preterite_stem.text() if self.__chk_special_preterite_stem.isChecked() else None
-        self.__verb_irregularity.sp_imperfect_stem = self.__le_special_imperfect_stem.text() if self.__chk_special_imperfect_stem.isChecked() else None
         self.__verb_irregularity.sp_cond_and_future_stem = self.__le_special_future_stem.text() if self.__chk_special_future_stem.isChecked() else None
         self.__verb_irregularity.sp_present_subjunctive_stem = self.__le_special_present_subjunctive_stem.text() if self.__chk_special_present_subjunctive_stem.isChecked() else None
         self.__verb_irregularity.sp_tú_form_affirmative_imperative = self.__le_special_tú_form_affirmative_imperative.text() if self.__chk_special_tú_form_affirmative_imperative.isChecked() else None

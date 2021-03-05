@@ -27,8 +27,6 @@ class VerbIrregularity:
     sp_yo_form: str = field(default=None)
     # the stem of special form in preterite tense, e.g., andar: anduv-
     sp_preterite_stem: str = field(default=None)
-    # the stem of special form in imperfect tense, e.g., ser: er-
-    sp_imperfect_stem: str = field(default=None)
     # the stem of special form in conditional & future tenses, e.g., querer: querr-
     sp_cond_and_future_stem: str = field(default=None)
     # the stem of special form in present subjunctive, e.g., saber: sep-
@@ -57,3 +55,21 @@ class VerbIrregularity:
     @staticmethod
     def get_sp_preterite_stem(verb_irr):
         return None if verb_irr is None else verb_irr.sp_preterite_stem
+
+
+# noinspection SpellCheckingInspection
+class SpecialImperfectVerb:
+    # check if a certain verb is the verb whose imperfect tense is irregular
+    @staticmethod
+    def is_special_imperfect_verb(inf: str):
+        return inf in ('ver', 'ir', 'ser')
+
+    # get the irregular conjugation of imperfect tense
+    @staticmethod
+    def get_imperfect_tense_conjugation(inf: str):
+        if inf == 'ver':
+            return 'veía', 'veías', 'veía', 'veíamos', 'veíais', 'veían'
+        elif inf == 'ir':
+            return 'iba', 'ibas', 'iba', 'íbamos', 'ibais', 'iban'
+        elif inf == 'ser':
+            return 'era', 'eras', 'era', 'éramos', 'erais', 'eran'
