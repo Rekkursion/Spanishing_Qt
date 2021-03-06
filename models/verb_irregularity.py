@@ -56,6 +56,11 @@ class VerbIrregularity:
     def get_sp_preterite_stem(verb_irr):
         return None if verb_irr is None else verb_irr.sp_preterite_stem
 
+    # get the special stem of future & conditional tenses, if any
+    @staticmethod
+    def get_sp_cond_and_future_stem(verb_irr):
+        return None if verb_irr is None else verb_irr.sp_cond_and_future_stem
+
 
 # noinspection SpellCheckingInspection
 class SpecialImperfectVerb:

@@ -68,11 +68,10 @@ class Strs(Enum):
     Has_Special_Past_Particle = ('特殊過去分詞', '特殊过去分词', 'Special past particle')
     Has_Special_Yo_Form = ('特殊 Yo 型', '特殊 Yo 型', 'Special yo-form')
     Has_Special_Preterite_Stem = ('特殊過去時 (preterite) 字根', '特殊过去时（preterite）字根', 'Special stem of preterite tense')
-    Has_Special_Imperfect_Stem = ('特殊未完成時字根', '特殊未完成时字根', 'Special stem of imperfect tense')
-    Has_Special_Future_Stem = ('特殊未來時字根', '特殊未来时字根', 'Special stem of future tense')
+    Has_Special_Future_Stem = ('特殊未來時/條件時字根', '特殊未来时/条件时字根', 'Special stem of future/conditional tense')
     Has_Special_Present_Subjunctive_Stem = ('特殊現在虛擬式字根', '特殊现在虚拟式字根', 'Special stem of present subjunctive')
     Has_Special_Tú_Form_Affirmative_Imperative = ('特殊肯定命令式的 Tú 型', '特殊肯定命令式的 Tú 型', 'Special tú-form of affirmative imperative')
-    Special_Stem_Placeholder = ('只需鍵入字根即可', '只需输入字根即可', 'Type the stem only')
+    Special_Stem_Placeholder = ('只需鍵入字根', '只需输入字根', 'Stem only')
 
     # general usages
     Chinese = ('中文', '中文', 'Chinese')

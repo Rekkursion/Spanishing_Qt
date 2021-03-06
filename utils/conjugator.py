@@ -133,6 +133,8 @@ class Conjugator:
                     sp_past_particle = VerbIrregularity.get_sp_past_particle(verb_irregularity)
                     # the special stem of preterite tense, if any
                     sp_preterite_stem = VerbIrregularity.get_sp_preterite_stem(verb_irregularity)
+                    # the special stem of future & conditional tenses, if any
+                    sp_cond_and_future_stem = VerbIrregularity.get_sp_cond_and_future_stem(verb_irregularity)
                     # if there's a special yo-form of present tense, set it directly
                     if tense == Tense.INDICATIVE_PRESENT and personal == Personal.YO and sp_yo_form is not None:
                         conjugation.set_directly(sp_yo_form, tense, personal)
@@ -142,6 +144,9 @@ class Conjugator:
                     # if there's a special stem of the preterite tense, use it as the stem when conjugating the verb
                     elif tense == Tense.INDICATIVE_PRETERITE and sp_preterite_stem is not None:
                         conjugation.set(sp_preterite_stem, tense, personal)
+                    # if there's a special stem of future & conditional tenses, use it as the stem when conjugating the verb
+                    elif tense in (Tense.INDICATIVE_FUTURE, Tense.INDICATIVE_CONDITIONAL) and sp_cond_and_future_stem is not None:
+                        conjugation.set(sp_cond_and_future_stem, tense, personal)
                     # do the basic stem-changing
                     elif tense == Tense.INDICATIVE_PRESENT and personal.should_change_stem():
                         conjugation.set(basic, tense, personal)
